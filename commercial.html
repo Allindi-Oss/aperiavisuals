@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Commercial &amp; Documentary — Aperia Visuals</title>
+  <meta name="description" content="Commercial &amp; documentary photography by Aperia Visuals — field reports for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch, BrookVeg." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="preload" as="image" href="images/oltotoi-01-large.jpg" />
+
+  <style>
+    /* =====================================================================
+       APERIA VISUALS — Commercial & Documentary
+       Mechanic: bespoke per-brand spread layouts + persistent binder rail.
+       ===================================================================== */
+
+    :root {
+      --bg:            #0A0908;
+      --bg-elevated:   #141210;
+      --bg-surface:    #1C1A18;
+      --text:          #F5F1EA;
+      --text-muted:    #8A847A;
+      --text-faint:    #5A554F;
+      --border:        #2A2724;
+      --border-bright: #3F3A34;
+
+      --accent:        #C9A36B;
+      --accent-bright: #E5C18C;
+      --contrast:      #D4FF3D;
+      --contrast-dim:  #A8CC2E;
+
+      --font-display: 'Fraunces', 'Times New Roman', serif;
+      --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gutter-x: clamp(1.25rem, 4vw, 4rem);
+      --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+      --rail-w: 168px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-padding-top: 76px; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+      overflow-x: hidden; letter-spacing: -0.005em;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, video { max-width: 100%; display: block; }
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+    section[id], article[id] { scroll-margin-top: 90px; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 200;
+      background: var(--contrast); color: var(--bg); padding: 0.6rem 1rem;
+      font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.1em;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none;
+      z-index: 1000; opacity: 0.035; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>");
+    }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px; width: 0;
+      background: var(--contrast);
+      box-shadow: 0 0 12px rgba(212,255,61,0.6);
+      z-index: 110; transition: width 0.05s linear;
+    }
+
+    main { flex: 1 0 auto; }
+    .container { width: 100%; max-width: 1600px; margin-inline: auto; padding-inline: var(--gutter-x); }
+
+    .label { font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); }
+    .display { font-family: var(--font-display); font-weight: 350; line-height: 0.95; letter-spacing: -0.03em; font-variation-settings: "opsz" 144, "SOFT" 30; }
+    .display em { font-style: italic; font-weight: 300; color: var(--accent); font-variation-settings: "opsz" 144, "SOFT" 100; }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.1rem 0;
+      background: rgba(10,9,8,0); border-bottom: 1px solid transparent;
+      transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out), padding 0.3s var(--ease-out);
+    }
+    .nav.is-scrolled { background: rgba(10,9,8,0.88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom-color: var(--border); padding: 0.75rem 0; }
+    .nav__row { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav__brand { display: flex; align-items: center; gap: 0.7rem; color: var(--text); }
+    .nav__brand-symbol { width: 26px; height: 34px; color: var(--text); transition: transform 0.4s var(--ease-out); }
+    .nav__brand:hover .nav__brand-symbol { transform: rotate(-3deg) scale(1.05); }
+    .nav__brand-type { display: flex; flex-direction: column; line-height: 1; }
+    .nav__brand-mark { font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; letter-spacing: 0.08em; font-variation-settings: "opsz" 60, "SOFT" 50; }
+    .nav__brand-sub  { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+    .nav__menu { display: flex; gap: 1.5rem; list-style: none; }
+    .nav__menu a { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); position: relative; transition: color 0.25s var(--ease-out); }
+    .nav__menu a:hover, .nav__menu a.is-current { color: var(--text); }
+    .nav__menu a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -6px; height: 1px; background: var(--contrast); transition: right 0.3s var(--ease-out); }
+    .nav__menu a:hover::after, .nav__menu a.is-current::after { right: 0; }
+    .nav__right { display: flex; align-items: center; gap: 1rem; }
+    .nav__cta { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; padding: 0.55rem 1rem; border: 1px solid var(--border-bright); color: var(--text); border-radius: 999px; transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out), color 0.25s var(--ease-out); }
+    .nav__cta:hover { background: var(--contrast); border-color: var(--contrast); color: var(--bg); }
+    .nav__toggle { display: none; flex-direction: column; gap: 4px; width: 36px; height: 36px; align-items: center; justify-content: center; }
+    .nav__toggle span { display: block; width: 20px; height: 1.5px; background: var(--text); transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out); }
+    .nav__toggle.is-open span:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+    .nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav__toggle.is-open span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+    .nav__mobile {
+      position: fixed; inset: 0; z-index: 99;
+      background: var(--bg); padding: 88px var(--gutter-x) 2rem;
+      opacity: 0; pointer-events: none; transform: translateY(-12px);
+      transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .nav__mobile.is-open { opacity: 1; pointer-events: all; transform: translateY(0); }
+    .nav__mobile-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .nav__mobile-list a { font-family: var(--font-display); font-size: clamp(1.5rem, 5.5vw, 2.2rem); font-weight: 350; color: var(--text); font-variation-settings: "opsz" 60, "SOFT" 50; display: flex; align-items: baseline; gap: 1rem; transition: color 0.25s var(--ease-out); }
+    .nav__mobile-list .num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-faint); letter-spacing: 0.15em; }
+    .nav__mobile-list a:hover, .nav__mobile-list a.is-current { color: var(--accent); }
+    .nav__mobile-foot { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .nav__mobile-foot a { color: var(--text); }
+
+    @media (max-width: 1100px) {
+      .nav__menu, .nav__cta { display: none; }
+      .nav__toggle { display: flex; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding-top: clamp(7rem, 13vw, 10rem);
+      padding-bottom: clamp(2.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--border);
+    }
+    .hero__bracket { display: flex; align-items: center; gap: 0.8rem; font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2.2rem; flex-wrap: wrap; }
+    .hero__bracket .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--contrast); display: inline-block; box-shadow: 0 0 10px rgba(212,255,61,0.45); flex-shrink: 0; }
+    .hero__bracket .accent { color: var(--accent); }
+    .hero__title { font-size: clamp(3rem, 9vw, 7.5rem); max-width: 16ch; margin-bottom: 1.8rem; }
+    .hero__deck { max-width: 56ch; font-size: clamp(1.05rem, 1.3vw, 1.2rem); line-height: 1.55; color: var(--text-muted); margin-bottom: 2.4rem; }
+    .hero__deck em { font-style: italic; color: var(--accent); }
+    .hero__credit { display: flex; flex-wrap: wrap; gap: 1.2rem 2rem; padding-top: 1.4rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; color: var(--text-muted); }
+    .hero__credit b { color: var(--text); font-weight: 500; }
+    .hero__credit-pipe { color: var(--text-faint); }
+    @media (max-width: 540px) { .hero__credit-pipe { display: none; } }
+
+    /* ===== DOSSIER INDEX ===== */
+    .dossier { padding-block: clamp(3rem, 6vw, 5rem); border-bottom: 1px solid var(--border); }
+    .dossier__head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .dossier__head-title { font-size: clamp(1.6rem, 3vw, 2.4rem); }
+    .dossier__head-meta { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+    .dossier__table { border-top: 1px solid var(--border); }
+    .dossier__row {
+      display: grid;
+      grid-template-columns: 80px 2fr 1.4fr 1fr 70px;
+      gap: 1.2rem; align-items: center;
+      padding: 1.3rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: background 0.3s var(--ease-out);
+      color: var(--text);
+    }
+    .dossier__row:hover { background: rgba(212,255,61,0.025); }
+    .dossier__row::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: transparent; transition: background 0.3s var(--ease-out); }
+    .dossier__row:hover::before { background: var(--contrast); }
+
+    .dossier__cell--num   { font-family: var(--font-mono); font-size: 0.84rem; color: var(--contrast); letter-spacing: 0.12em; }
+    .dossier__cell--name  { font-family: var(--font-display); font-size: clamp(1.3rem, 2.2vw, 1.8rem); line-height: 1.05; font-variation-settings: "opsz" 60, "SOFT" 50; }
+    .dossier__cell--name em { font-style: italic; color: var(--accent); font-variation-settings: "opsz" 60, "SOFT" 100; }
+    .dossier__cell--sector,
+    .dossier__cell--frames { font-family: var(--font-mono); font-size: 0.76rem; color: var(--text-muted); letter-spacing: 0.06em; }
+    .dossier__cell--frames b { color: var(--text); font-weight: 500; }
+    .dossier__cell--cta { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text); display: inline-flex; align-items: center; gap: 0.5rem; justify-self: end; }
+    .dossier__cell--cta .arr { transition: transform 0.3s var(--ease-out); }
+    .dossier__row:hover .dossier__cell--cta .arr { transform: translateX(4px); }
+    .dossier__row:hover .dossier__cell--cta { color: var(--contrast); }
+
+    .dossier__also { display: grid; grid-template-columns: 80px 1fr; gap: 1.2rem; align-items: baseline; padding: 1.3rem 0; }
+    .dossier__also-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-faint); }
+    .dossier__also-list  { font-family: var(--font-display); font-size: clamp(1.05rem, 1.6vw, 1.25rem); color: var(--text-muted); font-variation-settings: "opsz" 60, "SOFT" 50; }
+    .dossier__also-list em { font-style: italic; color: var(--accent); }
+
+    @media (max-width: 880px) {
+      .dossier__row {
+        grid-template-columns: 56px 1fr 28px;
+        grid-template-rows: auto auto;
+        gap: 0.4rem 1rem; padding: 1.2rem 0;
+      }
+      .dossier__cell--num    { grid-column: 1; grid-row: 1 / span 2; align-self: start; padding-top: 0.3rem; }
+      .dossier__cell--name   { grid-column: 2; grid-row: 1; }
+      .dossier__cell--sector { grid-column: 2; grid-row: 2; }
+      .dossier__cell--frames { display: none; }
+      .dossier__cell--cta    { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+      .dossier__cell--cta-label { display: none; }
+      .dossier__also { grid-template-columns: 56px 1fr; }
+    }
+
+    /* ===== REPORT FRAME ===== */
+    .report-frame { position: relative; padding-top: clamp(3rem, 6vw, 5rem); padding-bottom: clamp(3rem, 6vw, 5rem); }
+    .report-frame__inner {
+      max-width: 1600px; margin-inline: auto;
+      padding-left: var(--gutter-x); padding-right: var(--gutter-x);
+      display: grid;
+      grid-template-columns: var(--rail-w) 1fr;
+      gap: clamp(1rem, 2.5vw, 3rem);
+      position: relative;
+    }
+
+    .rail {
+      position: sticky; top: 100px; align-self: start;
+      max-height: 540px;
+      display: flex; flex-direction: column;
+      border-left: 1px solid var(--border);
+      padding-left: 1rem;
+    }
+    .rail__label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.4rem; }
+    .rail__list { list-style: none; display: flex; flex-direction: column; gap: 0.95rem; }
+    .rail__item { position: relative; }
+    .rail__item a { display: grid; grid-template-columns: 36px 1fr; gap: 0.6rem; align-items: baseline; padding: 0.45rem 0; color: var(--text-faint); transition: color 0.3s var(--ease-out); }
+    .rail__item .rail__num { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; color: var(--text-faint); transition: color 0.3s var(--ease-out); }
+    .rail__item .rail__name { font-family: var(--font-display); font-size: 0.98rem; font-weight: 400; line-height: 1.15; color: inherit; transition: color 0.3s var(--ease-out); font-variation-settings: "opsz" 60, "SOFT" 50; }
+    .rail__item.is-active .rail__num  { color: var(--contrast); }
+    .rail__item.is-active .rail__name { color: var(--text); font-style: italic; font-variation-settings: "opsz" 60, "SOFT" 100; }
+    .rail__item:hover .rail__name { color: var(--text); }
+
+    .rail__footnote { margin-top: 1.6rem; padding-top: 1.2rem; border-top: 1px solid var(--border); font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.05em; color: var(--text-faint); line-height: 1.6; }
+
+    .reports { display: flex; flex-direction: column; gap: clamp(4rem, 8vw, 7rem); min-width: 0; }
+
+    .report__head {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.8rem 1.6rem;
+      align-items: baseline;
+      padding-bottom: 1.3rem;
+      border-bottom: 1px solid var(--border-bright);
+      margin-bottom: 2rem;
+    }
+    .report__head-num   { font-family: var(--font-mono); font-size: 0.8rem; color: var(--contrast); letter-spacing: 0.1em; }
+    .report__head-title { font-family: var(--font-display); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 350; line-height: 1; letter-spacing: -0.02em; font-variation-settings: "opsz" 144, "SOFT" 30; }
+    .report__head-title em { font-style: italic; color: var(--accent); font-variation-settings: "opsz" 144, "SOFT" 100; }
+    .report__head-meta  { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); text-align: right; line-height: 1.7; }
+    .report__head-meta b { color: var(--text); font-weight: 500; }
+    @media (max-width: 600px) {
+      .report__head { grid-template-columns: auto 1fr; }
+      .report__head-meta { grid-column: 1 / span 2; text-align: left; padding-top: 0.4rem; }
+    }
+
+    .report__lede { font-family: var(--font-display); font-size: clamp(1.15rem, 1.6vw, 1.45rem); line-height: 1.4; max-width: 38ch; color: var(--text); font-weight: 350; font-variation-settings: "opsz" 60, "SOFT" 60; }
+    .report__lede em { font-style: italic; color: var(--accent); }
+
+    .report__copy { font-size: 0.98rem; line-height: 1.65; color: var(--text-muted); max-width: 56ch; }
+    .report__copy p + p { margin-top: 0.9rem; }
+
+    .frame-cap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 0.7rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); flex-wrap: wrap; }
+    .frame-cap b { color: var(--text); font-weight: 500; }
+    .frame-cap .frame-cap__id { color: var(--contrast); }
+
+    /* ===== The clickable photo frame ===== */
+    .frame {
+      cursor: zoom-in;
+      overflow: hidden;
+      background: var(--bg-surface);
+      position: relative;
+      display: block;
+    }
+    .frame img {
+      width: 100%; height: 100%; object-fit: cover;
+      cursor: zoom-in;
+      transition: transform 2s var(--ease-out), filter 0.6s var(--ease-out);
+      will-change: transform;
+    }
+    .frame:hover img { transform: scale(1.03); filter: brightness(1.05); }
+    .frame::after {
+      content: "↗";
+      position: absolute; top: 0.7rem; right: 0.7rem;
+      width: 28px; height: 28px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(10,9,8,0.6); color: var(--contrast);
+      font-family: var(--font-mono); font-size: 0.9rem;
+      border-radius: 50%; opacity: 0;
+      transition: opacity 0.3s var(--ease-out);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .frame:hover::after { opacity: 1; }
+
+    /* === REPORT — TAMUWA — magazine spread === */
+    .report--tamuwa .report__intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 3rem); margin-bottom: clamp(1.5rem, 3vw, 2.5rem); }
+    .report--tamuwa .report__hero  { aspect-ratio: 3 / 2; margin-bottom: clamp(1rem, 2vw, 1.4rem); }
+    .report--tamuwa .report__duo   { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.8rem, 1.5vw, 1.2rem); margin-bottom: clamp(0.8rem, 1.5vw, 1.2rem); }
+    .report--tamuwa .report__duo .frame { aspect-ratio: 2 / 3; }
+    .report--tamuwa .report__triptych { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(0.8rem, 1.5vw, 1.2rem); }
+    .report--tamuwa .report__triptych .frame { aspect-ratio: 2 / 3; }
+    @media (max-width: 760px) {
+      .report--tamuwa .report__intro { grid-template-columns: 1fr; }
+      .report--tamuwa .report__triptych { grid-template-columns: 1fr 1fr; }
+      .report--tamuwa .report__triptych .frame:nth-child(3) { grid-column: 1 / span 2; aspect-ratio: 3 / 2; }
+    }
+
+    /* === REPORT — ASILI — aerial top, portrait+notes split below === */
+    .report--asili .report__aerial { aspect-ratio: 3 / 2; margin-bottom: clamp(1rem, 2vw, 1.4rem); }
+    .report--asili .report__split {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: clamp(1.5rem, 3vw, 3rem);
+      align-items: start;
+    }
+    .report--asili .report__portrait { aspect-ratio: 2 / 3; }
+    .report--asili .report__notes { display: flex; flex-direction: column; gap: 1.2rem; padding-top: 0.4rem; }
+    @media (max-width: 760px) {
+      .report--asili .report__split { grid-template-columns: 1fr; }
+    }
+
+    /* === REPORT — OLTOTOI — picture essay === */
+    .report--oltotoi .report__intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 3rem); margin-bottom: clamp(1.5rem, 3vw, 2.5rem); align-items: end; }
+    .report--oltotoi .report__aerial { aspect-ratio: 16 / 9; margin-bottom: clamp(1rem, 2vw, 1.4rem); }
+    .essay__row { display: grid; gap: clamp(0.8rem, 1.5vw, 1.2rem); margin-bottom: clamp(0.8rem, 1.5vw, 1.2rem); }
+    .essay__row--a { grid-template-columns: 1.4fr 1fr; }
+    .essay__row--a .frame:nth-child(1) { aspect-ratio: 3 / 2; }
+    .essay__row--a .frame:nth-child(2) { aspect-ratio: 2 / 3; }
+    .essay__row--b { grid-template-columns: 1fr 1.4fr; }
+    .essay__row--b .frame:nth-child(1) { aspect-ratio: 2 / 3; }
+    .essay__row--b .frame:nth-child(2) { aspect-ratio: 3 / 2; }
+    .essay__row--c { grid-template-columns: 1fr 1fr; }
+    .essay__row--c .frame { aspect-ratio: 2 / 3; }
+    .essay__row--d { grid-template-columns: 1.6fr 1fr; }
+    .essay__row--d .frame:nth-child(1) { aspect-ratio: 3 / 2; }
+    .essay__row--d .frame:nth-child(2) { aspect-ratio: 2 / 3; }
+    @media (max-width: 760px) {
+      .report--oltotoi .report__intro { grid-template-columns: 1fr; }
+      .essay__row--a, .essay__row--b, .essay__row--c, .essay__row--d { grid-template-columns: 1fr; }
+      .essay__row .frame { aspect-ratio: 3 / 2; }
+    }
+
+    @media (max-width: 980px) {
+      .report-frame__inner { grid-template-columns: 1fr; }
+      .rail { display: none; }
+    }
+
+    [data-reveal] { opacity: 0; transform: translateY(20px); transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out); }
+    [data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] { opacity: 1; transform: none; transition: none; }
+      .frame img { transition: none; }
+      .frame:hover img { transform: none; }
+    }
+
+    /* ===== COLOPHON ===== */
+    .colophon {
+      padding-block: clamp(3rem, 6vw, 5rem);
+      border-top: 1px solid var(--border);
+    }
+    .colophon__inner {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: clamp(2rem, 5vw, 4rem);
+      align-items: end;
+    }
+    .colophon__bracket { font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.2rem; }
+    .colophon__title { font-size: clamp(2.2rem, 5.5vw, 4.2rem); max-width: 14ch; margin-bottom: 1.2rem; }
+    .colophon__deck { font-size: 1rem; line-height: 1.6; max-width: 48ch; color: var(--text-muted); margin-bottom: 1.6rem; }
+    .colophon__cta { display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.85rem 1.7rem; border: 1px solid var(--contrast); color: var(--contrast); border-radius: 999px; font-family: var(--font-mono); font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out); }
+    .colophon__cta:hover { background: var(--contrast); color: var(--bg); }
+    .colophon__cta .arr { transition: transform 0.3s var(--ease-out); }
+    .colophon__cta:hover .arr { transform: translateX(5px); }
+
+    .colophon__brands { padding-top: 1.4rem; border-top: 1px solid var(--border); }
+    .colophon__brands-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.7rem; }
+    .colophon__brands-list { font-family: var(--font-display); font-size: clamp(1.1rem, 1.7vw, 1.4rem); line-height: 1.5; color: var(--text); font-variation-settings: "opsz" 60, "SOFT" 50; }
+    .colophon__brands-list em { font-style: italic; color: var(--accent); font-variation-settings: "opsz" 60, "SOFT" 100; }
+    .colophon__brands-list .sep { color: var(--text-faint); margin-inline: 0.5rem; }
+
+    @media (max-width: 760px) {
+      .colophon__inner { grid-template-columns: 1fr; }
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      flex-shrink: 0;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: 0.78rem;
+      color: var(--text-muted); letter-spacing: 0.06em;
+      background: var(--bg);
+    }
+    .footer-grid { max-width: 1600px; margin-inline: auto; padding-inline: var(--gutter-x); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .footer em { color: var(--accent); font-style: normal; }
+    .footer a { color: var(--text); }
+
+    /* ===== LIGHTBOX ===== */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(10,9,8,0.96);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 3rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s var(--ease-out);
+    }
+    .lightbox.is-open { opacity: 1; pointer-events: all; }
+    .lightbox__img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+    .lightbox__close, .lightbox__nav {
+      position: absolute;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(20,18,16,0.7); border: 1px solid var(--border-bright);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text);
+      transition: background 0.25s var(--ease-out), color 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
+    }
+    .lightbox__close { top: 1.6rem; right: 1.6rem; }
+    .lightbox__close:hover, .lightbox__nav:hover { background: var(--contrast); color: var(--bg); border-color: var(--contrast); }
+    .lightbox__close svg, .lightbox__nav svg { width: 20px; height: 20px; }
+    .lightbox__nav { top: 50%; transform: translateY(-50%); width: 48px; height: 56px; }
+    .lightbox__nav--prev { left: 1.6rem; }
+    .lightbox__nav--next { right: 1.6rem; }
+    .lightbox__nav[disabled] { opacity: 0.25; pointer-events: none; }
+    .lightbox__counter { position: absolute; top: 1.6rem; left: 1.6rem; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em; color: var(--text); padding: 8px 13px; background: rgba(20,18,16,0.7); border: 1px solid var(--border-bright); border-radius: 999px; }
+    .lightbox__caption { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; color: var(--text-muted); padding: 8px 14px; background: rgba(20,18,16,0.7); border: 1px solid var(--border-bright); border-radius: 999px; max-width: 80vw; text-align: center; }
+    @media (max-width: 640px) {
+      .lightbox { padding: 1rem; }
+      .lightbox__nav { width: 40px; height: 48px; }
+      .lightbox__nav--prev { left: 0.8rem; }
+      .lightbox__nav--next { right: 0.8rem; }
+      .lightbox__close { top: 1rem; right: 1rem; }
+      .lightbox__counter { top: 1rem; left: 1rem; font-size: 10px; padding: 7px 11px; }
+    }
+
+    /* =====================================================================
+       MOBILE INTERACTIVITY — floating dossier pill, tactile states,
+       persistent frame badges, per-frame reveal stagger.
+       ===================================================================== */
+
+    /* Kill default tap-highlight on interactive elements — we'll add our own */
+    .frame, .dossier__row, .rail__item a, .colophon__cta, .nav__menu a,
+    .nav__mobile-list a, .dossier-pill__current, .dossier-pill__sheet a,
+    .nav__cta {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Tactile press states (touch devices only — keeps hover lift on mouse) */
+    @media (hover: none) {
+      .frame { transition: transform 0.25s var(--ease-out); }
+      .frame:active            { transform: scale(0.985); }
+      .dossier__row:active     { background: rgba(212,255,61,0.08); }
+      .colophon__cta:active    { background: var(--contrast); color: var(--bg); transform: scale(0.97); }
+      .dossier-pill__current:active { transform: scale(0.97); }
+      .dossier-pill__sheet a:active { background: rgba(212,255,61,0.12); color: var(--text); }
+      .nav__cta:active         { background: var(--contrast); color: var(--bg); }
+
+      /* Persistent ↗ badge on touch devices so frames clearly look tappable */
+      .frame::after { opacity: 0.65; }
+    }
+
+    /* ----- Floating dossier pill: mobile equivalent of the desktop rail ----- */
+    .dossier-pill {
+      display: none;
+      position: fixed;
+      bottom: 1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 90;
+      width: min(92vw, 380px);
+      transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+    }
+    .dossier-pill.is-hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(140%);
+      pointer-events: none;
+    }
+
+    .dossier-pill__current {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.75rem 1.1rem;
+      background: rgba(20,18,16,0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-bright);
+      border-radius: 999px;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.25s var(--ease-out), transform 0.2s ease;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.45);
+    }
+    .dossier-pill.is-expanded .dossier-pill__current { border-color: var(--contrast); }
+
+    .dossier-pill__num {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
+      color: var(--contrast);
+      text-transform: uppercase;
+    }
+    .dossier-pill__name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--text);
+      font-variation-settings: "opsz" 60, "SOFT" 100;
+      letter-spacing: -0.005em;
+      line-height: 1;
+    }
+    .dossier-pill__icon {
+      width: 22px; height: 22px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      border: 1px solid var(--border-bright);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      transition: transform 0.35s var(--ease-out), color 0.3s, border-color 0.3s;
+    }
+    .dossier-pill.is-expanded .dossier-pill__icon {
+      transform: rotate(180deg);
+      color: var(--contrast);
+      border-color: var(--contrast);
+    }
+
+    .dossier-pill__sheet {
+      position: absolute;
+      bottom: calc(100% + 0.6rem);
+      left: 0; right: 0;
+      background: rgba(20,18,16,0.96);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-bright);
+      border-radius: 18px;
+      padding: 0.5rem;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.55);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+    }
+    .dossier-pill.is-expanded .dossier-pill__sheet {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .dossier-pill__sheet a {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 0.75rem 0.95rem;
+      border-radius: 12px;
+      color: var(--text-muted);
+      transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
+    }
+    .dossier-pill__sheet a + a { margin-top: 2px; }
+    .dossier-pill__sheet a .pill-num {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--text-faint);
+      transition: color 0.2s;
+    }
+    .dossier-pill__sheet a .pill-label {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-style: italic;
+      color: inherit;
+      font-variation-settings: "opsz" 60, "SOFT" 100;
+      line-height: 1.1;
+    }
+    .dossier-pill__sheet a:hover,
+    .dossier-pill__sheet a.is-current { color: var(--text); }
+    .dossier-pill__sheet a.is-current { background: rgba(212,255,61,0.08); }
+    .dossier-pill__sheet a.is-current .pill-num { color: var(--contrast); }
+
+    /* Show the pill only on mobile (where desktop rail is hidden) */
+    @media (max-width: 980px) {
+      .dossier-pill { display: block; }
+    }
+
+    /* ----- Per-frame reveal stagger on mobile (frames stack vertically there,
+       so showing each as it scrolls in feels more dynamic than one big reveal). ----- */
+    @media (max-width: 980px) {
+      .frame {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+      }
+      .frame.is-shown {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .frame { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .dossier-pill { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <div class="container nav__row">
+    <a href="index.html" class="nav__brand" aria-label="Aperia Visuals home">
+      <svg class="nav__brand-symbol" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M 10 130 L 50 10 L 90 130" stroke="currentColor" stroke-width="14" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="6" fill="none"/>
+        <path d="M 43 67 L 57 67 L 50 45 Z" fill="#D4FF3D" transform="rotate(18 50 56)"/>
+      </svg>
+      <span class="nav__brand-type">
+        <span class="nav__brand-mark">APERIA</span>
+        <span class="nav__brand-sub">Visuals</span>
+      </span>
+    </a>
+    <ul class="nav__menu">
+      <li><a href="food.html">Food</a></li>
+      <li><a href="architecture.html">Architecture</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="corporate.html">Corporate</a></li>
+      <li><a href="portraits.html">Portraits</a></li>
+      <li><a href="commercial.html" class="is-current">Commercial</a></li>
+      <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+      <li><a href="story.html">Story</a></li>
+    </ul>
+    <div class="nav__right">
+      <a href="index.html#contact" class="nav__cta">Start a project</a>
+      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="navMobile" aria-hidden="true">
+  <ul class="nav__mobile-list">
+    <li><a href="index.html" data-mobile-link><span class="num">01</span>Home</a></li>
+    <li><a href="food.html" data-mobile-link><span class="num">02</span>Food</a></li>
+    <li><a href="architecture.html" data-mobile-link><span class="num">03</span>Architecture</a></li>
+    <li><a href="events.html" data-mobile-link><span class="num">04</span>Events</a></li>
+    <li><a href="corporate.html" data-mobile-link><span class="num">05</span>Corporate</a></li>
+    <li><a href="portraits.html" data-mobile-link><span class="num">06</span>Portraits</a></li>
+    <li><a href="commercial.html" data-mobile-link class="is-current"><span class="num">07</span>Commercial &amp; Doc.</a></li>
+    <li><a href="sports-brand.html" data-mobile-link><span class="num">08</span>Sports &amp; Brand</a></li>
+    <li><a href="story.html" data-mobile-link><span class="num">09</span>Story</a></li>
+  </ul>
+  <div class="nav__mobile-foot">
+    <span>Aperia Visuals · Westlands, Nairobi</span>
+    <a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <div class="hero__bracket">
+        <span class="dot"></span>
+        <span>N° 008 &nbsp;·&nbsp; <span class="accent">Field Reports</span></span>
+      </div>
+
+      <h1 class="hero__title display">Commercial <em>&amp;</em><br>Documentary.</h1>
+
+      <p class="hero__deck">
+        Brand work made on the <em>floor of the operation</em> — coffee rows, biomass yards, ranches, machine bays. Honest pictures of companies actually doing what they say they do.
+      </p>
+
+      <div class="hero__credit">
+        <span><b>Filed</b> · 2024–2025</span>
+        <span class="hero__credit-pipe">/</span>
+        <span><b>Reports</b> · 3</span>
+        <span class="hero__credit-pipe">/</span>
+        <span><b>Frames</b> · 17</span>
+        <span class="hero__credit-pipe">/</span>
+        <span><b>Region</b> · Kenya</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- DOSSIER INDEX -->
+  <section class="dossier" aria-label="Index of brand reports">
+    <div class="container">
+      <div class="dossier__head">
+        <h2 class="dossier__head-title display">Index of <em>Files</em>.</h2>
+        <span class="dossier__head-meta">03 reports · 17 frames · click to open</span>
+      </div>
+
+      <div class="dossier__table">
+        <a class="dossier__row" href="#report-tamuwa">
+          <span class="dossier__cell--num">N° 001</span>
+          <span class="dossier__cell--name"><em>Tamuwa</em> Limited</span>
+          <span class="dossier__cell--sector">Biomass · Recycling</span>
+          <span class="dossier__cell--frames"><b>06</b> frames · spread</span>
+          <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
+        </a>
+        <a class="dossier__row" href="#report-asili">
+          <span class="dossier__cell--num">N° 002</span>
+          <span class="dossier__cell--name"><em>Asili</em> Coffee Farm</span>
+          <span class="dossier__cell--sector">Coffee · Smallholder</span>
+          <span class="dossier__cell--frames"><b>02</b> frames · diptych</span>
+          <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
+        </a>
+        <a class="dossier__row" href="#report-oltotoi">
+          <span class="dossier__cell--num">N° 003</span>
+          <span class="dossier__cell--name"><em>Oltotoi</em> Ranch</span>
+          <span class="dossier__cell--sector">Livestock · Feedlot</span>
+          <span class="dossier__cell--frames"><b>09</b> frames · essay</span>
+          <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
+        </a>
+
+        <div class="dossier__also">
+          <span class="dossier__also-label">Also for</span>
+          <span class="dossier__also-list"><em>BrookVeg</em> · brand only, frames pending</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPORTS -->
+  <div class="report-frame">
+    <div class="report-frame__inner">
+
+      <aside class="rail" aria-label="Dossier rail">
+        <div class="rail__label">Dossier ↓</div>
+        <ul class="rail__list" id="railList">
+          <li class="rail__item" data-rail-target="report-tamuwa">
+            <a href="#report-tamuwa">
+              <span class="rail__num">N° 001</span>
+              <span class="rail__name">Tamuwa</span>
+            </a>
+          </li>
+          <li class="rail__item" data-rail-target="report-asili">
+            <a href="#report-asili">
+              <span class="rail__num">N° 002</span>
+              <span class="rail__name">Asili Coffee</span>
+            </a>
+          </li>
+          <li class="rail__item" data-rail-target="report-oltotoi">
+            <a href="#report-oltotoi">
+              <span class="rail__num">N° 003</span>
+              <span class="rail__name">Oltotoi Ranch</span>
+            </a>
+          </li>
+        </ul>
+        <div class="rail__footnote">
+          Aperia Visuals<br>
+          Field correspondence,<br>
+          Nairobi · MMXXVI
+        </div>
+      </aside>
+
+      <div class="reports">
+
+        <!-- REPORT — TAMUWA -->
+        <article id="report-tamuwa" class="report report--tamuwa" data-reveal>
+          <header class="report__head">
+            <span class="report__head-num">N° 001</span>
+            <h2 class="report__head-title"><em>Tamuwa</em> Limited.</h2>
+            <span class="report__head-meta">
+              <b>Sector</b> · Biomass · briquettes<br>
+              <b>Frames</b> · 06
+            </span>
+          </header>
+
+          <div class="report__intro">
+            <p class="report__lede">Two sites in one brief — out where the <em>raw material</em> is collected, and back inside the plant where it becomes fuel.</p>
+            <div class="report__copy">
+              <p>The exterior frames are loose and observational; the interior ones are quieter, closer, more deliberate. The colour breaks — high-vis yellow, neon green tape, blue machinery — were already there.</p>
+            </div>
+          </div>
+
+          <a class="frame report__hero" href="images/tamuwa-01-large.jpg" data-frame data-caption="Tamuwa · Field · Loading agricultural biomass">
+            <img src="images/tamuwa-01-med.jpg" alt="Workers in coveralls and hard hats moving tarpaulins of agricultural straw under open sky" loading="lazy">
+          </a>
+
+          <div class="report__duo">
+            <a class="frame" href="images/tamuwa-02-large.jpg" data-frame data-caption="Tamuwa · Field · Loading the truck against the scale">
+              <img src="images/tamuwa-02-med.jpg" alt="Workers loading a red truck with biomass while a supervisor in a green Tamuwa coat checks a hanging scale" loading="lazy">
+            </a>
+            <a class="frame" href="images/tamuwa-03-large.jpg" data-frame data-caption="Tamuwa · Plant floor · Operator at the milling machine">
+              <img src="images/tamuwa-03-med.jpg" alt="Worker in navy coveralls and yellow hard hat servicing a tall blue milling machine inside the plant" loading="lazy">
+            </a>
+          </div>
+
+          <div class="report__triptych">
+            <a class="frame" href="images/tamuwa-04-large.jpg" data-frame data-caption="Tamuwa · Detail · Motor and belt">
+              <img src="images/tamuwa-04-med.jpg" alt="Close detail of a motor pulley and drive belt mounted on a blue machine" loading="lazy">
+            </a>
+            <a class="frame" href="images/tamuwa-05-large.jpg" data-frame data-caption="Tamuwa · Plant floor · Bagging the finished briquette">
+              <img src="images/tamuwa-05-med.jpg" alt="Worker holding a freshly pressed cylindrical briquette over an open white sack" loading="lazy">
+            </a>
+            <a class="frame" href="images/tamuwa-06-large.jpg" data-frame data-caption="Tamuwa · Portrait · Worker at the press">
+              <img src="images/tamuwa-06-med.jpg" alt="Standing portrait of a worker in branded navy Tamuwa coveralls and yellow hard hat holding an empty sack" loading="lazy">
+            </a>
+          </div>
+
+          <div class="frame-cap">
+            <span><b>Frames</b> <span class="frame-cap__id">01 — 06 / 06</span></span>
+            <span>Sony Alpha · 35mm + 85mm</span>
+          </div>
+        </article>
+
+        <!-- REPORT — ASILI (2 frames: aerial + portrait) -->
+        <article id="report-asili" class="report report--asili" data-reveal>
+          <header class="report__head">
+            <span class="report__head-num">N° 002</span>
+            <h2 class="report__head-title"><em>Asili</em> Coffee Farm.</h2>
+            <span class="report__head-meta">
+              <b>Sector</b> · Smallholder coffee<br>
+              <b>Frames</b> · 02
+            </span>
+          </header>
+
+          <p class="report__lede" style="margin-bottom: clamp(1.5rem, 3vw, 2.2rem);">
+            Scale from above, <em>person</em> below — the shortest possible read on a coffee brand.
+          </p>
+
+          <a class="frame report__aerial" href="images/asili-02-large.jpg" data-frame data-caption="Asili Coffee · Aerial · Shade beds in the clearing">
+            <img src="images/asili-02-med.jpg" alt="Aerial view of a long row of blue-framed shade beds running through a forest clearing, red earth between them" loading="lazy">
+          </a>
+
+          <div class="report__split">
+            <a class="frame report__portrait" href="images/asili-01-large.jpg" data-frame data-caption="Asili Coffee · Environmental portrait · Cherry inspection in the row">
+              <img src="images/asili-01-med.jpg" alt="Coffee farmer in a green Asili Coffee polo inspecting cherries in his cupped hand between rows of coffee trees" loading="lazy">
+            </a>
+
+            <div class="report__notes">
+              <div class="report__copy">
+                <p>One frame for the land, one for the grower. No staging — just the row he was already walking when we arrived.</p>
+              </div>
+              <div class="frame-cap">
+                <span><b>Frames</b> <span class="frame-cap__id">01 — 02 / 02</span></span>
+                <span>DJI · 50mm</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- REPORT — OLTOTOI -->
+        <article id="report-oltotoi" class="report report--oltotoi" data-reveal>
+          <header class="report__head">
+            <span class="report__head-num">N° 003</span>
+            <h2 class="report__head-title"><em>Oltotoi</em> Ranch.</h2>
+            <span class="report__head-meta">
+              <b>Sector</b> · Livestock · feedlot<br>
+              <b>Frames</b> · 09
+            </span>
+          </header>
+
+          <div class="report__intro">
+            <p class="report__lede">A full day, told in the order it happened — <em>aerial first</em>, then trucks, hands, troughs, faces.</p>
+            <div class="report__copy">
+              <p>A picture essay rather than a campaign. The arc moves from infrastructure into supply, and finally into the long covered feed alley where most of the day happens.</p>
+            </div>
+          </div>
+
+          <a class="frame report__aerial" href="images/oltotoi-01-large.jpg" data-frame data-caption="Oltotoi · Aerial · Sorting pens at the feedlot, midday">
+            <img src="images/oltotoi-01-med.jpg" alt="Aerial of two adjacent cattle holding pens divided by a wooden race, herds in each pen, covered feed alley along the top edge" loading="lazy">
+          </a>
+
+          <div class="essay__row essay__row--a">
+            <a class="frame" href="images/oltotoi-02-large.jpg" data-frame data-caption="Oltotoi · Supply · Green Lifan loaded at the alley">
+              <img src="images/oltotoi-02-med.jpg" alt="Workers in black Oltotoi Ranch coveralls around a green Lifan utility truck loaded with feed sacks" loading="lazy">
+            </a>
+            <a class="frame" href="images/oltotoi-03-large.jpg" data-frame data-caption="Oltotoi · Supply · Offloading sacks">
+              <img src="images/oltotoi-03-med.jpg" alt="Two workers offloading feed sacks from the back of a green Lifan truck while another carries a full sack into the alley" loading="lazy">
+            </a>
+          </div>
+
+          <div class="essay__row essay__row--b">
+            <a class="frame" href="images/oltotoi-04-large.jpg" data-frame data-caption="Oltotoi · Carry · Bags and bucket along the alley">
+              <img src="images/oltotoi-04-med.jpg" alt="Two workers walking the sun-bleached path along the feed alley with a jerrycan and printed feed sack on their shoulders" loading="lazy">
+            </a>
+            <a class="frame" href="images/oltotoi-05-large.jpg" data-frame data-caption="Oltotoi · Trough · Sack at the line of cattle">
+              <img src="images/oltotoi-05-med.jpg" alt="Worker in a black Oltotoi Ranch jacket carrying a bulging white feed sack toward a concrete trough lined with feeding cattle" loading="lazy">
+            </a>
+          </div>
+
+          <div class="essay__row essay__row--c">
+            <a class="frame" href="images/oltotoi-06-large.jpg" data-frame data-caption="Oltotoi · Inside · Walking the trough">
+              <img src="images/oltotoi-06-med.jpg" alt="Worker in dark Oltotoi coveralls walking the concrete feed trough under a long green-pillared canopy" loading="lazy">
+            </a>
+            <a class="frame" href="images/oltotoi-07-large.jpg" data-frame data-caption="Oltotoi · Inside · Returning along the line">
+              <img src="images/oltotoi-07-med.jpg" alt="Same alley from a slightly different vantage — the worker returning toward camera, hay spread along the trough" loading="lazy">
+            </a>
+          </div>
+
+          <div class="essay__row essay__row--d">
+            <a class="frame" href="images/oltotoi-08-large.jpg" data-frame data-caption="Oltotoi · Hands · At the herd, back to camera">
+              <img src="images/oltotoi-08-med.jpg" alt="Back of a worker wearing a black Oltotoi Ranch coverall with the logo across the shoulders, leaning over the trough to spread feed" loading="lazy">
+            </a>
+            <a class="frame" href="images/oltotoi-09-large.jpg" data-frame data-caption="Oltotoi · Portrait · The day, closed out">
+              <img src="images/oltotoi-09-med.jpg" alt="Smiling environmental portrait of a young worker in a black Oltotoi Ranch coverall under the canopy, cattle softly visible behind" loading="lazy">
+            </a>
+          </div>
+
+          <div class="frame-cap">
+            <span><b>Frames</b> <span class="frame-cap__id">01 — 09 / 09</span></span>
+            <span>Sony Alpha + DJI · 35 / 85mm</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- COLOPHON -->
+  <section class="colophon">
+    <div class="container">
+      <div class="colophon__inner">
+        <div>
+          <div class="colophon__bracket">— End of field reports —</div>
+          <h2 class="colophon__title display">Bring me on a <em>campaign.</em></h2>
+          <p class="colophon__deck">
+            Commercial &amp; documentary work for brands across Kenya and the region. If your story needs photographed honestly — on the floor, in the field, at the line — get in touch.
+          </p>
+          <a href="index.html#contact" class="colophon__cta">
+            Start a project <span class="arr">→</span>
+          </a>
+        </div>
+        <div class="colophon__brands">
+          <div class="colophon__brands-label">Brands worked with</div>
+          <div class="colophon__brands-list">
+            <em>Tamuwa</em> Limited<span class="sep">·</span><em>Asili</em> Coffee Farm<span class="sep">·</span><em>Oltotoi</em> Ranch<span class="sep">·</span><em>BrookVeg</em>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <span>© 2026 Aperia Visuals <em>·</em> Nairobi</span>
+    <a href="index.html">aperiavisuals.com</a>
+  </div>
+</footer>
+
+<!-- Floating dossier pill — mobile-only nav between reports -->
+<div class="dossier-pill is-hidden" id="dossierPill" aria-label="Jump between reports">
+  <button class="dossier-pill__current" id="dossierPillCurrent" aria-expanded="false" aria-controls="dossierPillSheet">
+    <span class="dossier-pill__num"  id="dossierPillNum">N° 001</span>
+    <span class="dossier-pill__name" id="dossierPillName">Tamuwa</span>
+    <span class="dossier-pill__icon" aria-hidden="true">▴</span>
+  </button>
+  <div class="dossier-pill__sheet" id="dossierPillSheet" role="menu">
+    <a href="#report-tamuwa" data-pill-link data-pill-idx="0" role="menuitem">
+      <span class="pill-num">N° 001</span>
+      <span class="pill-label">Tamuwa</span>
+    </a>
+    <a href="#report-asili" data-pill-link data-pill-idx="1" role="menuitem">
+      <span class="pill-num">N° 002</span>
+      <span class="pill-label">Asili Coffee</span>
+    </a>
+    <a href="#report-oltotoi" data-pill-link data-pill-idx="2" role="menuitem">
+      <span class="pill-num">N° 003</span>
+      <span class="pill-label">Oltotoi Ranch</span>
+    </a>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+  <button class="lightbox__close" id="lightboxClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+  <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next image">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <img class="lightbox__img" id="lightboxImg" alt="">
+  <div class="lightbox__caption" id="lightboxCaption"></div>
+  <div class="lightbox__counter" id="lightboxCounter"></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const nav = document.getElementById('nav');
+  function onNavScroll() {
+    if (!nav) return;
+    if (window.scrollY > 40) nav.classList.add('is-scrolled');
+    else nav.classList.remove('is-scrolled');
+  }
+  window.addEventListener('scroll', onNavScroll, { passive: true });
+  onNavScroll();
+
+  const progress = document.getElementById('scrollProgress');
+  function onScrollProgress() {
+    if (!progress) return;
+    const scrollTop = window.scrollY;
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? Math.max(0, Math.min(1, scrollTop / docH)) : 0;
+    progress.style.width = (pct * 100).toFixed(2) + '%';
+  }
+  window.addEventListener('scroll', onScrollProgress, { passive: true });
+  onScrollProgress();
+
+  const navToggle = document.getElementById('navToggle');
+  const navMobile = document.getElementById('navMobile');
+  function openDrawer() {
+    if (!navMobile || !navToggle) return;
+    navMobile.classList.add('is-open');
+    navMobile.setAttribute('aria-hidden', 'false');
+    navToggle.classList.add('is-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    if (!navMobile || !navToggle) return;
+    navMobile.classList.remove('is-open');
+    navMobile.setAttribute('aria-hidden', 'true');
+    navToggle.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      if (navMobile && navMobile.classList.contains('is-open')) closeDrawer();
+      else openDrawer();
+    });
+  }
+  document.querySelectorAll('[data-mobile-link]').forEach(a => a.addEventListener('click', closeDrawer));
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.05 });
+  document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+
+  // ===== Dossier rail — active state tracks current report =====
+  const railItems = Array.from(document.querySelectorAll('.rail__item'));
+  const railEl    = document.querySelector('.rail');
+  const reports   = railItems
+    .map(item => document.getElementById(item.dataset.railTarget))
+    .filter(Boolean);
+
+  let railMarker = null;
+  if (railEl) {
+    railMarker = document.createElement('div');
+    railMarker.className = '_railMarker';
+    railMarker.style.cssText =
+      'position:absolute;left:-1px;top:0;width:1px;height:0;' +
+      'background:var(--contrast);box-shadow:0 0 8px rgba(212,255,61,0.4);' +
+      'transition:top 0.55s cubic-bezier(0.65,0,0.35,1), height 0.55s cubic-bezier(0.65,0,0.35,1);' +
+      'pointer-events:none;';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      railMarker.style.transition = 'none';
+    }
+    railEl.appendChild(railMarker);
+  }
+  function setActiveRail(idx) {
+    railItems.forEach((it, i) => it.classList.toggle('is-active', i === idx));
+    if (!railEl || !railMarker) return;
+    const target = railItems[idx];
+    if (!target) return;
+    const railRect = railEl.getBoundingClientRect();
+    const itemRect = target.getBoundingClientRect();
+    railMarker.style.top    = (itemRect.top - railRect.top) + 'px';
+    railMarker.style.height = itemRect.height + 'px';
+  }
+  function pickActiveReport() {
+    if (!reports.length) return;
+    const trigger = window.innerHeight * 0.35;
+    let activeIdx = 0;
+    for (let i = 0; i < reports.length; i++) {
+      const rect = reports[i].getBoundingClientRect();
+      if (rect.top - trigger <= 0) activeIdx = i;
+      else break;
+    }
+    setActiveRail(activeIdx);
+  }
+  window.addEventListener('scroll', pickActiveReport, { passive: true });
+  window.addEventListener('resize', pickActiveReport);
+  pickActiveReport();
+
+  // ===== Mobile dossier pill — floats at the bottom, tracks current report =====
+  const pill          = document.getElementById('dossierPill');
+  const pillCurrent   = document.getElementById('dossierPillCurrent');
+  const pillNum       = document.getElementById('dossierPillNum');
+  const pillName      = document.getElementById('dossierPillName');
+  const pillSheet     = document.getElementById('dossierPillSheet');
+  const pillLinks     = Array.from(document.querySelectorAll('[data-pill-link]'));
+  const reportsContainer = document.querySelector('.reports');
+
+  // Display data parallel to the rail items
+  const pillNumbers = ['N° 001', 'N° 002', 'N° 003'];
+  const pillNames   = ['Tamuwa', 'Asili Coffee', 'Oltotoi Ranch'];
+
+  function pillCollapse() {
+    if (!pill) return;
+    pill.classList.remove('is-expanded');
+    if (pillCurrent) pillCurrent.setAttribute('aria-expanded', 'false');
+  }
+  function pillToggle() {
+    if (!pill) return;
+    const open = pill.classList.toggle('is-expanded');
+    if (pillCurrent) pillCurrent.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (pillCurrent) {
+    pillCurrent.addEventListener('click', e => {
+      e.stopPropagation();
+      pillToggle();
+    });
+  }
+  pillLinks.forEach(a => a.addEventListener('click', () => pillCollapse()));
+  document.addEventListener('click', e => {
+    if (pill && !pill.contains(e.target)) pillCollapse();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && pill && pill.classList.contains('is-expanded')) pillCollapse();
+  });
+
+  function updatePill() {
+    if (!pill) return;
+
+    // Hide pill if reports container is fully out of viewport (above or below).
+    if (reportsContainer) {
+      const cr = reportsContainer.getBoundingClientRect();
+      const navOffset = 90;
+      const hideAbove = cr.top > window.innerHeight - 120;  // not yet reached
+      const hideBelow = cr.bottom < navOffset;              // scrolled past
+      if (hideAbove || hideBelow) {
+        pill.classList.add('is-hidden');
+        pillCollapse();
+        return;
+      }
+    }
+    pill.classList.remove('is-hidden');
+
+    // Find current report (matches rail logic)
+    if (!reports.length) return;
+    const trigger = window.innerHeight * 0.35;
+    let activeIdx = 0;
+    for (let i = 0; i < reports.length; i++) {
+      const rect = reports[i].getBoundingClientRect();
+      if (rect.top - trigger <= 0) activeIdx = i;
+      else break;
+    }
+    if (pillNum)  pillNum.textContent  = pillNumbers[activeIdx] || '';
+    if (pillName) pillName.textContent = pillNames[activeIdx]   || '';
+    pillLinks.forEach((a, i) => a.classList.toggle('is-current', i === activeIdx));
+  }
+  window.addEventListener('scroll', updatePill, { passive: true });
+  window.addEventListener('resize', updatePill);
+  updatePill();
+
+  // ===== Per-frame reveal-on-scroll (visual effect gated to ≤980px by CSS) =====
+  const frameObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-shown');
+        frameObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: 0.08 });
+  document.querySelectorAll('a.frame').forEach(f => frameObserver.observe(f));
+
+  // ===== Lightbox — uses .frame as the universal selector =====
+  const lightbox  = document.getElementById('lightbox');
+  const lbImg     = document.getElementById('lightboxImg');
+  const lbCaption = document.getElementById('lightboxCaption');
+  const lbCounter = document.getElementById('lightboxCounter');
+  const lbClose   = document.getElementById('lightboxClose');
+  const lbPrev    = document.getElementById('lightboxPrev');
+  const lbNext    = document.getElementById('lightboxNext');
+  const allFrames = Array.from(document.querySelectorAll('a.frame'));
+  let lbIndex = 0;
+
+  function showFrame(i) {
+    if (i < 0 || i >= allFrames.length) return;
+    lbIndex = i;
+    const frame    = allFrames[i];
+    const largeSrc = frame.getAttribute('href');
+    const img      = frame.querySelector('img');
+    const fallback = img ? img.src : '';
+    const alt      = img ? img.alt : '';
+    const cap      = frame.getAttribute('data-caption') || '';
+
+    lbImg.onerror = function() {
+      lbImg.onerror = null;
+      if (fallback && lbImg.src !== fallback) lbImg.src = fallback;
+    };
+    lbImg.src = largeSrc;
+    lbImg.alt = alt;
+    if (lbCaption) lbCaption.textContent = cap;
+    if (lbCounter) {
+      const num = String(i + 1).padStart(2, '0');
+      const tot = String(allFrames.length).padStart(2, '0');
+      lbCounter.textContent = num + ' / ' + tot;
+    }
+    if (lbPrev) lbPrev.disabled = i === 0;
+    if (lbNext) lbNext.disabled = i === allFrames.length - 1;
+  }
+  function openLb(i) {
+    showFrame(i);
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLb() {
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  function showPrev() { if (lbIndex > 0) showFrame(lbIndex - 1); }
+  function showNext() { if (lbIndex < allFrames.length - 1) showFrame(lbIndex + 1); }
+
+  if (lbClose) lbClose.addEventListener('click', closeLb);
+  if (lbPrev)  lbPrev.addEventListener('click', e => { e.stopPropagation(); showPrev(); });
+  if (lbNext)  lbNext.addEventListener('click', e => { e.stopPropagation(); showNext(); });
+  if (lightbox) lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLb(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox || !lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft') showPrev();
+    else if (e.key === 'ArrowRight') showNext();
+  });
+  allFrames.forEach((frame, i) => {
+    frame.addEventListener('click', function(e) {
+      e.preventDefault();
+      openLb(i);
+    });
+  });
+
+  let touchStartX = null;
+  if (lightbox) {
+    lightbox.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    lightbox.addEventListener('touchend', e => {
+      if (touchStartX === null) return;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) { if (dx > 0) showPrev(); else showNext(); }
+      touchStartX = null;
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>

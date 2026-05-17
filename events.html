@@ -1,0 +1,2020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Events — Aperia Visuals</title>
+<meta name="description" content="Editorial event photography by Aperia Visuals — Red Bull Basement at iHub Nairobi, Nani's Cafe Party, and the moments that move a room." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..900,0..100;1,9..144,200..900,0..100&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'%3E%3Cpath d='M50 14 L86 116 M50 14 L14 116' stroke='%23F5F1EA' stroke-width='14' fill='none' stroke-linejoin='miter' stroke-miterlimit='6' stroke-linecap='square'/%3E%3Cpolygon points='-7,-11 7,-11 0,11' fill='%23D4FF3D' transform='translate(50 56) rotate(18)'/%3E%3C/svg%3E" />
+<style>
+:root {
+    --bg: #0A0908;
+    --bg-2: #14110F;
+    --cream: #F5F1EA;
+    --gold: #C9A36B;
+    --chartreuse: #D4FF3D;
+    --chartreuse-dim: #5e7012;
+    --smoke: #8A847A;
+    --dim: #5A554E;
+    --line: rgba(245, 241, 234, 0.08);
+    --line-2: rgba(245, 241, 234, 0.16);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 130px; /* nav + sticky tabs */
+    background: var(--bg);
+}
+
+body {
+    font-family: 'Hanken Grotesk', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--chartreuse); color: var(--bg); }
+
+/* ========== FILM GRAIN OVERLAY ========== */
+.grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+}
+
+/* ========== SCROLL PROGRESS ========== */
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--chartreuse);
+    z-index: 110;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0.05s linear;
+}
+
+/* ========== TOP NAV ========== */
+.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+.nav.scrolled {
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    background: rgba(10, 9, 8, 0.65);
+    border-bottom: 1px solid var(--line);
+}
+.nav-lockup {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+    color: var(--cream);
+}
+.nav-lockup svg { width: 26px; height: auto; display: block; }
+.nav-lockup-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 30, "SOFT" 50;
+}
+.nav-lockup-text em { font-style: italic; color: var(--gold); }
+
+.nav-links {
+    display: flex; gap: 32px; align-items: center;
+}
+.nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.2s ease;
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--chartreuse);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.nav-links a:hover::after, .nav-links a.active::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+}
+.nav-links a.active { color: var(--chartreuse); }
+
+.menu-btn {
+    display: none;
+    background: none; border: none;
+    color: var(--cream);
+    cursor: pointer;
+    padding: 8px;
+    width: 40px; height: 40px;
+}
+.menu-btn svg { width: 22px; height: 22px; }
+
+@media (max-width: 880px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; align-items: center; justify-content: center; }
+    .nav { padding: 14px 20px; }
+}
+
+/* ========== MOBILE DRAWER ========== */
+.drawer {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 105;
+    display: flex; flex-direction: column;
+    padding: 90px 28px 40px;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-close {
+    position: absolute;
+    top: 18px; right: 20px;
+    background: none; border: none;
+    color: var(--cream); cursor: pointer;
+    width: 40px; height: 40px;
+}
+.drawer ol {
+    list-style: none;
+    counter-reset: drawer;
+    margin-top: 20px;
+}
+.drawer ol li {
+    counter-increment: drawer;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+.drawer ol li a {
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 38px;
+    font-weight: 300;
+    font-variation-settings: "opsz" 60, "SOFT" 80;
+    display: flex; align-items: baseline; gap: 14px;
+    line-height: 1.1;
+    transition: color 0.25s ease;
+}
+.drawer ol li a::before {
+    content: counter(drawer, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    color: var(--chartreuse);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+}
+.drawer ol li a:hover { color: var(--chartreuse); }
+
+/* ========== TYPE PRIMITIVES ========== */
+.display {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.display em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+}
+.label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--smoke);
+    text-transform: uppercase;
+}
+.label-chartreuse { color: var(--chartreuse); }
+.label-cream { color: var(--cream); }
+
+/* ========== SECTION HELPERS ========== */
+section { position: relative; }
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+@media (max-width: 720px) {
+    .container { padding: 0 20px; }
+}
+
+.section-index {
+    display: flex; align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+.section-index::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, var(--chartreuse), transparent);
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.section-index .label {
+    margin-top: 4px;
+}
+
+/* ========== HERO: DUAL EVENT SPLIT ========== */
+.hero-events {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    display: flex;
+    overflow: hidden;
+    background: var(--bg);
+}
+.hero-half {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--cream);
+    display: block;
+}
+.hero-half-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.06);
+    transition: transform 1.4s cubic-bezier(0.6, 0, 0.2, 1), filter 0.6s ease;
+    filter: saturate(0.85) brightness(0.6);
+}
+.hero-half:hover .hero-half-img {
+    transform: scale(1.12);
+    filter: saturate(1.05) brightness(0.78);
+}
+.hero-half-veil {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(10,9,8,0.0) 0%, rgba(10,9,8,0.55) 70%, rgba(10,9,8,0.85) 100%),
+        linear-gradient(90deg, rgba(10,9,8,0.5) 0%, rgba(10,9,8,0.2) 50%, rgba(10,9,8,0.5) 100%);
+}
+.hero-half-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 56px 80px;
+    z-index: 2;
+}
+.hero-half-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--chartreuse);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+.hero-half-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 5.4vw, 76px);
+    font-weight: 300;
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    margin-bottom: 22px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    max-width: 540px;
+}
+.hero-half-title em {
+    font-style: italic;
+    color: var(--gold);
+}
+.hero-half-meta {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    opacity: 0.86;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.hero-half:hover .hero-half-meta {
+    opacity: 1;
+    transform: translateY(0);
+}
+.hero-half-meta-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+.hero-half-meta-item strong {
+    display: block;
+    font-weight: 500;
+    color: var(--cream);
+    opacity: 1;
+    margin-top: 4px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+}
+.hero-half-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream);
+    transition: color 0.3s ease, gap 0.3s ease;
+}
+.hero-half-cta::after {
+    content: '→';
+    font-size: 14px;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.hero-half:hover .hero-half-cta {
+    color: var(--chartreuse);
+    gap: 18px;
+}
+.hero-half:hover .hero-half-cta::after {
+    transform: translateX(4px);
+}
+.hero-divider {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--chartreuse) 30%, var(--chartreuse) 70%, transparent);
+    opacity: 0.4;
+    z-index: 3;
+    transform: translateX(-50%);
+}
+.hero-divider::before {
+    content: '×';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--chartreuse);
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-style: italic;
+    background: var(--bg);
+    padding: 6px 0;
+    width: 28px;
+    text-align: center;
+    line-height: 1;
+}
+.hero-overlay-title {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 4;
+    pointer-events: none;
+}
+.hero-overlay-title .label {
+    display: block;
+    margin-bottom: 14px;
+    color: var(--chartreuse);
+}
+.hero-overlay-title .display {
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 1;
+    color: var(--cream);
+    text-shadow: 0 2px 30px rgba(10,9,8,0.7);
+}
+@media (max-width: 880px) {
+    .hero-events { flex-direction: column; height: auto; }
+    .hero-half { min-height: 70vh; }
+    .hero-divider {
+        top: 50%; bottom: auto; left: 0; right: 0;
+        height: 1px; width: 100%;
+        background: linear-gradient(to right, transparent, var(--chartreuse) 30%, var(--chartreuse) 70%, transparent);
+        transform: none;
+    }
+    .hero-divider::before { padding: 0 6px; }
+    .hero-half-content { padding: 40px 24px 50px; }
+    .hero-overlay-title { display: none; }
+}
+
+/* ========== MANIFESTO ========== */
+.manifesto {
+    padding: 140px 0 100px;
+    border-bottom: 1px solid var(--line);
+}
+.manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+.manifesto-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(28px, 3.4vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.manifesto-quote em { color: var(--chartreuse); font-style: italic; }
+.manifesto-quote .gold { color: var(--gold); }
+.manifesto-body p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.82;
+    margin-bottom: 18px;
+    max-width: 560px;
+}
+.manifesto-body p:last-child { margin-bottom: 0; }
+.manifesto-body strong { color: var(--cream); opacity: 1; font-weight: 500; }
+@media (max-width: 880px) {
+    .manifesto { padding: 80px 0 60px; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+
+/* ========== STICKY EVENT NAV ========== */
+.event-tabs-wrap {
+    position: sticky;
+    top: 60px;
+    z-index: 60;
+    background: rgba(10, 9, 8, 0.85);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+.event-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.event-tabs::-webkit-scrollbar { display: none; }
+.event-tab {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    color: var(--smoke);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 18px 22px;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+.event-tab .num {
+    color: var(--chartreuse-dim);
+    transition: color 0.3s ease;
+}
+.event-tab:hover { color: var(--cream); }
+.event-tab:hover .num { color: var(--chartreuse); }
+.event-tab.active { color: var(--cream); }
+.event-tab.active .num { color: var(--chartreuse); }
+.event-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 22px; right: 22px;
+    height: 1px;
+    background: var(--chartreuse);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.event-tab.active::after { transform: scaleX(1); }
+@media (max-width: 720px) {
+    .event-tabs { padding: 0 20px; }
+    .event-tab { padding: 14px 16px; font-size: 10px; }
+}
+
+/* ========== EVENT CHAPTER ========== */
+.event-chapter {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+}
+.event-header {
+    margin-bottom: 64px;
+}
+.event-header-mark {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+    color: var(--chartreuse);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+.event-header-mark::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--chartreuse);
+}
+.event-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 104px);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    margin-bottom: 36px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.event-title em { font-style: italic; color: var(--gold); }
+.event-meta {
+    display: flex;
+    gap: 56px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+}
+.event-meta-item {
+    flex: 0 0 auto;
+}
+.event-meta-item .label {
+    margin-bottom: 8px;
+}
+.event-meta-item-value {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 16px;
+    color: var(--cream);
+    font-weight: 400;
+    letter-spacing: -0.005em;
+}
+@media (max-width: 720px) {
+    .event-chapter { padding: 60px 0; }
+    .event-meta { gap: 28px; }
+    .event-header { margin-bottom: 40px; }
+}
+
+/* ========== FEATURE + SCRUB STRIP ========== */
+.feature-stage {
+    margin-bottom: 80px;
+}
+.feature-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-2);
+    margin-bottom: 28px;
+    cursor: pointer;
+}
+.feature-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.55s cubic-bezier(0.6, 0, 0.2, 1), transform 0.9s cubic-bezier(0.6, 0, 0.2, 1);
+    transform: scale(1.04);
+}
+.feature-frame img.active {
+    opacity: 1;
+    transform: scale(1);
+}
+.feature-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 24px 28px;
+    background: linear-gradient(to top, rgba(10,9,8,0.78), transparent);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    pointer-events: none;
+}
+.feature-caption-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(15px, 1.6vw, 22px);
+    color: var(--cream);
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+    max-width: 60%;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.feature-caption-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+    text-align: right;
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+.feature-caption-counter strong {
+    display: block;
+    font-weight: 500;
+    color: var(--cream);
+    font-size: 24px;
+    letter-spacing: 0;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+    margin-bottom: 2px;
+}
+
+.scrub-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.scrub-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.scrub-label-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--chartreuse);
+    box-shadow: 0 0 0 0 rgba(212, 255, 61, 0.6);
+    animation: scrubPulse 2.4s ease-in-out infinite;
+}
+@keyframes scrubPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(212, 255, 61, 0.6); }
+    50% { box-shadow: 0 0 0 6px rgba(212, 255, 61, 0); }
+}
+
+.scrub-strip {
+    flex: 1;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    padding: 4px 0;
+    cursor: grab;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-x;
+}
+.scrub-strip::-webkit-scrollbar { display: none; }
+.scrub-strip.grabbing {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+.scrub-strip.grabbing .scrub-thumb { pointer-events: none; }
+
+.scrub-thumb {
+    flex-shrink: 0;
+    width: 88px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    scroll-snap-align: start;
+    scroll-margin-left: 0;
+    background: var(--bg-2);
+    border: none;
+    padding: 0;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.3s ease, box-shadow 0.4s ease;
+    opacity: 0.5;
+    outline: 1px solid transparent;
+    outline-offset: -1px;
+}
+.scrub-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.scrub-thumb:hover { opacity: 0.85; }
+.scrub-thumb:hover img { transform: scale(1.06); }
+.scrub-thumb.active {
+    opacity: 1;
+    outline-color: var(--chartreuse);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(212, 255, 61, 0.18);
+}
+.scrub-thumb-num {
+    position: absolute;
+    top: 6px; left: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--cream);
+    background: rgba(10,9,8,0.7);
+    padding: 2px 6px;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+}
+.scrub-thumb.active .scrub-thumb-num {
+    background: var(--chartreuse);
+    color: var(--bg);
+}
+
+@media (max-width: 720px) {
+    .scrub-row { flex-direction: column; align-items: stretch; gap: 12px; }
+    .scrub-thumb { width: 72px; }
+}
+
+/* ========== MOSAIC GALLERY ========== */
+.mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+    margin-bottom: 80px;
+}
+.mosaic-cell {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg-2);
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.2, 0, 0.1, 1);
+    will-change: transform;
+}
+.mosaic-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.6, 0, 0.2, 1), filter 0.5s ease;
+    transform: scale(1.02);
+}
+.mosaic-cell:hover img {
+    transform: scale(1.07);
+    filter: brightness(1.08) saturate(1.05);
+}
+.mosaic-cell-info {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 18px 20px 16px;
+    background: linear-gradient(to top, rgba(10,9,8,0.84) 0%, rgba(10,9,8,0.4) 60%, transparent 100%);
+    transform: translateY(8px);
+    opacity: 0;
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.5s ease;
+    pointer-events: none;
+}
+.mosaic-cell:hover .mosaic-cell-info {
+    transform: translateY(0);
+    opacity: 1;
+}
+.mosaic-cell-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+.mosaic-cell-tag {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--cream);
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+
+/* Mosaic — RBB (9 photos) */
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(1) { grid-column: span 8; aspect-ratio: 16 / 10; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(2) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(3) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(4) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(5) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(6) { grid-column: span 5; aspect-ratio: 4 / 5; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(7) { grid-column: span 7; aspect-ratio: 3 / 2; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(8) { grid-column: span 8; aspect-ratio: 16 / 10; }
+.mosaic.mosaic-rbb .mosaic-cell:nth-child(9) { grid-column: span 4; aspect-ratio: 2 / 3; }
+
+/* Mosaic — Nani's (9 cells in mosaic) */
+.mosaic.mosaic-nani .mosaic-cell:nth-child(1) { grid-column: span 7; aspect-ratio: 3 / 2; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(2) { grid-column: span 5; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(3) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(4) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(5) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(6) { grid-column: span 8; aspect-ratio: 16 / 9; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(7) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(8) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-nani .mosaic-cell:nth-child(9) { grid-column: span 8; aspect-ratio: 16 / 9; }
+
+@media (max-width: 880px) {
+    .mosaic { gap: 10px; }
+    .mosaic.mosaic-rbb .mosaic-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 16 / 11; }
+    .mosaic.mosaic-nani .mosaic-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 16 / 11; }
+    .mosaic-cell-info { transform: translateY(0); opacity: 1; }
+}
+
+/* ========== CTA CLOSER ========== */
+.cta-closer {
+    padding: 160px 0 140px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+}
+.cta-closer .display {
+    font-size: clamp(48px, 8vw, 120px);
+    margin-bottom: 48px;
+    font-weight: 300;
+}
+.cta-closer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--chartreuse);
+    color: var(--bg);
+    padding: 16px 28px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: gap 0.4s cubic-bezier(0.7, 0, 0.3, 1), background 0.3s ease;
+}
+.cta-closer-link::after { content: '→'; font-size: 14px; }
+.cta-closer-link:hover {
+    gap: 20px;
+    background: var(--cream);
+}
+@media (max-width: 720px) {
+    .cta-closer { padding: 90px 0 80px; }
+}
+
+/* ========== FOOTER ========== */
+.footer {
+    padding: 60px 0 40px;
+    color: var(--smoke);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+}
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    text-transform: uppercase;
+}
+.footer a { color: var(--smoke); text-decoration: none; transition: color 0.2s ease; }
+.footer a:hover { color: var(--chartreuse); }
+
+/* ========== LIGHTBOX ========== */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(10, 9, 8, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    flex-direction: column;
+    padding: 32px;
+}
+.lightbox.open { display: flex; }
+.lightbox-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.lightbox-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+}
+.lightbox-counter strong { color: var(--cream); font-weight: 500; }
+.lightbox-event {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--cream);
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.lightbox-close {
+    background: none;
+    border: 1px solid var(--line-2);
+    color: var(--cream);
+    cursor: pointer;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.lightbox-close:hover {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+}
+.lightbox-close svg { width: 16px; height: 16px; }
+.lightbox-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 0;
+}
+.lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,9,8,0.6);
+    border: 1px solid var(--line-2);
+    color: var(--cream);
+    cursor: pointer;
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.lightbox-arrow:hover {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+    background: rgba(10,9,8,0.85);
+}
+.lightbox-arrow.prev { left: 24px; }
+.lightbox-arrow.next { right: 24px; }
+.lightbox-arrow svg { width: 18px; height: 18px; }
+.lightbox-bottom {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+.lightbox-play {
+    background: none;
+    border: 1px solid var(--line-2);
+    color: var(--cream);
+    cursor: pointer;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.lightbox-play:hover {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+}
+.lightbox-play.playing {
+    color: var(--chartreuse);
+    border-color: transparent;
+}
+.lightbox-play svg.play-icon { width: 20px; height: 20px; }
+.lightbox-play.playing svg.play-icon { display: none; }
+.lightbox-play svg.pause-icon { display: none; width: 16px; height: 16px; }
+.lightbox-play.playing svg.pause-icon { display: block; }
+.lightbox-play-ring {
+    position: absolute;
+    inset: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.lightbox-play-ring circle {
+    fill: none;
+    stroke: var(--chartreuse);
+    stroke-width: 1.5;
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    transition: stroke-dashoffset 0.05s linear;
+}
+.lightbox-play-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    line-height: 1.5;
+}
+.lightbox-play-hint .key {
+    display: inline-block;
+    border: 1px solid var(--line-2);
+    padding: 2px 6px;
+    margin: 0 2px;
+    color: var(--cream);
+}
+@media (max-width: 720px) {
+    .lightbox { padding: 16px; }
+    .lightbox-arrow { width: 44px; height: 44px; }
+    .lightbox-arrow.prev { left: 8px; }
+    .lightbox-arrow.next { right: 8px; }
+    .lightbox-event { font-size: 14px; }
+    .lightbox-play-hint { display: none; }
+}
+
+/* ========== REVEAL ON SCROLL ========== */
+.reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 1s cubic-bezier(0.6, 0, 0.2, 1), transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay: 0.08s; }
+.reveal.delay-2 { transition-delay: 0.16s; }
+.reveal.delay-3 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+}
+
+/* ========== BACK TO TOP ========== */
+.back-top {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    color: var(--cream);
+    cursor: pointer;
+    z-index: 90;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+}
+.back-top.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+.back-top:hover { border-color: var(--chartreuse); color: var(--chartreuse); }
+.back-top svg { width: 18px; height: 18px; }
+.back-top-ring {
+    position: absolute;
+    inset: -1px;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.back-top-ring circle {
+    fill: none;
+    stroke: var(--chartreuse);
+    stroke-width: 1.5;
+    stroke-dasharray: 178;
+    stroke-dashoffset: 178;
+    transition: stroke-dashoffset 0.1s linear;
+}
+@media (max-width: 720px) {
+    .back-top { width: 46px; height: 46px; bottom: 20px; right: 20px; }
+    .back-top svg { width: 14px; height: 14px; }
+    .back-top-ring circle { stroke-dasharray: 144; stroke-dashoffset: 144; }
+}
+</style>
+</head>
+<body>
+
+<!-- film grain -->
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+    <filter id="g">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
+        <feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0"/>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+</svg>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- nav -->
+<nav class="nav" id="nav">
+    <a href="index.html" class="nav-lockup" aria-label="Aperia Visuals — home">
+        <svg viewBox="0 0 100 130" aria-hidden="true">
+            <path d="M50 14 L86 116 M50 14 L14 116" stroke="#F5F1EA" stroke-width="14" fill="none" stroke-linejoin="miter" stroke-miterlimit="6" stroke-linecap="square"/>
+            <polygon points="-7,-11 7,-11 0,11" fill="#D4FF3D" transform="translate(50 56) rotate(18)"/>
+        </svg>
+        <span class="nav-lockup-text">Aperia <em>Visuals</em></span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#disciplines">Disciplines</a>
+        <a href="food.html">Food</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="events.html" class="active">Events</a>
+        <a href="corporate.html">Corporate</a>
+        <a href="portraits.html">Portraits</a>
+        <a href="commercial.html">Commercial</a>
+        <a href="sports-brand.html">Sports &amp; Brand</a>
+        <a href="story.html">Story</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+</nav>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <ol>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#disciplines">Disciplines</a></li>
+        <li><a href="food.html">Food</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="corporate.html">Corporate</a></li>
+        <li><a href="portraits.html">Portraits</a></li>
+        <li><a href="commercial.html">Commercial</a></li>
+        <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+        <li><a href="story.html">Story</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ol>
+</aside>
+
+<!-- ========== HERO: DUAL EVENT SPLIT ========== -->
+<section class="hero-events" aria-label="Featured events">
+    <a href="#event-rbb" class="hero-half" data-event="rbb">
+        <div class="hero-half-img" style="background-image: url('images/event-rbb-01-large.jpg');"></div>
+        <div class="hero-half-veil"></div>
+        <div class="hero-half-content">
+            <div class="hero-half-mark">№ 01 / Brand Activation</div>
+            <h2 class="hero-half-title">Red Bull <em>Basement.</em></h2>
+            <div class="hero-half-meta">
+                <div class="hero-half-meta-item">Format<strong>Pitch night</strong></div>
+                <div class="hero-half-meta-item">Venue<strong>iHub Nairobi</strong></div>
+                <div class="hero-half-meta-item">Frames<strong>Selected · 9</strong></div>
+            </div>
+            <span class="hero-half-cta">Enter the chapter</span>
+        </div>
+    </a>
+    <div class="hero-divider" aria-hidden="true"></div>
+    <a href="#event-nani" class="hero-half" data-event="nani">
+        <div class="hero-half-img" style="background-image: url('images/event-nani-01-large.jpg');"></div>
+        <div class="hero-half-veil"></div>
+        <div class="hero-half-content">
+            <div class="hero-half-mark">№ 02 / Lifestyle &amp; Community</div>
+            <h2 class="hero-half-title">Nani's Cafe <em>Party.</em></h2>
+            <div class="hero-half-meta">
+                <div class="hero-half-meta-item">Format<strong>Padel social</strong></div>
+                <div class="hero-half-meta-item">Venue<strong>Padel Kenya, Nairobi</strong></div>
+                <div class="hero-half-meta-item">Frames<strong>Selected · 10</strong></div>
+            </div>
+            <span class="hero-half-cta">Enter the chapter</span>
+        </div>
+    </a>
+    <div class="hero-overlay-title">
+        <span class="label">№ 003 — Events</span>
+        <h1 class="display">Two rooms.<br/>One <em>kind</em> of energy.</h1>
+    </div>
+</section>
+
+<!-- ========== MANIFESTO ========== -->
+<section class="manifesto">
+    <div class="container">
+        <div class="section-index reveal">
+            <span class="label">№ 003.1 — Manifesto</span>
+        </div>
+        <div class="manifesto-grid">
+            <div class="reveal">
+                <p class="manifesto-quote">
+                    Events are <em>now</em> or never. The handshake. The mid-laugh. The moment a stranger leans in to <span class="gold">listen.</span>
+                </p>
+            </div>
+            <div class="manifesto-body reveal delay-1">
+                <p>You can re-shoot a plate. You can re-light a room. You <strong>cannot</strong> re-stage someone realising they're meeting the right person.</p>
+                <p>Event work is reportage with a cinematographer's eye. We move fast, light gently, and read the room before we read the brief. The result is a deck of frames a brand can actually use — speaker portraits, candid networking, atmosphere shots, and the wide hero that anchors the recap.</p>
+                <p>Two events below. Two completely different rooms. One disciplined approach.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== STICKY EVENT TABS ========== -->
+<div class="event-tabs-wrap" id="tabsWrap">
+    <div class="event-tabs">
+        <a href="#event-rbb" class="event-tab" data-target="event-rbb"><span class="num">01 /</span> Red Bull Basement</a>
+        <a href="#event-nani" class="event-tab" data-target="event-nani"><span class="num">02 /</span> Nani's Cafe Party</a>
+    </div>
+</div>
+
+<!-- ========== EVENT 01 — RED BULL BASEMENT ========== -->
+<section class="event-chapter" id="event-rbb">
+    <div class="container">
+        <div class="event-header reveal">
+            <div class="event-header-mark">№ 01 — Brand Activation</div>
+            <h2 class="event-title">Red Bull <em>Basement.</em></h2>
+            <div class="event-meta">
+                <div class="event-meta-item">
+                    <div class="label">Client</div>
+                    <div class="event-meta-item-value">Red Bull Media House</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Format</div>
+                    <div class="event-meta-item-value">Pitch night · Showcase</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Venue</div>
+                    <div class="event-meta-item-value">iHub Nairobi</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Coverage</div>
+                    <div class="event-meta-item-value">Stage · Booths · Networking · Rooftop</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE STAGE + DRAG-SCRUB STRIP -->
+        <div class="feature-stage reveal" data-scrub="rbb">
+            <div class="feature-frame" data-feature="rbb">
+                <img src="images/event-rbb-01-large.jpg" data-idx="0" class="active" alt="Joey Shiundu &amp; James Njang on the SENTI pitch stage" />
+                <img src="images/event-rbb-02-large.jpg" data-idx="1" alt="Abdihamid Hassan delivering his pitch with KENYA badge" />
+                <img src="images/event-rbb-03-large.jpg" data-idx="2" alt="Speaker on stage with Microsoft &amp; AMD partners slide" />
+                <img src="images/event-rbb-04-large.jpg" data-idx="3" alt="MC at the Red Bull Basement podium" />
+                <img src="images/event-rbb-05-large.jpg" data-idx="4" alt="Crowd at the activation booths under neon Red Bull signage" />
+                <img src="images/event-rbb-06-large.jpg" data-idx="5" alt="Two delegates leaning in during a networking moment" />
+                <img src="images/event-rbb-07-large.jpg" data-idx="6" alt="Two delegates trading notes on a phone screen" />
+                <img src="images/event-rbb-08-large.jpg" data-idx="7" alt="Rooftop bar with Red Bull umbrellas at sundown" />
+                <img src="images/event-rbb-09-large.jpg" data-idx="8" alt="Outdoor table conversation, recap moment" />
+                <div class="feature-caption">
+                    <div class="feature-caption-text" data-caption-out>SENTI — Joey &amp; James on the <em>pitch</em> stage.</div>
+                    <div class="feature-caption-counter">
+                        <strong data-counter-out>01</strong>
+                        <span>of 9</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scrub-row">
+                <div class="scrub-label"><span class="scrub-label-dot"></span> Drag · Scroll · Tap</div>
+                <div class="scrub-strip" data-strip="rbb">
+                    <button type="button" class="scrub-thumb active" data-idx="0" aria-label="Frame 1"><span class="scrub-thumb-num">01</span><img src="images/event-rbb-01-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="1" aria-label="Frame 2"><span class="scrub-thumb-num">02</span><img src="images/event-rbb-02-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="2" aria-label="Frame 3"><span class="scrub-thumb-num">03</span><img src="images/event-rbb-03-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="3" aria-label="Frame 4"><span class="scrub-thumb-num">04</span><img src="images/event-rbb-04-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="4" aria-label="Frame 5"><span class="scrub-thumb-num">05</span><img src="images/event-rbb-05-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="5" aria-label="Frame 6"><span class="scrub-thumb-num">06</span><img src="images/event-rbb-06-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="6" aria-label="Frame 7"><span class="scrub-thumb-num">07</span><img src="images/event-rbb-07-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="7" aria-label="Frame 8"><span class="scrub-thumb-num">08</span><img src="images/event-rbb-08-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="8" aria-label="Frame 9"><span class="scrub-thumb-num">09</span><img src="images/event-rbb-09-med.jpg" alt="" loading="lazy" /></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOSAIC -->
+        <div class="section-index reveal" style="margin-bottom: 28px;">
+            <span class="label">The full set</span>
+        </div>
+        <div class="mosaic mosaic-rbb reveal" data-gallery="rbb-mosaic">
+            <div class="mosaic-cell" data-idx="0">
+                <img src="images/event-rbb-01-med.jpg" alt="SENTI pitch on stage" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">01 — Stage</div>
+                    <div class="mosaic-cell-tag"><em>SENTI · Joey &amp; James.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="1">
+                <img src="images/event-rbb-02-med.jpg" alt="Abdihamid Hassan with mic" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">02 — Stage</div>
+                    <div class="mosaic-cell-tag"><em>Kenya — Abdihamid.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="2">
+                <img src="images/event-rbb-03-med.jpg" alt="Partners slide moment" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">03 — Stage</div>
+                    <div class="mosaic-cell-tag"><em>The partners.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="3">
+                <img src="images/event-rbb-04-med.jpg" alt="MC at the podium" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">04 — Stage</div>
+                    <div class="mosaic-cell-tag"><em>The MC.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="4">
+                <img src="images/event-rbb-05-med.jpg" alt="Crowd at booths under neon" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">05 — Atmosphere</div>
+                    <div class="mosaic-cell-tag"><em>Between rounds.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="5">
+                <img src="images/event-rbb-06-med.jpg" alt="Networking — leaning in conversation" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">06 — Networking</div>
+                    <div class="mosaic-cell-tag"><em>The lean-in.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="6">
+                <img src="images/event-rbb-07-med.jpg" alt="Trading notes on a phone" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">07 — Networking</div>
+                    <div class="mosaic-cell-tag"><em>Trading notes.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="7">
+                <img src="images/event-rbb-08-med.jpg" alt="Rooftop bar at sundown" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">08 — Atmosphere</div>
+                    <div class="mosaic-cell-tag"><em>Sundown bar.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="8">
+                <img src="images/event-rbb-09-med.jpg" alt="Outdoor table conversation" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">09 — Recap</div>
+                    <div class="mosaic-cell-tag"><em>Table for two.</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== EVENT 02 — NANI'S CAFE PARTY ========== -->
+<section class="event-chapter" id="event-nani">
+    <div class="container">
+        <div class="event-header reveal">
+            <div class="event-header-mark">№ 02 — Lifestyle &amp; Community</div>
+            <h2 class="event-title">Nani's Cafe <em>Party.</em></h2>
+            <div class="event-meta">
+                <div class="event-meta-item">
+                    <div class="label">Client</div>
+                    <div class="event-meta-item-value">Nani's Cafe Party · Sunfeel Collective</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Format</div>
+                    <div class="event-meta-item-value">Padel social · Wellness · Marketplace</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Venue</div>
+                    <div class="event-meta-item-value">Padel Kenya, Nairobi</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Partners</div>
+                    <div class="event-meta-item-value">Heineken 0.0 · Savanna · Pepperstone</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FEATURE STAGE + DRAG-SCRUB STRIP -->
+        <div class="feature-stage reveal" data-scrub="nani">
+            <div class="feature-frame" data-feature="nani">
+                <img src="images/event-nani-01-large.jpg" data-idx="0" class="active" alt="Speaker addressing the seated circle on the padel court" />
+                <img src="images/event-nani-02-large.jpg" data-idx="1" alt="Five guests in athletic wear assembled on the court" />
+                <img src="images/event-nani-03-large.jpg" data-idx="2" alt="Host welcoming the room with a microphone" />
+                <img src="images/event-nani-04-large.jpg" data-idx="3" alt="Four guests in coordinated blue activewear" />
+                <img src="images/event-nani-05-large.jpg" data-idx="4" alt="Two participants mid-jump during the rope routine" />
+                <img src="images/event-nani-06-large.jpg" data-idx="5" alt="Group exchanging on the court between rounds" />
+                <img src="images/event-nani-07-large.jpg" data-idx="6" alt="Guest seated under the cafe umbrella" />
+                <img src="images/event-nani-08-large.jpg" data-idx="7" alt="Guest at the Good Vibes / Savanna bar" />
+                <img src="images/event-nani-09-large.jpg" data-idx="8" alt="Guest browsing the marketplace tote rail" />
+                <img src="images/event-nani-10-large.jpg" data-idx="9" alt="Heineken 0.0 bicycle prop with sugarcane" />
+                <div class="feature-caption">
+                    <div class="feature-caption-text" data-caption-out>The <em>circle</em> — host opening on centre court.</div>
+                    <div class="feature-caption-counter">
+                        <strong data-counter-out>01</strong>
+                        <span>of 10</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scrub-row">
+                <div class="scrub-label"><span class="scrub-label-dot"></span> Drag · Scroll · Tap</div>
+                <div class="scrub-strip" data-strip="nani">
+                    <button type="button" class="scrub-thumb active" data-idx="0" aria-label="Frame 1"><span class="scrub-thumb-num">01</span><img src="images/event-nani-01-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="1" aria-label="Frame 2"><span class="scrub-thumb-num">02</span><img src="images/event-nani-02-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="2" aria-label="Frame 3"><span class="scrub-thumb-num">03</span><img src="images/event-nani-03-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="3" aria-label="Frame 4"><span class="scrub-thumb-num">04</span><img src="images/event-nani-04-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="4" aria-label="Frame 5"><span class="scrub-thumb-num">05</span><img src="images/event-nani-05-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="5" aria-label="Frame 6"><span class="scrub-thumb-num">06</span><img src="images/event-nani-06-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="6" aria-label="Frame 7"><span class="scrub-thumb-num">07</span><img src="images/event-nani-07-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="7" aria-label="Frame 8"><span class="scrub-thumb-num">08</span><img src="images/event-nani-08-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="8" aria-label="Frame 9"><span class="scrub-thumb-num">09</span><img src="images/event-nani-09-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="9" aria-label="Frame 10"><span class="scrub-thumb-num">10</span><img src="images/event-nani-10-med.jpg" alt="" loading="lazy" /></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOSAIC -->
+        <div class="section-index reveal" style="margin-bottom: 28px;">
+            <span class="label">The full set</span>
+        </div>
+        <div class="mosaic mosaic-nani reveal" data-gallery="nani-mosaic">
+            <div class="mosaic-cell" data-idx="1">
+                <img src="images/event-nani-02-med.jpg" alt="Five guests on the padel court" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">02 — Group</div>
+                    <div class="mosaic-cell-tag"><em>Court lineup.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="2">
+                <img src="images/event-nani-03-med.jpg" alt="Host with microphone" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">03 — Stage</div>
+                    <div class="mosaic-cell-tag"><em>The welcome.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="3">
+                <img src="images/event-nani-04-med.jpg" alt="Four guests in blue activewear" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">04 — Group</div>
+                    <div class="mosaic-cell-tag"><em>The squad.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="4">
+                <img src="images/event-nani-05-med.jpg" alt="Two participants mid-jump" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">05 — Action</div>
+                    <div class="mosaic-cell-tag"><em>Lift-off.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="6">
+                <img src="images/event-nani-07-med.jpg" alt="Guest under cafe umbrella" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">07 — Portrait</div>
+                    <div class="mosaic-cell-tag"><em>The pause.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="5">
+                <img src="images/event-nani-06-med.jpg" alt="Group on the court" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">06 — Atmosphere</div>
+                    <div class="mosaic-cell-tag"><em>Between rounds.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="7">
+                <img src="images/event-nani-08-med.jpg" alt="Guest at the bar" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">08 — Bar</div>
+                    <div class="mosaic-cell-tag"><em>Good vibes.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="8">
+                <img src="images/event-nani-09-med.jpg" alt="Guest browsing market totes" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">09 — Marketplace</div>
+                    <div class="mosaic-cell-tag"><em>The browse.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="9">
+                <img src="images/event-nani-10-med.jpg" alt="Heineken bicycle prop" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">10 — Detail</div>
+                    <div class="mosaic-cell-tag"><em>Fans have more friends.</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-closer">
+    <div class="container">
+        <h2 class="display reveal">
+            Got an event to <em>cover.</em>
+        </h2>
+        <a class="cta-closer-link reveal delay-1" href="index.html#contact">Start a project</a>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div><a href="index.html">aperia.studio</a></div>
+        </div>
+    </div>
+</footer>
+
+<!-- back to top -->
+<button class="back-top" id="backTop" aria-label="Back to top">
+    <svg class="back-top-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28.5" id="backTopRing"/></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ========== LIGHTBOX ========== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="lightbox-top">
+        <div>
+            <div class="lightbox-event" id="lightboxEvent">Red Bull <em>Basement</em></div>
+            <div class="lightbox-counter"><strong id="lbCounter">01</strong> / <span id="lbTotal">9</span></div>
+        </div>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+    </div>
+    <div class="lightbox-stage">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+        <button class="lightbox-arrow prev" id="lbPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lightbox-arrow next" id="lbNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+    <div class="lightbox-bottom">
+        <div class="lightbox-play-hint" style="text-align:right;">Press <span class="key">Space</span> to play</div>
+        <button class="lightbox-play" id="lbPlay" aria-label="Auto-advance" title="Play / Pause auto-advance">
+            <svg class="lightbox-play-ring" viewBox="0 0 64 64"><circle cx="32" cy="32" r="31.25" id="playRing"/></svg>
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <div class="lightbox-play-hint">Esc to close · ← → to step</div>
+    </div>
+</div>
+
+<script>
+(function() {
+    'use strict';
+
+    /* ============ Captions per gallery ============ */
+    const CAPTIONS = {
+        rbb: [
+            'SENTI — Joey &amp; James on the <em>pitch</em> stage.',
+            '<em>Kenya</em> — Abdihamid Hassan, on the mic.',
+            'The <em>partners</em> — Microsoft &amp; AMD.',
+            'The <em>MC</em>, holding the room.',
+            'Between <em>rounds</em> — under the neon.',
+            'The <em>lean-in</em> — connection made.',
+            '<em>Trading notes</em>, screen-to-screen.',
+            '<em>Sundown</em> on the rooftop bar.',
+            'The <em>recap</em> — table for two.'
+        ],
+        nani: [
+            'The <em>circle</em> — host opening on centre court.',
+            'The <em>lineup</em> — five guests, court reflection.',
+            'The <em>welcome</em> — host on the mic.',
+            'The <em>squad</em> — coordinated in blue.',
+            'The <em>jump</em> — rope routine, mid-air.',
+            'Between <em>rounds</em> — court conversation.',
+            '<em>Pause</em> — under the cafe umbrella.',
+            '<em>Good vibes</em> — Savanna at the bar.',
+            'The <em>marketplace</em> — totes &amp; finds.',
+            '<em>Fans have more friends.</em>'
+        ]
+    };
+
+    /* ============ Galleries (used by lightbox) ============ */
+    const GALLERIES = {
+        rbb: {
+            label: "Red Bull <em>Basement</em>",
+            count: 9,
+            srcFor: (i) => `images/event-rbb-${String(i+1).padStart(2,'0')}-large.jpg`,
+            altFor: (i) => CAPTIONS.rbb[i].replace(/<[^>]+>/g,'')
+        },
+        nani: {
+            label: "Nani's Cafe <em>Party</em>",
+            count: 10,
+            srcFor: (i) => `images/event-nani-${String(i+1).padStart(2,'0')}-large.jpg`,
+            altFor: (i) => CAPTIONS.nani[i].replace(/<[^>]+>/g,'')
+        }
+    };
+
+    /* ============ Scroll progress + nav scrolled state + back-to-top ============ */
+    const sp = document.getElementById('scrollProgress');
+    const nav = document.getElementById('nav');
+    const backTop = document.getElementById('backTop');
+    const backTopRing = document.getElementById('backTopRing');
+    let backTopRingDash = null;
+    function onScroll() {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const sc = Math.min(1, Math.max(0, window.scrollY / Math.max(1, docH)));
+        sp.style.transform = 'scaleX(' + sc + ')';
+        if (window.scrollY > 24) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
+        if (window.scrollY > 600) backTop.classList.add('visible');
+        else backTop.classList.remove('visible');
+        if (backTopRing) {
+            if (backTopRingDash === null) {
+                try { backTopRingDash = backTopRing.getTotalLength ? backTopRing.getTotalLength() : 178; } catch(_) { backTopRingDash = 178; }
+                backTopRing.style.strokeDasharray = backTopRingDash;
+            }
+            backTopRing.style.strokeDashoffset = backTopRingDash * (1 - sc);
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ============ Mobile drawer ============ */
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerClose = document.getElementById('drawerClose');
+    menuBtn.addEventListener('click', () => {
+        drawer.classList.add('open');
+        drawer.setAttribute('aria-hidden', 'false');
+    });
+    drawerClose.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+    }));
+
+    /* ============ Reveal on scroll ============ */
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        reveals.forEach(el => io.observe(el));
+    } else {
+        reveals.forEach(el => el.classList.add('in'));
+    }
+    setTimeout(() => reveals.forEach(el => el.classList.add('in')), 2500);
+
+    /* ============ Sticky tab active state ============ */
+    const tabs = document.querySelectorAll('.event-tab');
+    const tabSections = ['event-rbb', 'event-nani'].map(id => document.getElementById(id));
+    const setActiveTab = (id) => {
+        tabs.forEach(t => {
+            if (t.dataset.target === id) t.classList.add('active');
+            else t.classList.remove('active');
+        });
+    };
+    if ('IntersectionObserver' in window) {
+        const tabIo = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting && e.intersectionRatio > 0.18) {
+                    setActiveTab(e.target.id);
+                }
+            });
+        }, { threshold: [0.2, 0.4, 0.6] });
+        tabSections.forEach(s => s && tabIo.observe(s));
+    }
+
+    /* ============ FEATURE FRAME + DRAG SCRUB STRIP ============
+       One controller per chapter. Robust click/drag/scroll separation. */
+    function buildScrubController(galleryKey) {
+        const featureFrame = document.querySelector(`.feature-frame[data-feature="${galleryKey}"]`);
+        const strip = document.querySelector(`.scrub-strip[data-strip="${galleryKey}"]`);
+        if (!featureFrame || !strip) return;
+
+        const captionEl = featureFrame.querySelector('[data-caption-out]');
+        const counterEl = featureFrame.querySelector('[data-counter-out]');
+        const featureImgs = featureFrame.querySelectorAll('img[data-idx]');
+        const thumbs = strip.querySelectorAll('.scrub-thumb');
+
+        let currentIdx = 0;
+        let programmatic = false;
+        let programmaticTimer = null;
+        let scrollSettleTimer = null;
+
+        // Drag state (mouse only — touch uses native scroll)
+        let dragActive = false;
+        let dragStartX = 0;
+        let dragStartScroll = 0;
+        let dragMoved = false;
+        let suppressNextClick = false;
+
+        function suspendScrollHandler(ms) {
+            programmatic = true;
+            clearTimeout(programmaticTimer);
+            programmaticTimer = setTimeout(() => { programmatic = false; }, ms);
+        }
+
+        function setIdx(idx, opts) {
+            opts = opts || {};
+            if (idx < 0 || idx >= thumbs.length) return;
+            currentIdx = idx;
+            // swap feature image
+            featureImgs.forEach(img => {
+                if (parseInt(img.dataset.idx, 10) === idx) img.classList.add('active');
+                else img.classList.remove('active');
+            });
+            // update caption + counter
+            if (captionEl) captionEl.innerHTML = CAPTIONS[galleryKey][idx] || '';
+            if (counterEl) counterEl.textContent = String(idx + 1).padStart(2, '0');
+            // toggle thumb active state
+            thumbs.forEach(t => {
+                if (parseInt(t.dataset.idx, 10) === idx) t.classList.add('active');
+                else t.classList.remove('active');
+            });
+            // scroll the active thumb into view if requested AND it isn't already on-screen
+            if (opts.scroll) {
+                const thumb = strip.querySelector(`.scrub-thumb[data-idx="${idx}"]`);
+                if (thumb) {
+                    const sr = strip.getBoundingClientRect();
+                    const tr = thumb.getBoundingClientRect();
+                    const fullyVisible = (tr.left >= sr.left - 1) && (tr.right <= sr.right + 1);
+                    if (!fullyVisible) {
+                        suspendScrollHandler(800);
+                        // align thumb's left edge with strip's left
+                        const targetLeft = strip.scrollLeft + (tr.left - sr.left);
+                        if (typeof strip.scrollTo === 'function') {
+                            strip.scrollTo({ left: Math.max(0, targetLeft), behavior: 'smooth' });
+                        } else {
+                            strip.scrollLeft = Math.max(0, targetLeft);
+                        }
+                    }
+                }
+            }
+        }
+
+        // --- Identify which thumb is at the leading edge of the visible strip
+        function findLeadingIdx() {
+            const sr = strip.getBoundingClientRect();
+            const probeX = sr.left + 16;
+            let bestIdx = -1;
+            let bestDist = Infinity;
+            thumbs.forEach(thumb => {
+                const r = thumb.getBoundingClientRect();
+                if (r.right < sr.left + 4) return;       // off-screen left
+                if (r.left > sr.right - 4) return;       // off-screen right
+                const dist = Math.abs(r.left - probeX);
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestIdx = parseInt(thumb.dataset.idx, 10);
+                }
+            });
+            return bestIdx;
+        }
+
+        // --- Scroll listener: debounce, skip if programmatic, then update active idx
+        strip.addEventListener('scroll', () => {
+            if (programmatic) return;
+            clearTimeout(scrollSettleTimer);
+            scrollSettleTimer = setTimeout(() => {
+                const idx = findLeadingIdx();
+                if (idx >= 0 && idx !== currentIdx) {
+                    setIdx(idx, { scroll: false });
+                }
+            }, 120);
+        }, { passive: true });
+
+        // --- Click on a thumb
+        thumbs.forEach(thumb => {
+            thumb.addEventListener('click', (e) => {
+                if (suppressNextClick) {
+                    suppressNextClick = false;
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return;
+                }
+                const idx = parseInt(thumb.dataset.idx, 10);
+                setIdx(idx, { scroll: true });
+            });
+        });
+
+        // --- Mouse-drag scrolling (desktop). Touch uses native scroll.
+        strip.addEventListener('mousedown', (e) => {
+            // ignore right-click, etc.
+            if (e.button !== 0) return;
+            dragActive = true;
+            dragMoved = false;
+            dragStartX = e.pageX;
+            dragStartScroll = strip.scrollLeft;
+            strip.classList.add('grabbing');
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!dragActive) return;
+            const dx = e.pageX - dragStartX;
+            if (!dragMoved && Math.abs(dx) > 5) dragMoved = true;
+            if (dragMoved) {
+                strip.scrollLeft = dragStartScroll - dx;
+                e.preventDefault();
+            }
+        });
+        window.addEventListener('mouseup', () => {
+            if (!dragActive) return;
+            dragActive = false;
+            strip.classList.remove('grabbing');
+            if (dragMoved) {
+                suppressNextClick = true;
+                // clear the suppress flag if no click ever fires
+                setTimeout(() => { suppressNextClick = false; }, 350);
+            }
+        });
+
+        // Click on the feature frame itself opens the lightbox
+        featureFrame.addEventListener('click', () => openLightbox(galleryKey, currentIdx));
+
+        // Initialize
+        setIdx(0, { scroll: false });
+    }
+
+    buildScrubController('rbb');
+    buildScrubController('nani');
+
+    /* ============ Mosaic mouse-tilt parallax ============ */
+    const mosaicCells = document.querySelectorAll('.mosaic-cell');
+    if (window.matchMedia && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(min-width: 880px)').matches) {
+        mosaicCells.forEach(cell => {
+            const img = cell.querySelector('img');
+            cell.addEventListener('pointermove', (e) => {
+                if (e.pointerType !== 'mouse') return;
+                const r = cell.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width - 0.5;
+                const y = (e.clientY - r.top) / r.height - 0.5;
+                const rx = -y * 4;
+                const ry = x * 4;
+                cell.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+                if (img) img.style.transform = `scale(1.07) translate(${x * -8}px, ${y * -8}px)`;
+            });
+            cell.addEventListener('pointerleave', () => {
+                cell.style.transform = '';
+                if (img) img.style.transform = '';
+            });
+        });
+    }
+
+    /* ============ Lightbox ============ */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCounter = document.getElementById('lbCounter');
+    const lbTotal = document.getElementById('lbTotal');
+    const lbEvent = document.getElementById('lightboxEvent');
+    const lbClose = document.getElementById('lightboxClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+    const lbPlay = document.getElementById('lbPlay');
+    const playRing = document.getElementById('playRing');
+
+    let lbState = { gallery: 'rbb', idx: 0, playing: false, raf: null, lastTick: 0, progress: 0 };
+    const PLAY_DURATION = 4000;
+
+    function renderLB() {
+        const g = GALLERIES[lbState.gallery];
+        // Find the corresponding mosaic cell to grab its thumb src as fallback
+        const cell = document.querySelector(`[data-gallery="${lbState.gallery}-mosaic"] .mosaic-cell[data-idx="${lbState.idx}"]`);
+        const thumbSrc = cell && cell.querySelector('img') ? cell.querySelector('img').src : null;
+        lbImg.onerror = function() {
+            if (thumbSrc && lbImg.src !== thumbSrc) {
+                lbImg.src = thumbSrc;
+            }
+            lbImg.onerror = null;
+        };
+        lbImg.src = g.srcFor(lbState.idx);
+        lbImg.alt = g.altFor(lbState.idx);
+        lbCounter.textContent = String(lbState.idx + 1).padStart(2, '0');
+        lbTotal.textContent = String(g.count);
+        lbEvent.innerHTML = g.label;
+    }
+
+    function openLightbox(gallery, idx) {
+        lbState.gallery = gallery;
+        lbState.idx = idx;
+        renderLB();
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    window.openLightbox = openLightbox;
+
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+        stopPlay();
+    }
+
+    function goPrev() {
+        const g = GALLERIES[lbState.gallery];
+        lbState.idx = (lbState.idx - 1 + g.count) % g.count;
+        renderLB();
+        if (lbState.playing) resetPlayProgress();
+    }
+    function goNext() {
+        const g = GALLERIES[lbState.gallery];
+        lbState.idx = (lbState.idx + 1) % g.count;
+        renderLB();
+        if (lbState.playing) resetPlayProgress();
+    }
+
+    function resetPlayProgress() {
+        lbState.progress = 0;
+        lbState.lastTick = performance.now();
+    }
+    function togglePlay() { if (lbState.playing) stopPlay(); else startPlay(); }
+    function startPlay() {
+        if (lbState.playing) return;
+        lbState.playing = true;
+        lbPlay.classList.add('playing');
+        resetPlayProgress();
+        const ringDash = 196.35;
+        const tick = (now) => {
+            if (!lbState.playing) return;
+            const dt = now - lbState.lastTick;
+            lbState.lastTick = now;
+            lbState.progress += dt;
+            const pct = Math.min(1, lbState.progress / PLAY_DURATION);
+            playRing.style.strokeDasharray = ringDash;
+            playRing.style.strokeDashoffset = ringDash * (1 - pct);
+            if (pct >= 1) {
+                goNext();
+                resetPlayProgress();
+            }
+            lbState.raf = requestAnimationFrame(tick);
+        };
+        lbState.raf = requestAnimationFrame(tick);
+    }
+    function stopPlay() {
+        lbState.playing = false;
+        lbPlay.classList.remove('playing');
+        if (lbState.raf) cancelAnimationFrame(lbState.raf);
+        playRing.style.strokeDashoffset = 196.35;
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', goPrev);
+    lbNext.addEventListener('click', goNext);
+    lbPlay.addEventListener('click', togglePlay);
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') goPrev();
+        else if (e.key === 'ArrowRight') goNext();
+        else if (e.key === ' ') {
+            e.preventDefault();
+            togglePlay();
+        }
+    });
+
+    // Mosaic cells -> lightbox
+    document.querySelectorAll('.mosaic[data-gallery="rbb-mosaic"] .mosaic-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            openLightbox('rbb', parseInt(cell.dataset.idx, 10));
+        });
+    });
+    document.querySelectorAll('.mosaic[data-gallery="nani-mosaic"] .mosaic-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+            openLightbox('nani', parseInt(cell.dataset.idx, 10));
+        });
+    });
+
+})();
+</script>
+
+</body>
+</html>

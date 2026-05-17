@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Sports &amp; Brand — Aperia Visuals</title>
+<meta name="description" content="Event photography and brand activation work — Wings for Life World Run Nairobi, Red Bull Ibiza Royale, and selected marathon frames by Collins Allindi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:            #0A0908;
+    --bg-elevated:   #141210;
+    --bg-surface:    #1C1A18;
+    --text:          #F5F1EA;
+    --text-muted:    #8A847A;
+    --text-faint:    #5A554F;
+    --border:        #2A2724;
+    --border-bright: #3F3A34;
+    --accent:        #C9A36B;
+    --accent-bright: #E5C18C;
+    --contrast:      #D4FF3D;
+    --contrast-dim:  #A8CC2E;
+    --font-display:  'Fraunces', 'Times New Roman', serif;
+    --font-body:     'Hanken Grotesk', system-ui, sans-serif;
+    --font-mono:     'JetBrains Mono', ui-monospace, monospace;
+    --gutter-x:      clamp(1.25rem, 4vw, 4rem);
+    --ease-out:      cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth:   cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .container { max-width: 1400px; margin: 0 auto; padding-inline: var(--gutter-x); }
+  
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.5rem var(--gutter-x);
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(10,9,8,0.92), rgba(10,9,8,0.65) 70%, transparent);
+    transition: background 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+  }
+  .nav.is-scrolled {
+    background: rgba(10,9,8,0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-lockup { display: flex; align-items: center; gap: 12px; }
+  .nav-lockup svg { width: 26px; height: auto; }
+  .nav-lockup-text {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 30, "SOFT" 50;
+  }
+  .nav-lockup-text em { font-style: italic; color: var(--accent); }
+  .nav-links { display: flex; gap: 1.8rem; align-items: center; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: color 0.3s var(--ease-out);
+    position: relative;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: -6px;
+    height: 1px; background: var(--contrast);
+  }
+  .menu-btn {
+    display: none;
+    background: none; border: none;
+    color: var(--text); cursor: pointer;
+    width: 32px; height: 32px;
+  }
+  .menu-btn svg { width: 24px; height: 24px; }
+  
+  /* ============ MOBILE DRAWER ============ */
+  .drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(85vw, 380px);
+    background: var(--bg-elevated);
+    border-left: 1px solid var(--border);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.5s var(--ease-out);
+    padding: 5rem 2rem 2rem;
+    overflow-y: auto;
+  }
+  .drawer.is-open { transform: translateX(0); }
+  .drawer__overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 199;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .drawer__overlay.is-open { opacity: 1; pointer-events: all; }
+  .drawer__close {
+    position: absolute; top: 1.4rem; right: 1.4rem;
+    background: none; border: none;
+    color: var(--text); cursor: pointer;
+    width: 36px; height: 36px;
+  }
+  .drawer__close svg { width: 24px; height: 24px; }
+  .drawer__list { list-style: none; }
+  .drawer__list li {
+    border-bottom: 1px solid var(--border);
+  }
+  .drawer__list a {
+    display: flex; align-items: baseline; gap: 1rem;
+    padding: 1rem 0;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--text);
+    transition: color 0.3s var(--ease-out);
+  }
+  .drawer__list a:hover { color: var(--contrast); }
+  .drawer__list .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+  }
+  .drawer__list .active a { color: var(--contrast); }
+  
+  /* ============ HERO ============ */
+  .page-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem var(--gutter-x) 3rem;
+    overflow: hidden;
+    background: var(--bg);
+  }
+  .page-hero__bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-image: url('images/sports-wfl-05-large.jpg');
+    opacity: 0.32;
+    z-index: 0;
+    transform: scale(1.05);
+  }
+  .page-hero__bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,9,8,0.6) 0%, rgba(10,9,8,0.15) 40%, var(--bg) 95%);
+  }
+  .page-hero__inner {
+    position: relative; z-index: 1;
+    max-width: 1400px; margin: 0 auto; width: 100%;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--contrast);
+    margin-bottom: 2rem;
+  }
+  .hero-tag::before {
+    content: '';
+    width: 28px; height: 1px;
+    background: var(--contrast);
+  }
+  .hero-live {
+    display: inline-block;
+    padding: 4px 9px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    background: var(--contrast);
+    color: var(--bg);
+    margin-left: 8px;
+  }
+  .page-hero h1 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(3rem, 11vw, 9rem);
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+    margin-bottom: 2.5rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .page-hero h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .page-hero__meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    max-width: 920px;
+  }
+  .meta-cell {
+    background: var(--bg);
+    padding: 1.2rem 1.4rem;
+  }
+  .meta-cell__label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+  .meta-cell__value {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-variation-settings: "opsz" 60, "SOFT" 40;
+  }
+  .meta-cell__value em { font-style: italic; color: var(--accent); }
+  
+  /* ============ TICKER (marquee band) ============ */
+  .ticker-band {
+    overflow: hidden;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.3rem 0;
+    position: relative;
+  }
+  .ticker-band--accent {
+    background: var(--contrast);
+    color: var(--bg);
+    border-color: var(--contrast);
+  }
+  .ticker-band--accent .ticker__track { color: var(--bg); }
+  .ticker__track {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    width: max-content;
+    animation: tickerScroll 36s linear infinite;
+  }
+  .ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.3rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+    letter-spacing: -0.015em;
+    padding-right: 2.2rem;
+    color: inherit;
+    font-variation-settings: "opsz" 100, "SOFT" 50;
+  }
+  .ticker__bullet {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .ticker-band--accent .ticker__bullet { background: var(--bg); }
+  @keyframes tickerScroll {
+    to { transform: translateX(-50%); }
+  }
+  .ticker-band:hover .ticker__track {
+    animation-play-state: paused;
+  }
+  
+  /* ============ CASE STUDY SECTION ============ */
+  .case {
+    padding: clamp(5rem, 11vw, 9rem) 0;
+    position: relative;
+  }
+  .case__top {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: end;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+  .case__index {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1.4rem;
+  }
+  .case__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.4rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .case__title em { font-style: italic; color: var(--accent); }
+  .case__body {
+    color: var(--text-muted);
+    font-size: 17px;
+    line-height: 1.65;
+    max-width: 540px;
+  }
+  
+  /* Stats line — animated count-up */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-cell {
+    padding: 1.4rem 1.6rem;
+    border-right: 1px solid var(--border);
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-cell__label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .stat-cell__value {
+    font-family: var(--font-mono);
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .stat-cell__value .unit {
+    font-size: 0.55em;
+    color: var(--text-muted);
+    margin-left: 4px;
+    letter-spacing: 0.05em;
+  }
+  
+  /* Image frames with chyron-style HUD */
+  .frame {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-elevated);
+    display: block;
+  }
+  .frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 2s var(--ease-out);
+  }
+  .frame:hover img {
+    transform: scale(1.04);
+  }
+  .frame__hud {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 1.4rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent);
+    color: var(--text);
+    transform: translateY(20%);
+    opacity: 0;
+    transition: transform 0.6s var(--ease-out), opacity 0.5s var(--ease-out);
+  }
+  .frame:hover .frame__hud {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .frame__chyron {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--contrast);
+    margin-bottom: 8px;
+  }
+  .frame__chyron::before {
+    content: '';
+    width: 3px; height: 12px;
+    background: var(--contrast);
+    flex-shrink: 0;
+  }
+  .frame__caption {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1rem;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    font-variation-settings: "opsz" 40, "SOFT" 50;
+  }
+  
+  /* WFL specific layout — asymmetric grid */
+  .wfl-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .wfl-grid .frame { background: var(--bg-elevated); }
+  .wfl-grid .frame:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    aspect-ratio: 4 / 5;
+  }
+  .wfl-grid .frame:nth-child(2) { grid-column: 2; grid-row: 1; aspect-ratio: 3/4; }
+  .wfl-grid .frame:nth-child(3) { grid-column: 3; grid-row: 1; aspect-ratio: 3/4; }
+  .wfl-grid .frame:nth-child(4) { grid-column: 2 / 4; grid-row: 2; aspect-ratio: 16/10; }
+  
+  /* Ibiza — recap montage layout */
+  .ibiza-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .ibiza-grid .frame { background: var(--bg-elevated); }
+  /* 7 frames laid out: tall, tall, wide, tall, tall, tall, wide ... 
+     Specifically: 4 columns of 3 rows + accent frames */
+  .ibiza-grid .frame:nth-child(1) { grid-column: 1/5; grid-row: 1/3; aspect-ratio: 3/4; }
+  .ibiza-grid .frame:nth-child(2) { grid-column: 5/9; grid-row: 1; aspect-ratio: 4/3; }
+  .ibiza-grid .frame:nth-child(3) { grid-column: 9/13; grid-row: 1/3; aspect-ratio: 3/4; }
+  .ibiza-grid .frame:nth-child(4) { grid-column: 5/9; grid-row: 2/3; aspect-ratio: 4/3; }
+  .ibiza-grid .frame:nth-child(5) { grid-column: 1/5; grid-row: 3; aspect-ratio: 3/4; }
+  .ibiza-grid .frame:nth-child(6) { grid-column: 5/9; grid-row: 3; aspect-ratio: 3/4; }
+  .ibiza-grid .frame:nth-child(7) { grid-column: 9/13; grid-row: 3; aspect-ratio: 3/4; }
+  
+  /* Single-frame highlight (2Oceans) */
+  .highlight-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .highlight-row .frame {
+    background: var(--bg-elevated);
+    aspect-ratio: 16/10;
+  }
+  .highlight-row__text {
+    background: var(--bg-elevated);
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .highlight-row__text .stat-cell__label { color: var(--accent); }
+  .highlight-row__text h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0.6rem 0 1rem;
+    font-variation-settings: "opsz" 100, "SOFT" 30;
+  }
+  .highlight-row__text h3 em { font-style: italic; color: var(--accent); }
+  .highlight-row__text p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* ============ CTA ============ */
+  .cta {
+    padding: clamp(6rem, 12vw, 10rem) var(--gutter-x);
+    text-align: center;
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+  }
+  .cta h2 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.6rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .cta h2 em { font-style: italic; color: var(--accent); }
+  .cta p {
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 480px;
+    margin: 0 auto 2.4rem;
+  }
+  .cta a {
+    display: inline-flex;
+    align-items: center; gap: 12px;
+    padding: 1rem 1.6rem;
+    border: 1px solid var(--text);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: background 0.4s var(--ease-out), color 0.4s var(--ease-out);
+  }
+  .cta a:hover {
+    background: var(--contrast);
+    color: var(--bg);
+    border-color: var(--contrast);
+  }
+  
+  /* ============ FOOTER ============ */
+  .footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 2.5rem var(--gutter-x);
+  }
+  .footer-grid {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+  .footer-grid a:hover { color: var(--text); }
+  
+  /* ============ REVEAL ANIMATION ============ */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+  }
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; align-items: center; justify-content: center; }
+    .page-hero__meta { grid-template-columns: repeat(2, 1fr); max-width: none; }
+    .case__top { grid-template-columns: 1fr; gap: 1.5rem; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .stat-cell:nth-child(2) { border-right: none; }
+    .stat-cell:nth-child(1), .stat-cell:nth-child(2) { border-bottom: 1px solid var(--border); }
+    .wfl-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    .wfl-grid .frame:nth-child(1) { grid-column: 1/3; grid-row: 1; aspect-ratio: 4/3; }
+    .wfl-grid .frame:nth-child(2) { grid-column: 1; grid-row: 2; aspect-ratio: 3/4; }
+    .wfl-grid .frame:nth-child(3) { grid-column: 2; grid-row: 2; aspect-ratio: 3/4; }
+    .wfl-grid .frame:nth-child(4) { grid-column: 1/3; grid-row: 3; aspect-ratio: 16/9; }
+    .ibiza-grid { grid-template-columns: repeat(6, 1fr); }
+    .ibiza-grid .frame:nth-child(n) {
+      grid-column: span 3; grid-row: auto; aspect-ratio: 3/4;
+    }
+    .ibiza-grid .frame:nth-child(2),
+    .ibiza-grid .frame:nth-child(4) { grid-column: span 6; aspect-ratio: 16/10; }
+    .highlight-row { grid-template-columns: 1fr; }
+    .frame__hud {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @media (max-width: 500px) {
+    .footer-grid { flex-direction: column; gap: 0.6rem; }
+    .ibiza-grid .frame:nth-child(n) {
+      grid-column: span 6; aspect-ratio: 3/4;
+    }
+    .ibiza-grid .frame:nth-child(2),
+    .ibiza-grid .frame:nth-child(4) { aspect-ratio: 16/10; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+    .ticker__track { animation: none; }
+    .frame img { transition: none; }
+  }
+
+  /* ============ LIGHTBOX MODAL ============ */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 9, 8, 0.96);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8vh 4vw 6vh;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s var(--ease-out);
+  }
+  .lightbox.is-open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .lightbox__img {
+    max-width: 100%;
+    max-height: 84vh;
+    object-fit: contain;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    background: var(--bg-elevated);
+    transform: scale(0.96);
+    transition: transform 0.5s var(--ease-out);
+  }
+  .lightbox.is-open .lightbox__img {
+    transform: scale(1);
+  }
+  .lightbox__close, .lightbox__nav {
+    position: absolute;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border-bright);
+    color: var(--text);
+    width: 44px; height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+  }
+  .lightbox__close {
+    top: 1.6rem;
+    right: 1.6rem;
+  }
+  .lightbox__close:hover, .lightbox__nav:hover {
+    background: var(--contrast);
+    color: var(--bg);
+    border-color: var(--contrast);
+  }
+  .lightbox__close svg, .lightbox__nav svg { width: 20px; height: 20px; }
+  .lightbox__nav {
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 56px;
+  }
+  .lightbox__nav--prev { left: 1.6rem; }
+  .lightbox__nav--next { right: 1.6rem; }
+  .lightbox__nav[disabled] {
+    opacity: 0.25;
+    pointer-events: none;
+    cursor: default;
+  }
+  .lightbox__counter {
+    position: absolute;
+    top: 1.6rem;
+    left: 1.6rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--contrast);
+    background: rgba(0,0,0,0.5);
+    border: 1px solid var(--border-bright);
+    padding: 9px 14px;
+    min-width: 80px;
+    text-align: center;
+  }
+  @media (max-width: 600px) {
+    .lightbox__nav { width: 40px; height: 48px; }
+    .lightbox__nav--prev { left: 0.8rem; }
+    .lightbox__nav--next { right: 0.8rem; }
+    .lightbox__close { top: 1rem; right: 1rem; }
+    .lightbox__counter { top: 1rem; left: 1rem; font-size: 10px; padding: 7px 11px; }
+  }
+  .lightbox__caption {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--text);
+    padding: 9px 16px;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    max-width: 92vw;
+    text-align: center;
+    letter-spacing: -0.005em;
+  }
+  .frame { cursor: zoom-in; }
+
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+    <a href="index.html" class="nav-lockup" aria-label="Aperia Visuals — home">
+        <svg viewBox="0 0 100 130" aria-hidden="true">
+            <path d="M50 14 L86 116 M50 14 L14 116" stroke="#F5F1EA" stroke-width="14" fill="none" stroke-linejoin="miter" stroke-miterlimit="6" stroke-linecap="square"/>
+            <polygon points="-7,-11 7,-11 0,11" fill="#D4FF3D" transform="translate(50 56) rotate(18)"/>
+        </svg>
+        <span class="nav-lockup-text">Aperia <em>Visuals</em></span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="food.html">Food</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="events.html">Events</a>
+        <a href="corporate.html">Corporate</a>
+        <a href="portraits.html">Portraits</a>
+        <a href="commercial.html">Commercial</a>
+        <a href="sports-brand.html" class="active">Sports &amp; Brand</a>
+        <a href="story.html">Story</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="drawer__overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+    <button class="drawer__close" id="drawerClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <ul class="drawer__list">
+        <li><a href="index.html#work"><span class="num">01</span>Work</a></li>
+        <li><a href="food.html"><span class="num">02</span>Food</a></li>
+        <li><a href="architecture.html"><span class="num">03</span>Architecture</a></li>
+        <li><a href="events.html"><span class="num">04</span>Events</a></li>
+        <li><a href="corporate.html"><span class="num">05</span>Corporate</a></li>
+        <li><a href="portraits.html"><span class="num">06</span>Portraits</a></li>
+
+        <li><a href="commercial.html"><span class="num">07</span>Commercial</a></li>
+        <li class="active"><a href="sports-brand.html"><span class="num">08</span>Sports &amp; Brand</a></li>
+        <li><a href="story.html"><span class="num">09</span>Story</a></li>
+        <li><a href="index.html#contact"><span class="num">10</span>Contact</a></li>
+    </ul>
+</aside>
+
+<!-- ============================================================== HERO -->
+<header class="page-hero">
+    <div class="page-hero__bg" aria-hidden="true"></div>
+    <div class="page-hero__inner">
+        <span class="hero-tag" data-reveal>№ 005 · Sports &amp; Brand <span class="hero-live">2026</span></span>
+        <h1 data-reveal>Sports <em>&amp;</em> Brand.</h1>
+        <div class="page-hero__meta" data-reveal>
+            <div class="meta-cell">
+                <span class="meta-cell__label">Frames</span>
+                <span class="meta-cell__value" data-count="13">13</span>
+            </div>
+            <div class="meta-cell">
+                <span class="meta-cell__label">Events</span>
+                <span class="meta-cell__value" data-count="3">3</span>
+            </div>
+            <div class="meta-cell">
+                <span class="meta-cell__label">Brands</span>
+                <span class="meta-cell__value">Red Bull <em>+ 2</em></span>
+            </div>
+            <div class="meta-cell">
+                <span class="meta-cell__label">Period</span>
+                <span class="meta-cell__value">2025 <em>—</em> 2026</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================== TICKER 1 -->
+<div class="ticker-band" aria-hidden="true">
+    <div class="ticker__track">
+        <span class="ticker__item">Wings for Life World Run<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Red Bull Ibiza Royale<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Two Oceans Marathon<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Nairobi · 2026<span class="ticker__bullet"></span></span>
+        <!-- duplicate for seamless loop -->
+        <span class="ticker__item">Wings for Life World Run<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Red Bull Ibiza Royale<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Two Oceans Marathon<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Nairobi · 2026<span class="ticker__bullet"></span></span>
+    </div>
+</div>
+
+<!-- ============================================================== CASE 1 — WFL -->
+<section class="case">
+    <div class="container">
+        <div class="case__top">
+            <div data-reveal>
+                <span class="case__index">Case Study 01 / 03</span>
+                <h2 class="case__title">Wings for Life <em>World Run.</em></h2>
+            </div>
+            <p class="case__body" data-reveal>
+                Nairobi's stop on the global Wings for Life event — runners chasing a virtual catcher car for as far as their legs allow. Steffen took the local crown at <strong>38.02&nbsp;km</strong> just before the Catcher caught the last of the field.
+            </p>
+        </div>
+
+        <div class="stats-row" data-reveal>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Date</span>
+                <span class="stat-cell__value">10 <span class="unit">MAY 2026</span></span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Winner App Run</span>
+                <span class="stat-cell__value" data-count="38.02"><span class="num">38.02</span><span class="unit">KM</span></span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Bib · Winner</span>
+                <span class="stat-cell__value">#247222</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Brand</span>
+                <span class="stat-cell__value">Red Bull</span>
+            </div>
+        </div>
+
+        <div class="wfl-grid" data-reveal style="margin-top: 2px;">
+            <a class="frame" href="images/sports-wfl-01-large.jpg">
+                <img src="images/sports-wfl-01-med.jpg" alt="Steffen on the winner's podium holding the Wings for Life sign — 38.02 km" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Winner · Stage Podium</div>
+                    <div class="frame__caption">Steffen, after the Catcher caught the field. 38.02 km.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-wfl-02-large.jpg">
+                <img src="images/sports-wfl-02-med.jpg" alt="Runners warming up before the Wings for Life World Run with Britam Tower in the background" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Warm-up · Britam Tower</div>
+                    <div class="frame__caption">Pre-race buzz, blue shirts everywhere.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-wfl-03-large.jpg">
+                <img src="images/sports-wfl-03-med.jpg" alt="Two women running together, one holding a phone selfie-style during the race" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Mid-race · Selfie Step</div>
+                    <div class="frame__caption">The run as social event. Phones up.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-wfl-04-large.jpg">
+                <img src="images/sports-wfl-04-med.jpg" alt="Pack of runners moving down the Nairobi course in Wings for Life blue tees" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">The Pack · Westlands</div>
+                    <div class="frame__caption">Front-of-pack thumbs up before the Catcher arrives.</div>
+                </div>
+            </a>
+        </div>
+        <a class="frame" href="images/sports-wfl-05-large.jpg" style="display:block; margin-top: 1px; border: 1px solid var(--border); aspect-ratio: 16/9; background: var(--bg-elevated);" data-reveal>
+            <img src="images/sports-wfl-05-med.jpg" alt="Steffen under the Red Bull arch holding the winner sign — 38.02 km" loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+            <div class="frame__hud">
+                <div class="frame__chyron">Finish · Red Bull Arch</div>
+                <div class="frame__caption">Steffen, the sign, the bulls, the proof.</div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- ============================================================== TICKER 2 — accent -->
+<div class="ticker-band ticker-band--accent" aria-hidden="true">
+    <div class="ticker__track">
+        <span class="ticker__item">Ibiza Royale<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Brand Activation<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Games &amp; Energy<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">07 Frames<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Ibiza Royale<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Brand Activation<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Games &amp; Energy<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">07 Frames<span class="ticker__bullet"></span></span>
+    </div>
+</div>
+
+<!-- ============================================================== CASE 2 — IBIZA -->
+<section class="case">
+    <div class="container">
+        <div class="case__top">
+            <div data-reveal>
+                <span class="case__index">Case Study 02 / 03</span>
+                <h2 class="case__title">Red Bull <em>Ibiza Royale.</em></h2>
+            </div>
+            <p class="case__body" data-reveal>
+                A circuit of physical games stitched together with Red Bull energy, prize wheels and rope-rings. Coverage moved between the gameplay frame and the moment-after — the smiles, the throws, the small celebrations between rounds.
+            </p>
+        </div>
+
+        <div class="stats-row" data-reveal>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Format</span>
+                <span class="stat-cell__value">Activation</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Games</span>
+                <span class="stat-cell__value" data-count="6">6<span class="unit">stations</span></span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Coverage</span>
+                <span class="stat-cell__value">Half-Day</span>
+            </div>
+            <div class="stat-cell">
+                <span class="stat-cell__label">Brand</span>
+                <span class="stat-cell__value">Red Bull</span>
+            </div>
+        </div>
+
+        <div class="ibiza-grid" data-reveal style="margin-top: 2px;">
+            <a class="frame" href="images/sports-ibiza-01-large.jpg">
+                <img src="images/sports-ibiza-01-med.jpg" alt="Brand ambassador under the Red Bull umbrella holding a chilled can" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Welcome · Red Umbrella</div>
+                    <div class="frame__caption">First touchpoint. Hand-offs and smiles.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-03-large.jpg">
+                <img src="images/sports-ibiza-03-med.jpg" alt="Player carrying the rope rings across the activation circuit" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Between Stations</div>
+                    <div class="frame__caption">Walking the rope rings to the next game.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-04-large.jpg">
+                <img src="images/sports-ibiza-04-med.jpg" alt="Player under the bell obstacle wearing an Ibiza Royale tee" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Game · Bells</div>
+                    <div class="frame__caption">The bells obstacle. Concentration mode.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-05-large.jpg">
+                <img src="images/sports-ibiza-05-med.jpg" alt="Player celebrating with rope rings raised, mid-throw" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Score · Ring Throw</div>
+                    <div class="frame__caption">The win face. Rope rings raised.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-06-large.jpg">
+                <img src="images/sports-ibiza-06-med.jpg" alt="Brand ambassador holding three Red Bull cans — original, Sugar Free, and Red Edition" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Lineup · 3 Cans</div>
+                    <div class="frame__caption">The Red Bull family — original, Sugar Free, Red Edition.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-07-large.jpg">
+                <img src="images/sports-ibiza-07-med.jpg" alt="Player swinging between rope rings — feet off the ground, in motion" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Game · Rope Swing</div>
+                    <div class="frame__caption">Mid-swing. Feet off the ground.</div>
+                </div>
+            </a>
+            <a class="frame" href="images/sports-ibiza-08-large.jpg">
+                <img src="images/sports-ibiza-08-med.jpg" alt="Young player walking with rope rings between game stations" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">Walk-up · Next Round</div>
+                    <div class="frame__caption">Younger player, same circuit. Steady focus.</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================== TICKER 3 -->
+<div class="ticker-band" aria-hidden="true">
+    <div class="ticker__track">
+        <span class="ticker__item">21KM Half<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Total Sports<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Selected Frames<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">2025<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">21KM Half<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Total Sports<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">Selected Frames<span class="ticker__bullet"></span></span>
+        <span class="ticker__item">2025<span class="ticker__bullet"></span></span>
+    </div>
+</div>
+
+<!-- ============================================================== CASE 3 — 2OCEANS -->
+<section class="case">
+    <div class="container">
+        <div class="case__top">
+            <div data-reveal>
+                <span class="case__index">Case Study 03 / 03</span>
+                <h2 class="case__title">Two Oceans <em>Half.</em></h2>
+            </div>
+            <p class="case__body" data-reveal>
+                A single frame from the 21&nbsp;km Half route — a quiet beat between aid stations. The vest reads <strong>21KM HALF</strong> in marathon orange. Selfie stick up, eyes forward.
+            </p>
+        </div>
+        <div class="highlight-row" data-reveal>
+            <a class="frame" href="images/sports-2oceans-01-large.jpg">
+                <img src="images/sports-2oceans-01-med.jpg" alt="Runner in orange 21KM Half vest holding a selfie stick mid-race" loading="lazy">
+                <div class="frame__hud">
+                    <div class="frame__chyron">21KM Half · In Motion</div>
+                    <div class="frame__caption">Selfie stick up, eyes forward.</div>
+                </div>
+            </a>
+            <div class="highlight-row__text">
+                <span class="stat-cell__label">Event</span>
+                <h3>Two Oceans <em>Marathon.</em></h3>
+                <p>21&nbsp;km Half · Total Sports kit · Nairobi route. One quiet frame, no fanfare — the kind of mid-race moment most coverage misses.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================== CTA -->
+<section class="cta">
+    <h2>Got an event? <em>Let's cover it.</em></h2>
+    <p>Brand activations, races, sponsored runs — coverage that holds up after the day.</p>
+    <a href="index.html#contact">
+        Talk to the studio
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+    </a>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div><a href="index.html">aperia.studio</a></div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="Previous image">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="Next image">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img class="lightbox__img" id="lightboxImg" alt="">
+    <div class="lightbox__caption" id="lightboxCaption"></div>
+    <div class="lightbox__counter" id="lightboxCounter"></div>
+</div>
+
+<script>
+(function() {
+    // ============ NAV scroll state ============
+    const nav = document.getElementById('nav');
+    function onScroll() {
+        if (window.scrollY > 50) nav.classList.add('is-scrolled');
+        else nav.classList.remove('is-scrolled');
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    
+    // ============ Mobile drawer ============
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const menuBtn = document.getElementById('menuBtn');
+    const drawerClose = document.getElementById('drawerClose');
+    function openDrawer() {
+        drawer.classList.add('is-open');
+        overlay.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+        drawer.classList.remove('is-open');
+        overlay.classList.remove('is-open');
+        drawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+    if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (overlay) overlay.addEventListener('click', closeDrawer);
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+    
+    // ============ Reveal on scroll ============
+    if ('IntersectionObserver' in window) {
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-revealed');
+                    revealObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+    } else {
+        document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-revealed'));
+    }
+    
+    // ============ COUNT-UP NUMBERS ============
+    function countUp(el, target, duration) {
+        duration = duration || 1500;
+        const isDecimal = target % 1 !== 0;
+        const start = performance.now();
+        // Find the .num span if present, else animate textContent directly
+        const numSpan = el.querySelector('.num');
+        const updateEl = numSpan || el;
+        function tick(now) {
+            const t = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+            const val = target * eased;
+            updateEl.textContent = isDecimal ? val.toFixed(2) : Math.floor(val).toString();
+            if (t < 1) requestAnimationFrame(tick);
+            else updateEl.textContent = isDecimal ? target.toFixed(2) : target.toString();
+        }
+        // Initial state: zero
+        updateEl.textContent = isDecimal ? '0.00' : '0';
+        requestAnimationFrame(tick);
+    }
+    
+    if ('IntersectionObserver' in window) {
+        const countObs = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseFloat(entry.target.dataset.count);
+                    if (!isNaN(target)) countUp(entry.target, target);
+                    countObs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.6 });
+        document.querySelectorAll('[data-count]').forEach(el => countObs.observe(el));
+    }
+    
+    // ============ LIGHTBOX MODAL — with prev/next navigation ============
+    const lightbox  = document.getElementById('lightbox');
+    const lbImg     = document.getElementById('lightboxImg');
+    const lbCaption = document.getElementById('lightboxCaption');
+    const lbCounter = document.getElementById('lightboxCounter');
+    const lbClose   = document.getElementById('lightboxClose');
+    const lbPrev    = document.getElementById('lightboxPrev');
+    const lbNext    = document.getElementById('lightboxNext');
+    
+    const allFrames = Array.from(document.querySelectorAll('.frame'));
+    let currentIndex = 0;
+    
+    function showFrame(index) {
+        if (index < 0 || index >= allFrames.length) return;
+        currentIndex = index;
+        const frame = allFrames[index];
+        const largeSrc = frame.getAttribute('href');
+        const img = frame.querySelector('img');
+        const fallbackSrc = img ? img.src : '';
+        const alt = img ? img.alt : '';
+        const captionEl = frame.querySelector('.frame__caption');
+        const captionText = captionEl ? captionEl.textContent : '';
+        
+        // Set fallback in case large fails to load
+        lbImg.onerror = function() {
+            lbImg.onerror = null;
+            if (fallbackSrc && lbImg.src !== fallbackSrc) lbImg.src = fallbackSrc;
+        };
+        lbImg.src = largeSrc;
+        lbImg.alt = alt;
+        lbCaption.textContent = captionText;
+        
+        // Update counter
+        if (lbCounter) {
+            const num = String(currentIndex + 1).padStart(2, '0');
+            const total = String(allFrames.length).padStart(2, '0');
+            lbCounter.textContent = num + ' / ' + total;
+        }
+        
+        // Update nav button disabled states
+        if (lbPrev) lbPrev.disabled = currentIndex === 0;
+        if (lbNext) lbNext.disabled = currentIndex === allFrames.length - 1;
+    }
+    
+    function openLightbox(index) {
+        showFrame(index);
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
+    function showPrev() {
+        if (currentIndex > 0) showFrame(currentIndex - 1);
+    }
+    function showNext() {
+        if (currentIndex < allFrames.length - 1) showFrame(currentIndex + 1);
+    }
+    
+    if (lbClose) lbClose.addEventListener('click', closeLightbox);
+    if (lbPrev)  lbPrev.addEventListener('click', (e) => { e.stopPropagation(); showPrev(); });
+    if (lbNext)  lbNext.addEventListener('click', (e) => { e.stopPropagation(); showNext(); });
+    
+    if (lightbox) {
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox) closeLightbox();
+        });
+    }
+    
+    // Keyboard: ESC closes, arrow keys navigate
+    document.addEventListener('keydown', e => {
+        if (!lightbox || !lightbox.classList.contains('is-open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') showPrev();
+        else if (e.key === 'ArrowRight') showNext();
+    });
+    
+    // Wire each frame
+    allFrames.forEach((frame, index) => {
+        frame.addEventListener('click', function(e) {
+            e.preventDefault();
+            openLightbox(index);
+        });
+    });
+    
+    // Touch swipe support for mobile
+    let touchStartX = null;
+    if (lightbox) {
+        lightbox.addEventListener('touchstart', e => {
+            if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        lightbox.addEventListener('touchend', e => {
+            if (touchStartX === null) return;
+            const touchEndX = e.changedTouches[0].clientX;
+            const dx = touchEndX - touchStartX;
+            if (Math.abs(dx) > 50) {
+                if (dx > 0) showPrev();
+                else showNext();
+            }
+            touchStartX = null;
+        }, { passive: true });
+    }
+})();
+</script>
+
+</body>
+</html>

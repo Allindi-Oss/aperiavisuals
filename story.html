@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Story — Aperia Visuals</title>
+<meta name="description" content="Collins Allindi — founder of Aperia Visuals. The story behind a freelance editorial photography practice based in Nairobi: process, principles, clients." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..900,0..100;1,9..144,200..900,0..100&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'%3E%3Cpath d='M50 14 L86 116 M50 14 L14 116' stroke='%23F5F1EA' stroke-width='14' fill='none' stroke-linejoin='miter' stroke-miterlimit='6' stroke-linecap='square'/%3E%3Cpolygon points='-7,-11 7,-11 0,11' fill='%23D4FF3D' transform='translate(50 56) rotate(18)'/%3E%3C/svg%3E" />
+<style>
+:root {
+    --bg: #0A0908;
+    --bg-2: #14110F;
+    --cream: #F5F1EA;
+    --gold: #C9A36B;
+    --chartreuse: #D4FF3D;
+    --chartreuse-dim: #5e7012;
+    --smoke: #8A847A;
+    --dim: #5A554E;
+    --line: rgba(245, 241, 234, 0.08);
+    --line-2: rgba(245, 241, 234, 0.16);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+    background: var(--bg);
+}
+body {
+    font-family: 'Hanken Grotesk', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+::selection { background: var(--chartreuse); color: var(--bg); }
+
+/* ===== FILM GRAIN + SCROLL PROGRESS ===== */
+.grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+}
+.scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 2px;
+    background: var(--chartreuse);
+    z-index: 110;
+    transform-origin: 0 50%;
+    transform: scaleX(0);
+    transition: transform 0.05s linear;
+}
+
+/* ===== NAV ===== */
+.nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+.nav.scrolled {
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    background: rgba(10, 9, 8, 0.65);
+    border-bottom: 1px solid var(--line);
+}
+.nav-lockup {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+    color: var(--cream);
+}
+.nav-lockup svg { width: 26px; height: auto; display: block; }
+.nav-lockup-text {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 30, "SOFT" 50;
+}
+.nav-lockup-text em { font-style: italic; color: var(--gold); }
+.nav-links {
+    display: flex; gap: 32px; align-items: center;
+}
+.nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.2s ease;
+}
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 1px;
+    background: var(--chartreuse);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.nav-links a:hover::after, .nav-links a.active::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+}
+.nav-links a.active { color: var(--chartreuse); }
+.menu-btn {
+    display: none;
+    background: none; border: none;
+    color: var(--cream);
+    cursor: pointer;
+    padding: 8px;
+    width: 40px; height: 40px;
+}
+.menu-btn svg { width: 22px; height: 22px; }
+@media (max-width: 880px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; align-items: center; justify-content: center; }
+    .nav { padding: 14px 20px; }
+}
+
+/* ===== MOBILE DRAWER ===== */
+.drawer {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 105;
+    display: flex; flex-direction: column;
+    padding: 90px 28px 40px;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-close {
+    position: absolute;
+    top: 18px; right: 20px;
+    background: none; border: none;
+    color: var(--cream); cursor: pointer;
+    width: 40px; height: 40px;
+}
+.drawer ol {
+    list-style: none;
+    counter-reset: drawer;
+    margin-top: 20px;
+}
+.drawer ol li {
+    counter-increment: drawer;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+}
+.drawer ol li a {
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 38px;
+    font-weight: 300;
+    font-variation-settings: "opsz" 60, "SOFT" 80;
+    display: flex; align-items: baseline; gap: 14px;
+    line-height: 1.1;
+    transition: color 0.25s ease;
+}
+.drawer ol li a::before {
+    content: counter(drawer, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    color: var(--chartreuse);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+}
+.drawer ol li a:hover { color: var(--chartreuse); }
+
+/* ===== TYPE PRIMITIVES ===== */
+.label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--smoke);
+    text-transform: uppercase;
+}
+.label-chartreuse { color: var(--chartreuse); }
+.display {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.display em { font-style: italic; color: var(--gold); font-weight: 300; }
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+.container-narrow {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+@media (max-width: 720px) {
+    .container, .container-narrow { padding: 0 20px; }
+}
+.section-index {
+    display: flex; align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+.section-index::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 56px;
+    background: linear-gradient(to bottom, var(--chartreuse), transparent);
+    flex-shrink: 0;
+    margin-top: 4px;
+}
+.section-index .label { margin-top: 4px; }
+
+/* ===== HERO ===== */
+.hero {
+    min-height: 100vh;
+    padding: 140px 0 80px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+}
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.72fr;
+    gap: 80px;
+    align-items: center;
+    width: 100%;
+}
+.hero-corner {
+    position: absolute;
+    top: 110px; right: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.7;
+}
+.hero-corner strong { color: var(--chartreuse); font-weight: 500; }
+.hero-stamp {
+    display: inline-block;
+    margin-bottom: 32px;
+    padding: 8px 14px;
+    border: 1px solid var(--line-2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    text-transform: uppercase;
+}
+.hero-stamp .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--chartreuse);
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+.hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(56px, 8.5vw, 132px);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.028em;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.hero-title em { font-style: italic; color: var(--gold); }
+.hero-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.3;
+    color: var(--cream);
+    opacity: 0.86;
+    max-width: 540px;
+    margin-bottom: 40px;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.hero-meta {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+}
+.hero-meta-item .label { margin-bottom: 6px; }
+.hero-meta-item-value {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--cream);
+    font-weight: 400;
+}
+
+/* Portrait placeholder (or actual portrait when uploaded) */
+.hero-portrait {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background:
+        linear-gradient(135deg, rgba(201, 163, 107, 0.04) 0%, rgba(20, 17, 15, 0.4) 50%, rgba(212, 255, 61, 0.03) 100%),
+        var(--bg-2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    border: 1px dashed rgba(201, 163, 107, 0.32);
+}
+/* Filled state — when an actual image is present */
+.hero-portrait--filled {
+    padding: 0;
+    border: none;
+    background: var(--bg-2);
+}
+.hero-portrait img {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+.hero-portrait-credit {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    z-index: 2;
+    padding: 28px 22px 18px;
+    background: linear-gradient(to top, rgba(10, 9, 8, 0.72) 0%, rgba(10, 9, 8, 0.0) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+.hero-portrait--filled:hover .hero-portrait-credit {
+    opacity: 1;
+}
+.hero-portrait-credit .gold { color: var(--gold); }
+.hero-portrait-meta {
+    position: relative;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--smoke);
+    text-transform: uppercase;
+}
+.hero-portrait-meta-bottom {
+    text-align: right;
+    color: var(--cream);
+    opacity: 0.6;
+}
+.hero-portrait-cross {
+    position: absolute;
+    z-index: 2;
+    color: rgba(201, 163, 107, 0.18);
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1;
+}
+.hero-portrait-cross.tl { top: 18px; left: 18px; }
+.hero-portrait-cross.tr { top: 18px; right: 18px; }
+.hero-portrait-cross.bl { bottom: 18px; left: 18px; }
+.hero-portrait-cross.br { bottom: 18px; right: 18px; }
+.hero-portrait-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    color: var(--cream);
+    opacity: 0.7;
+}
+.hero-portrait-center .label {
+    color: var(--gold);
+    margin-bottom: 8px;
+}
+.hero-portrait-center .name {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.1;
+    font-weight: 300;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+
+@media (max-width: 880px) {
+    .hero { min-height: auto; padding: 100px 0 60px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-corner { display: none; }
+    .hero-portrait { max-width: 80%; margin: 0 auto; }
+}
+
+/* ===== LONG-FORM ARTICLE ===== */
+.article {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.article-grid {
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+.article-aside {
+    position: sticky;
+    top: 100px;
+}
+.article-aside .label { margin-bottom: 14px; }
+.article-aside-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(24px, 2.6vw, 36px);
+    line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    margin-top: 18px;
+    padding-left: 22px;
+    border-left: 2px solid var(--chartreuse);
+}
+.article-aside-quote em { color: var(--chartreuse); }
+.article-aside-quote .gold { color: var(--gold); }
+.article-body p {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--cream);
+    opacity: 0.86;
+    margin-bottom: 24px;
+    max-width: 620px;
+}
+.article-body p strong { color: var(--cream); opacity: 1; font-weight: 500; }
+.article-body p em { font-style: italic; color: var(--gold); }
+.article-body p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: 88px;
+    line-height: 0.85;
+    float: left;
+    margin: 8px 14px -2px 0;
+    color: var(--chartreuse);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.article-pull {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(22px, 2.4vw, 32px);
+    line-height: 1.25;
+    color: var(--chartreuse);
+    letter-spacing: -0.012em;
+    padding: 28px 0;
+    margin: 32px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    max-width: 620px;
+}
+.article-pull::before {
+    content: '"';
+    color: var(--gold);
+    font-size: 1.4em;
+    margin-right: 6px;
+    line-height: 0;
+    vertical-align: -0.2em;
+}
+.article-pull::after {
+    content: '"';
+    color: var(--gold);
+    font-size: 1.4em;
+    margin-left: 4px;
+    line-height: 0;
+    vertical-align: -0.2em;
+}
+
+@media (max-width: 880px) {
+    .article { padding: 70px 0; }
+    .article-grid { grid-template-columns: 1fr; gap: 36px; }
+    .article-aside { position: static; }
+    .article-body p:first-of-type::first-letter { font-size: 64px; }
+}
+
+/* ===== PRINCIPLES ===== */
+.principles {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.principles-header {
+    margin-bottom: 80px;
+    max-width: 760px;
+}
+.principles-header .display {
+    font-size: clamp(40px, 5.4vw, 80px);
+    line-height: 0.96;
+}
+.principles-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+}
+.principle {
+    display: grid;
+    grid-template-columns: 80px 1fr 2fr;
+    gap: 40px;
+    padding: 48px 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+}
+.principle:last-child { border-bottom: 1px solid var(--line); }
+.principle-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    color: var(--chartreuse);
+    font-weight: 500;
+    padding-top: 6px;
+}
+.principle-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(28px, 3.2vw, 44px);
+    line-height: 1.05;
+    letter-spacing: -0.018em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.principle-title em { font-style: italic; color: var(--gold); }
+.principle-body {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.82;
+}
+.principle-body p { margin-bottom: 12px; }
+.principle-body p:last-child { margin-bottom: 0; }
+
+@media (max-width: 880px) {
+    .principles { padding: 70px 0; }
+    .principle { grid-template-columns: 1fr; gap: 12px; padding: 32px 0; }
+    .principle-num { padding-top: 0; }
+}
+
+/* ===== STUDIO ===== */
+.studio {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.studio-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+}
+.studio-text .display {
+    font-size: clamp(40px, 5vw, 72px);
+    margin-bottom: 32px;
+    line-height: 0.98;
+}
+.studio-text p {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--cream);
+    opacity: 0.84;
+    margin-bottom: 18px;
+    max-width: 540px;
+}
+.studio-text p:last-of-type { margin-bottom: 32px; }
+.studio-text strong { color: var(--cream); opacity: 1; font-weight: 500; }
+.studio-coords {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 32px;
+    margin-top: 28px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    max-width: 540px;
+}
+.studio-coords-item .label { margin-bottom: 6px; }
+.studio-coords-item-value {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--cream);
+    font-weight: 400;
+}
+.studio-coords-item-value a {
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-2);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.studio-coords-item-value a:hover { color: var(--chartreuse); border-color: var(--chartreuse); }
+
+/* "Map" - stylized location pin treatment */
+.studio-map {
+    aspect-ratio: 4 / 5;
+    background:
+        radial-gradient(ellipse at 38% 46%, rgba(212, 255, 61, 0.06) 0%, transparent 40%),
+        var(--bg-2);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+}
+.studio-map-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(245, 241, 234, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245, 241, 234, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+.studio-map-streets {
+    position: absolute;
+    inset: 0;
+}
+.studio-map-streets svg {
+    width: 100%; height: 100%;
+}
+.studio-map-pin {
+    position: absolute;
+    top: 46%; left: 38%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+.studio-map-pin-dot {
+    width: 16px; height: 16px;
+    background: var(--chartreuse);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(212, 255, 61, 0.18), 0 0 0 12px rgba(212, 255, 61, 0.08);
+    animation: pinPulse 3s ease-in-out infinite;
+}
+@keyframes pinPulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(212, 255, 61, 0.18), 0 0 0 12px rgba(212, 255, 61, 0.08); }
+    50% { box-shadow: 0 0 0 6px rgba(212, 255, 61, 0.28), 0 0 0 18px rgba(212, 255, 61, 0.0); }
+}
+.studio-map-pin-label {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--cream);
+    text-transform: uppercase;
+    white-space: nowrap;
+    background: rgba(10, 9, 8, 0.7);
+    padding: 6px 10px;
+    border: 1px solid var(--line-2);
+}
+.studio-map-pin-label .gold { color: var(--gold); }
+.studio-map-coords {
+    position: absolute;
+    z-index: 3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--smoke);
+    text-transform: uppercase;
+}
+.studio-map-coords.tl { top: 18px; left: 18px; }
+.studio-map-coords.br {
+    bottom: 18px; right: 18px;
+    text-align: right;
+    color: var(--chartreuse);
+}
+.studio-map-rose {
+    position: absolute;
+    top: 18px; right: 18px;
+    z-index: 3;
+    width: 36px; height: 36px;
+    opacity: 0.5;
+}
+.studio-map-scale {
+    position: absolute;
+    bottom: 18px; left: 18px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--smoke);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.studio-map-scale-bar {
+    width: 60px; height: 2px;
+    background: linear-gradient(to right, var(--cream) 50%, transparent 50%);
+    background-size: 12px 100%;
+}
+
+@media (max-width: 880px) {
+    .studio { padding: 70px 0; }
+    .studio-grid { grid-template-columns: 1fr; gap: 40px; }
+    .studio-map { max-width: 80%; margin: 0 auto; }
+}
+
+/* ===== CLIENTS ===== */
+.clients {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.clients-header {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 60px;
+    margin-bottom: 64px;
+    align-items: end;
+}
+.clients-header .display {
+    font-size: clamp(36px, 4.8vw, 64px);
+    line-height: 1;
+}
+.clients-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--cream);
+    opacity: 0.74;
+    max-width: 480px;
+    margin-left: auto;
+}
+.clients-wall {
+    border-top: 1px solid var(--line);
+}
+
+/* Logo strip — designed typographic wordmarks per brand */
+.logo-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    gap: 16px;
+    padding: 44px 24px;
+    margin-bottom: 64px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(to right, transparent, rgba(245, 241, 234, 0.012) 50%, transparent);
+}
+.logo-mark {
+    color: var(--cream);
+    opacity: 0.78;
+    text-align: center;
+    line-height: 1;
+    transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    cursor: default;
+    user-select: none;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 56px;
+}
+.logo-mark:hover {
+    opacity: 1;
+    color: var(--chartreuse);
+    transform: translateY(-2px);
+}
+
+/* Individual logo styling — distinct typography per brand */
+.logo-mark.logo-gemforest {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 22px;
+    letter-spacing: 0.005em;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.logo-mark.logo-gemforest .logo-line1 {
+    display: block;
+    margin-bottom: 0;
+    line-height: 1;
+}
+.logo-mark.logo-gemforest .logo-line2 {
+    display: block;
+    font-style: normal;
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    margin-top: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    opacity: 0.7;
+}
+
+.logo-mark.logo-glee {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: 0.02em;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+}
+.logo-mark.logo-glee .logo-line2 {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.34em;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+.logo-mark.logo-kaash {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.005em;
+    text-transform: lowercase;
+}
+.logo-mark.logo-kaash .logo-dot {
+    color: var(--gold);
+    margin: 0 4px;
+}
+.logo-mark:hover .logo-dot { color: var(--chartreuse); }
+
+.logo-mark.logo-pvp {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+}
+.logo-mark.logo-pvp .logo-line2 {
+    display: block;
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    margin-top: 5px;
+    font-weight: 400;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.logo-mark.logo-redbull {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 800;
+    font-style: italic;
+    font-size: 19px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+}
+.logo-mark.logo-redbull .logo-line1 {
+    display: block;
+    line-height: 0.9;
+}
+
+.logo-mark.logo-workable {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
+    letter-spacing: -0.018em;
+    text-transform: lowercase;
+}
+.logo-mark.logo-workable .logo-line2 {
+    display: inline-block;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    margin-left: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    opacity: 0.7;
+    vertical-align: middle;
+}
+
+@media (max-width: 880px) {
+    .logo-strip {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px 16px;
+        padding: 32px 12px;
+    }
+}
+@media (max-width: 480px) {
+    .logo-strip {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 28px 12px;
+    }
+}
+.client-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 2fr;
+    gap: 40px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s ease;
+}
+.client-row:hover { background: rgba(245, 241, 234, 0.02); }
+.client-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--chartreuse-dim);
+    font-weight: 500;
+}
+.client-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(20px, 2.4vw, 32px);
+    line-height: 1.1;
+    color: var(--cream);
+    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    transition: color 0.2s ease;
+}
+.client-row:hover .client-name { color: var(--chartreuse); }
+.client-row:hover .client-name em { color: var(--chartreuse); }
+.client-name em { font-style: italic; color: var(--gold); }
+.client-sector {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--smoke);
+    text-transform: uppercase;
+}
+
+@media (max-width: 880px) {
+    .clients { padding: 70px 0; }
+    .clients-header { grid-template-columns: 1fr; gap: 24px; }
+    .clients-intro { margin-left: 0; }
+    .client-row { grid-template-columns: 56px 1fr; gap: 18px; padding: 18px 0; }
+    .client-sector { grid-column: 1 / -1; padding-left: 74px; margin-top: -4px; }
+}
+
+/* ===== CONTINUE / DISCIPLINE CARDS ===== */
+.discover {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.discover-header {
+    margin-bottom: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: end;
+}
+.discover-header .display {
+    font-size: clamp(40px, 5.4vw, 76px);
+    line-height: 0.96;
+}
+.discover-intro {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--cream);
+    opacity: 0.74;
+    max-width: 480px;
+    margin-left: auto;
+}
+.discover-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+.discover-card {
+    position: relative;
+    display: block;
+    background: var(--bg-2);
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    text-decoration: none;
+    color: var(--cream);
+    border: 1px solid var(--line);
+    transition: border-color 0.35s ease, transform 0.5s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.discover-card:hover {
+    border-color: var(--chartreuse);
+    transform: translateY(-6px);
+}
+.discover-card-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.85) brightness(0.5);
+    transition: filter 0.6s ease, transform 1.2s cubic-bezier(0.6, 0, 0.2, 1);
+    transform: scale(1.04);
+    z-index: 0;
+}
+.discover-card:hover .discover-card-img {
+    filter: saturate(1.0) brightness(0.65);
+    transform: scale(1.1);
+}
+/* Placeholder gradient covers (used when no photo is set yet) */
+.discover-card-img.placeholder-food {
+    background-image: linear-gradient(135deg, #2a1410 0%, #5e2d18 35%, #c9a36b 90%, #2a1410 100%);
+    background-color: #2a1410;
+}
+.discover-card-img.placeholder-arch {
+    background-image: linear-gradient(135deg, #161a20 0%, #2c3340 45%, #5a6a7a 80%, #161a20 100%);
+    background-color: #161a20;
+}
+.discover-card-img.placeholder-story {
+    background-image: linear-gradient(135deg, #0c0c12 0%, #1f1825 40%, #4a3a52 80%, #0c0c12 100%);
+    background-color: #0c0c12;
+}
+.discover-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,9,8,0.85) 0%, rgba(10,9,8,0.18) 60%, transparent 100%);
+    z-index: 1;
+}
+.discover-card-mark {
+    position: absolute;
+    top: 20px; right: 22px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+}
+.discover-card-meta {
+    position: absolute;
+    left: 22px; right: 22px; bottom: 72px;
+    z-index: 2;
+}
+.discover-card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(30px, 3.4vw, 44px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.discover-card-title em { font-style: italic; color: var(--gold); }
+.discover-card-tag {
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--cream);
+    opacity: 0.82;
+}
+.discover-card-cta {
+    position: absolute;
+    left: 22px; right: 22px; bottom: 22px;
+    z-index: 2;
+    padding-top: 14px;
+    border-top: 1px solid rgba(245, 241, 234, 0.18);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--cream);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+.discover-card-cta-arrow {
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.discover-card:hover .discover-card-cta {
+    color: var(--chartreuse);
+    border-top-color: var(--chartreuse);
+}
+.discover-card:hover .discover-card-cta-arrow {
+    transform: translateX(4px);
+}
+@media (max-width: 880px) {
+    .discover { padding: 70px 0; }
+    .discover-header { grid-template-columns: 1fr; gap: 24px; }
+    .discover-intro { margin-left: 0; }
+    .discover-grid { grid-template-columns: 1fr; gap: 14px; }
+    .discover-card { aspect-ratio: 4 / 3; }
+}
+
+/* ===== CTA ===== */
+.cta-closer {
+    padding: 160px 0 140px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+}
+.cta-closer .display {
+    font-size: clamp(48px, 8vw, 120px);
+    margin-bottom: 48px;
+    font-weight: 300;
+}
+.cta-closer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--chartreuse);
+    color: var(--bg);
+    padding: 16px 28px;
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: gap 0.4s cubic-bezier(0.7, 0, 0.3, 1), background 0.3s ease;
+}
+.cta-closer-link::after { content: '→'; font-size: 14px; }
+.cta-closer-link:hover {
+    gap: 20px;
+    background: var(--cream);
+}
+@media (max-width: 720px) {
+    .cta-closer { padding: 90px 0 80px; }
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    padding: 60px 0 40px;
+    color: var(--smoke);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+}
+.footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    text-transform: uppercase;
+}
+.footer a { color: var(--smoke); text-decoration: none; transition: color 0.2s ease; }
+.footer a:hover { color: var(--chartreuse); }
+
+/* ===== REVEAL ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 1s cubic-bezier(0.6, 0, 0.2, 1), transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal.delay-1 { transition-delay: 0.08s; }
+.reveal.delay-2 { transition-delay: 0.16s; }
+.reveal.delay-3 { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+}
+
+/* ===== BACK TO TOP ===== */
+.back-top {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    color: var(--cream);
+    cursor: pointer;
+    z-index: 90;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+}
+.back-top.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+.back-top:hover { border-color: var(--chartreuse); color: var(--chartreuse); }
+.back-top svg { width: 18px; height: 18px; }
+.back-top-ring {
+    position: absolute;
+    inset: -1px;
+    transform: rotate(-90deg);
+    pointer-events: none;
+}
+.back-top-ring circle {
+    fill: none;
+    stroke: var(--chartreuse);
+    stroke-width: 1.5;
+    stroke-dasharray: 178;
+    stroke-dashoffset: 178;
+    transition: stroke-dashoffset 0.1s linear;
+}
+@media (max-width: 720px) {
+    .back-top { width: 46px; height: 46px; bottom: 20px; right: 20px; }
+    .back-top svg { width: 14px; height: 14px; }
+    .back-top-ring circle { stroke-dasharray: 144; stroke-dashoffset: 144; }
+}
+</style>
+</head>
+<body>
+
+<!-- grain & progress -->
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+    <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+</svg>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- nav -->
+<nav class="nav" id="nav">
+    <a href="index.html" class="nav-lockup" aria-label="Aperia Visuals — home">
+        <svg viewBox="0 0 100 130" aria-hidden="true">
+            <path d="M50 14 L86 116 M50 14 L14 116" stroke="#F5F1EA" stroke-width="14" fill="none" stroke-linejoin="miter" stroke-miterlimit="6" stroke-linecap="square"/>
+            <polygon points="-7,-11 7,-11 0,11" fill="#D4FF3D" transform="translate(50 56) rotate(18)"/>
+        </svg>
+        <span class="nav-lockup-text">Aperia <em>Visuals</em></span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#disciplines">Disciplines</a>
+        <a href="food.html">Food</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="events.html">Events</a>
+        <a href="corporate.html">Corporate</a>
+        <a href="portraits.html">Portraits</a>
+        <a href="commercial.html">Commercial</a>
+        <a href="sports-brand.html">Sports &amp; Brand</a>
+        <a href="story.html" class="active">Story</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+</nav>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <ol>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#disciplines">Disciplines</a></li>
+        <li><a href="food.html">Food</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="corporate.html">Corporate</a></li>
+        <li><a href="portraits.html">Portraits</a></li>
+        <li><a href="commercial.html">Commercial</a></li>
+        <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+        <li><a href="story.html">Story</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ol>
+</aside>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+    <div class="hero-corner">
+        № <strong>004</strong><br/>Story / About<br/>Aperia Visuals
+    </div>
+    <div class="container">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-stamp reveal"><span class="dot"></span>Nairobi · East Africa · By appointment</div>
+                <h1 class="hero-title reveal delay-1">
+                    Collins <em>Allindi.</em>
+                </h1>
+                <p class="hero-sub reveal delay-2">
+                    Founder of Aperia Visuals. A small studio that takes images <em>seriously</em>, and itself a little less so.
+                </p>
+                <div class="hero-meta reveal delay-3">
+                    <div class="hero-meta-item">
+                        <div class="label">Disciplines</div>
+                        <div class="hero-meta-item-value">Food · Architecture · Events · Commercial</div>
+                    </div>
+                    <div class="hero-meta-item">
+                        <div class="label">Established</div>
+                        <div class="hero-meta-item-value">Nairobi, 2026</div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal delay-2">
+                <div class="hero-portrait hero-portrait--filled">
+                    <img
+                        src="images/allindi-portrait.jpg"
+                        srcset="images/allindi-portrait-med.jpg 700w, images/allindi-portrait.jpg 1400w"
+                        sizes="(max-width: 880px) 80vw, 40vw"
+                        alt="Collins Allindi — founder of Aperia Visuals, photographed in front of an African portrait collage painting"
+                    />
+                    <div class="hero-portrait-credit">
+                        <span>Collins Allindi</span>
+                        <span class="gold">Aperia Visuals · 2026</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== THE WHY (long-form article) ========== -->
+<section class="article">
+    <div class="container">
+        <div class="article-grid">
+            <aside class="article-aside reveal">
+                <div class="label">№ 004.1 — The brief</div>
+                <p class="article-aside-quote">
+                    Notice what's <em>already there.</em><br/>
+                    Photograph it without flattering it too <span class="gold">much.</span>
+                </p>
+            </aside>
+            <div class="article-body reveal delay-1">
+                <p>I'm Allindi. I make photographs and short films across Nairobi and East Africa. The work splits into four lanes — food, architecture, events, and commercial portraits — but the brief is always the same: notice what's already in the room, and photograph it without flattering it too much.</p>
+
+                <p>The camera came late. I studied IT at <strong>KCA University</strong> and finished my BSc the same year I started taking client work seriously. Two skill sets that look unrelated until you try to deliver a multi-cam edit on a tight turnaround, or version-control a deck of 800 frames across three reviewers. The engineering brain shows up in the process — file structures, naming, colour pipelines, deliverable formats. The photographer eats well after.</p>
+
+                <div class="article-pull">A frame is a small honest argument. The job is to keep the honest ones and bury the rest.</div>
+
+                <p>Aperia Visuals — formerly Vanta Media — is the operating name. The rename is recent, the work isn't. I've spent the last few years building a quiet practice across hospitality (Glee Nairobi, Gem Forest), corporate (Foodlibrary by JIT), media (Kaash), and brand activation (Red Bull Basement, where I'm currently onboarding with Red Bull Media House as a network photographer).</p>
+
+                <p>I shoot full-frame mirrorless on a small kit of primes, light when I have to and avoid lighting when I can, and edit in Capture One and Premiere. None of this is interesting unless you're hiring a photographer who tells you it's interesting. If you're hiring one anyway, what should show up on set is quiet competence behind the camera — not a gear conversation.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== PRINCIPLES ========== -->
+<section class="principles">
+    <div class="container">
+        <div class="principles-header reveal">
+            <div class="section-index">
+                <span class="label">№ 004.2 — How the work gets made</span>
+            </div>
+            <h2 class="display">Three things I do<br/>on every <em>shoot.</em></h2>
+        </div>
+        <div class="principles-list">
+            <article class="principle reveal">
+                <div class="principle-num">01 / Method</div>
+                <h3 class="principle-title">Read the <em>room</em> first.</h3>
+                <div class="principle-body">
+                    <p>Before the camera comes out, I watch. The handshake at the door tells me what kind of evening this is. The way a chef holds a knife tells me how the food is going to plate. The way a building catches light at 4pm tells me which side to shoot from.</p>
+                    <p>Most of the deck is decided in those first ten minutes. The shutter just records what was already decided.</p>
+                </div>
+            </article>
+            <article class="principle reveal delay-1">
+                <div class="principle-num">02 / Craft</div>
+                <h3 class="principle-title">Light <em>gently.</em></h3>
+                <div class="principle-body">
+                    <p>I light most things like the room is already lit — soft, directional, with shadows falling where they want to. Heavy lighting wins technical awards. Honest lighting gets used in the deck the client actually sends to their board.</p>
+                    <p>If a venue gives me good window light, I'll take it over a softbox every time.</p>
+                </div>
+            </article>
+            <article class="principle reveal delay-2">
+                <div class="principle-num">03 / Edit</div>
+                <h3 class="principle-title">Cut <em>ruthlessly.</em></h3>
+                <div class="principle-body">
+                    <p>A client gets the frames that earn their place — not every frame I shot. If a brief calls for 30 finals and I send 400, I haven't done my job; I've outsourced it to whoever has to triage on the other side.</p>
+                    <p>Selecting <em>is</em> the work. The shoot is what makes the selection possible.</p>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- ========== STUDIO ========== -->
+<section class="studio">
+    <div class="container">
+        <div class="studio-grid">
+            <div class="studio-text reveal">
+                <div class="section-index">
+                    <span class="label">№ 004.3 — Practice</span>
+                </div>
+                <h2 class="display">On location, <em>on time.</em></h2>
+                <p>Aperia Visuals operates as a freelance practice — no fixed studio, no overhead. I work on-location across Nairobi metro and travel for projects that warrant the suitcase. Most shoots happen where the story already lives: in your space, on your set, at the event.</p>
+                <p>By default I bring portable lighting and a modular kit. For portraits or product work that needs a controlled environment, we book a borrowed space or shoot at your office. Quick brief by email, half-day or full-day rates on request.</p>
+                <div class="studio-coords">
+                    <div class="studio-coords-item">
+                        <div class="label">Coverage</div>
+                        <div class="studio-coords-item-value">Nairobi metro<br/>East Africa on request</div>
+                    </div>
+                    <div class="studio-coords-item">
+                        <div class="label">Response</div>
+                        <div class="studio-coords-item-value">Within 24 hours<br/>Mon — Sat</div>
+                    </div>
+                    <div class="studio-coords-item">
+                        <div class="label">Direct</div>
+                        <div class="studio-coords-item-value"><a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a></div>
+                    </div>
+                    <div class="studio-coords-item">
+                        <div class="label">Instagram</div>
+                        <div class="studio-coords-item-value"><a href="https://www.instagram.com/collinsallindi/" target="_blank" rel="noopener noreferrer">@collinsallindi</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal delay-1">
+                <div class="studio-map" aria-label="Stylized map showing Nairobi as service area">
+                    <div class="studio-map-grid"></div>
+                    <div class="studio-map-streets">
+                        <svg viewBox="0 0 100 125" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- abstract street lines -->
+                            <line x1="0" y1="22" x2="100" y2="34" stroke="rgba(245,241,234,0.1)" stroke-width="0.35"/>
+                            <line x1="0" y1="58" x2="100" y2="62" stroke="rgba(245,241,234,0.14)" stroke-width="0.5"/>
+                            <line x1="0" y1="88" x2="100" y2="82" stroke="rgba(245,241,234,0.08)" stroke-width="0.3"/>
+                            <line x1="18" y1="0" x2="22" y2="125" stroke="rgba(245,241,234,0.1)" stroke-width="0.35"/>
+                            <line x1="48" y1="0" x2="56" y2="125" stroke="rgba(245,241,234,0.14)" stroke-width="0.5"/>
+                            <line x1="78" y1="0" x2="74" y2="125" stroke="rgba(245,241,234,0.08)" stroke-width="0.3"/>
+                            <!-- highlighted street near pin -->
+                            <line x1="30" y1="58" x2="56" y2="60" stroke="rgba(212,255,61,0.36)" stroke-width="0.5"/>
+                        </svg>
+                    </div>
+                    <div class="studio-map-coords tl">-1.2655 ° S<br/>36.8025 ° E</div>
+                    <svg class="studio-map-rose" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="11" fill="none" stroke="rgba(245,241,234,0.18)" stroke-width="0.5"/>
+                        <path d="M12 2 L13.5 11 L12 13 L10.5 11 Z" fill="#D4FF3D"/>
+                        <path d="M12 22 L13.5 13 L12 11 L10.5 13 Z" fill="rgba(245,241,234,0.3)"/>
+                        <text x="12" y="6" font-family="JetBrains Mono, monospace" font-size="3" fill="#F5F1EA" text-anchor="middle">N</text>
+                    </svg>
+                    <div class="studio-map-pin">
+                        <div class="studio-map-pin-dot"></div>
+                        <div class="studio-map-pin-label">Aperia Visuals · <span class="gold">Nairobi</span></div>
+                    </div>
+                    <div class="studio-map-scale">
+                        <div class="studio-map-scale-bar"></div>
+                        <span>200 m</span>
+                    </div>
+                    <div class="studio-map-coords br">Westlands · NBI</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CLIENTS ========== -->
+<section class="clients">
+    <div class="container">
+        <div class="clients-header reveal">
+            <h2 class="display">Working <em>with.</em></h2>
+            <p class="clients-intro">A selection of recent clients across hospitality, corporate, media, and brand activation. Names appear alphabetically; sectors as practised.</p>
+        </div>
+        <!-- Logo strip — designed typographic wordmarks.
+             To swap in an official logo: replace the inner content of any
+             .logo-mark with <img src="images/logos/brand.svg" alt="Brand"
+             style="height:32px;width:auto;filter:invert(0.92);" /> -->
+        <div class="logo-strip reveal delay-1" aria-label="Clients">
+            <div class="logo-mark logo-gemforest" aria-label="Gem Forest Hotel">
+                <span class="logo-line1">Gem Forest</span>
+                <span class="logo-line2">Nairobi</span>
+            </div>
+            <div class="logo-mark logo-glee" aria-label="Glee Nairobi">
+                <span class="logo-line1">Glee</span>
+                <span class="logo-line2">Nairobi</span>
+            </div>
+            <div class="logo-mark logo-kaash" aria-label="Kaash Media">
+                kaash <span class="logo-dot">·</span> media
+            </div>
+            <div class="logo-mark logo-pvp" aria-label="Foodlibrary by JIT">
+                <span class="logo-line1">Foodlibrary</span>
+                <span class="logo-line2">by JIT</span>
+            </div>
+            <div class="logo-mark logo-redbull" aria-label="Red Bull Media House">
+                <span class="logo-line1">Red Bull</span>
+            </div>
+            <div class="logo-mark logo-workable" aria-label="Workable LTD">
+                workable<span class="logo-line2">LTD</span>
+            </div>
+        </div>
+
+        <div class="clients-wall reveal delay-2">
+            <div class="client-row">
+                <div class="client-num">01</div>
+                <div class="client-name">Gem <em>Forest</em></div>
+                <div class="client-sector">Hospitality · Luxury</div>
+            </div>
+            <div class="client-row">
+                <div class="client-num">02</div>
+                <div class="client-name">Glee <em>Nairobi</em></div>
+                <div class="client-sector">Hospitality</div>
+            </div>
+            <div class="client-row">
+                <div class="client-num">03</div>
+                <div class="client-name">Kaash <em>Media</em></div>
+                <div class="client-sector">Media · Production</div>
+            </div>
+            <div class="client-row">
+                <div class="client-num">04</div>
+                <div class="client-name">Foodlibrary <em>by JIT</em></div>
+                <div class="client-sector">Corporate</div>
+            </div>
+            <div class="client-row">
+                <div class="client-num">05</div>
+                <div class="client-name">Red Bull <em>Media House</em></div>
+                <div class="client-sector">Brand activation · Pitch night</div>
+            </div>
+            <div class="client-row">
+                <div class="client-num">06</div>
+                <div class="client-name">Workable <em>LTD</em></div>
+                <div class="client-sector">Hospitality · Workspace</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTINUE — DISCIPLINE CARDS ========== -->
+<section class="discover">
+    <div class="container">
+        <div class="discover-header reveal">
+            <div>
+                <div class="section-index">
+                    <span class="label">№ 004.5 — Continue</span>
+                </div>
+                <h2 class="display">More from<br/>the <em>studio.</em></h2>
+            </div>
+            <p class="discover-intro">
+                The other disciplines, each in their own room. Tap any card to open the full body of work.
+            </p>
+        </div>
+        <div class="discover-grid reveal delay-1">
+            <a href="food.html" class="discover-card" aria-label="View Food work">
+                <div class="discover-card-img" style="background-image: url('images/cover-food.jpg');"></div>
+                <div class="discover-card-mark">№ 001</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Food.</h3>
+                    <p class="discover-card-tag">Editorial menus, hospitality, brand work — plated <em>honestly.</em></p>
+                </div>
+                <div class="discover-card-cta">
+                    <span>View work</span>
+                    <span class="discover-card-cta-arrow">→</span>
+                </div>
+            </a>
+            <a href="architecture.html" class="discover-card" aria-label="View Architecture work">
+                <div class="discover-card-img" style="background-image: url('images/cover-architecture.jpg');"></div>
+                <div class="discover-card-mark">№ 002</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Architecture.</h3>
+                    <p class="discover-card-tag">Spaces, made <em>still.</em> Hotels, residences, commercial interiors.</p>
+                </div>
+                <div class="discover-card-cta">
+                    <span>View work</span>
+                    <span class="discover-card-cta-arrow">→</span>
+                </div>
+            </a>
+            <a href="events.html" class="discover-card" aria-label="View Events work">
+                <div class="discover-card-img" style="background-image: url('images/event-rbb-01-med.jpg');"></div>
+                <div class="discover-card-mark">№ 003</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Events.</h3>
+                    <p class="discover-card-tag">Reportage with a <em>cinematographer's</em> eye. Red Bull Basement, Nani's Cafe.</p>
+                </div>
+                <div class="discover-card-cta">
+                    <span>View work</span>
+                    <span class="discover-card-cta-arrow">→</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section class="cta-closer">
+    <div class="container">
+        <h2 class="display reveal">
+            Got a story to <em>capture?</em>
+        </h2>
+        <a class="cta-closer-link reveal delay-1" href="index.html#contact">Start a project</a>
+    </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div><a href="index.html">aperia.studio</a></div>
+        </div>
+    </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="Back to top">
+    <svg class="back-top-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28.5" id="backTopRing"/></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<script>
+(function(){
+    'use strict';
+
+    // Scroll progress + nav scrolled state + back to top
+    const sp = document.getElementById('scrollProgress');
+    const nav = document.getElementById('nav');
+    const backTop = document.getElementById('backTop');
+    const backTopRing = document.getElementById('backTopRing');
+    let backTopRingDash = null;
+    function onScroll() {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const sc = Math.min(1, Math.max(0, window.scrollY / Math.max(1, docH)));
+        sp.style.transform = 'scaleX(' + sc + ')';
+        nav.classList.toggle('scrolled', window.scrollY > 24);
+        backTop.classList.toggle('visible', window.scrollY > 600);
+        if (backTopRing) {
+            if (backTopRingDash === null) {
+                try { backTopRingDash = backTopRing.getTotalLength ? backTopRing.getTotalLength() : 178; }
+                catch(_) { backTopRingDash = 178; }
+                backTopRing.style.strokeDasharray = backTopRingDash;
+            }
+            backTopRing.style.strokeDashoffset = backTopRingDash * (1 - sc);
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    // Mobile drawer
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerClose = document.getElementById('drawerClose');
+    menuBtn.addEventListener('click', () => {
+        drawer.classList.add('open');
+        drawer.setAttribute('aria-hidden', 'false');
+    });
+    drawerClose.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+    });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        drawer.classList.remove('open');
+        drawer.setAttribute('aria-hidden', 'true');
+    }));
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        reveals.forEach(el => io.observe(el));
+    } else {
+        reveals.forEach(el => el.classList.add('in'));
+    }
+    setTimeout(() => reveals.forEach(el => el.classList.add('in')), 2500);
+
+})();
+</script>
+
+</body>
+</html>

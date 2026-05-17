@@ -1,0 +1,2043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Portraits — Aperia Visuals</title>
+<meta name="description" content="Editorial portrait photography by Aperia Visuals — four sessions across studio, street, fashion, and BTS. Faces are arguments." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..900,0..100;1,9..144,200..900,0..100&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 130'%3E%3Cpath d='M50 14 L86 116 M50 14 L14 116' stroke='%23F5F1EA' stroke-width='14' fill='none' stroke-linejoin='miter' stroke-miterlimit='6' stroke-linecap='square'/%3E%3Cpolygon points='-7,-11 7,-11 0,11' fill='%23D4FF3D' transform='translate(50 56) rotate(18)'/%3E%3C/svg%3E" />
+<style>
+:root {
+    --bg: #0A0908;
+    --bg-2: #14110F;
+    --cream: #F5F1EA;
+    --gold: #C9A36B;
+    --chartreuse: #D4FF3D;
+    --chartreuse-dim: #5e7012;
+    --smoke: #8A847A;
+    --dim: #5A554E;
+    --line: rgba(245, 241, 234, 0.08);
+    --line-2: rgba(245, 241, 234, 0.16);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+    background: var(--bg);
+}
+body {
+    font-family: 'Hanken Grotesk', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.55;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+::selection { background: var(--chartreuse); color: var(--bg); }
+
+/* film grain & progress */
+.grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 200;
+    opacity: 0.06; mix-blend-mode: overlay;
+}
+.scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; background: var(--chartreuse);
+    z-index: 110; transform-origin: 0 50%;
+    transform: scaleX(0); transition: transform 0.05s linear;
+}
+
+/* cursor follower (desktop only) */
+.cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 28px; height: 28px;
+    border: 1px solid var(--chartreuse);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 120;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, border-color 0.3s ease, width 0.3s ease, height 0.3s ease;
+    opacity: 0;
+    mix-blend-mode: difference;
+    will-change: transform;
+}
+.cursor-ring.visible { opacity: 0.75; transform: translate(-50%, -50%) scale(1); }
+.cursor-ring.hover { width: 56px; height: 56px; opacity: 0.95; }
+.cursor-ring.click { transform: translate(-50%, -50%) scale(0.5); }
+@media (hover: none), (max-width: 880px) {
+    .cursor-ring { display: none; }
+}
+
+/* ===== NAV ===== */
+.nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100; padding: 18px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: backdrop-filter 0.3s ease, background 0.3s ease;
+}
+.nav.scrolled {
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    background: rgba(10, 9, 8, 0.65);
+    border-bottom: 1px solid var(--line);
+}
+.nav-lockup { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--cream); }
+.nav-lockup svg { width: 26px; height: auto; display: block; }
+.nav-lockup-text {
+    font-family: 'Fraunces', serif; font-weight: 400; font-size: 19px;
+    letter-spacing: -0.01em; font-variation-settings: "opsz" 30, "SOFT" 50;
+}
+.nav-lockup-text em { font-style: italic; color: var(--gold); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+    color: var(--cream); text-decoration: none;
+    font-size: 13px; letter-spacing: 0.02em;
+    position: relative; padding: 6px 0;
+    transition: color 0.2s ease;
+}
+.nav-links a::after {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 1px;
+    background: var(--chartreuse);
+    transform: scaleX(0); transform-origin: right center;
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.nav-links a:hover::after, .nav-links a.active::after {
+    transform: scaleX(1); transform-origin: left center;
+}
+.nav-links a.active { color: var(--chartreuse); }
+.menu-btn {
+    display: none; background: none; border: none;
+    color: var(--cream); cursor: pointer; padding: 8px;
+    width: 40px; height: 40px;
+}
+.menu-btn svg { width: 22px; height: 22px; }
+@media (max-width: 880px) {
+    .nav-links { display: none; }
+    .menu-btn { display: flex; align-items: center; justify-content: center; }
+    .nav { padding: 14px 20px; }
+}
+
+/* mobile drawer */
+.drawer {
+    position: fixed; inset: 0; background: var(--bg);
+    z-index: 105; display: flex; flex-direction: column;
+    padding: 90px 28px 40px;
+    transform: translateX(100%);
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1);
+}
+.drawer.open { transform: translateX(0); }
+.drawer-close {
+    position: absolute; top: 18px; right: 20px;
+    background: none; border: none; color: var(--cream); cursor: pointer;
+    width: 40px; height: 40px;
+}
+.drawer ol { list-style: none; counter-reset: drawer; margin-top: 20px; }
+.drawer ol li {
+    counter-increment: drawer;
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+}
+.drawer ol li a {
+    color: var(--cream); text-decoration: none;
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 36px; font-weight: 300;
+    font-variation-settings: "opsz" 60, "SOFT" 80;
+    display: flex; align-items: baseline; gap: 14px; line-height: 1.1;
+    transition: color 0.25s ease;
+}
+.drawer ol li a::before {
+    content: counter(drawer, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace; font-style: normal;
+    font-size: 11px; color: var(--chartreuse);
+    letter-spacing: 0.1em; flex-shrink: 0;
+}
+.drawer ol li a:hover { color: var(--chartreuse); }
+
+/* ===== TYPE PRIMITIVES ===== */
+.label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--smoke); text-transform: uppercase;
+}
+.display {
+    font-family: 'Fraunces', serif;
+    font-weight: 300; line-height: 0.94;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.display em { font-style: italic; color: var(--gold); font-weight: 300; }
+.container {
+    max-width: 1400px; margin: 0 auto; padding: 0 32px;
+}
+@media (max-width: 720px) {
+    .container { padding: 0 20px; }
+}
+
+/* ============ HERO ============ */
+.hero-portraits {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    background: var(--bg);
+}
+.hero-portraits-bg {
+    position: absolute;
+    inset: -10% 0;
+    background-image: url('images/portrait-studio-03-large.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    will-change: transform;
+    z-index: 0;
+}
+.hero-portraits-veil {
+    position: absolute; inset: 0;
+    background:
+        linear-gradient(180deg, rgba(10,9,8,0.4) 0%, rgba(10,9,8,0.2) 30%, rgba(10,9,8,0.9) 100%),
+        linear-gradient(90deg, rgba(10,9,8,0.55) 0%, rgba(10,9,8,0.1) 50%, rgba(10,9,8,0.4) 100%);
+    z-index: 1;
+}
+.hero-portraits-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 0 96px;
+    width: 100%;
+}
+.hero-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 36px;
+    padding: 8px 14px;
+    border: 1px solid var(--line-2);
+    background: rgba(10, 9, 8, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--cream);
+    text-transform: uppercase;
+}
+.hero-stamp .dot {
+    width: 6px; height: 6px;
+    background: var(--chartreuse);
+    border-radius: 50%;
+    animation: heroPulse 2.4s ease-in-out infinite;
+}
+@keyframes heroPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(212, 255, 61, 0.6); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(212, 255, 61, 0); }
+}
+.hero-portraits-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(80px, 16vw, 240px);
+    font-weight: 300;
+    line-height: 0.86;
+    letter-spacing: -0.035em;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    color: var(--cream);
+}
+.hero-portraits-title em { font-style: italic; color: var(--gold); }
+.hero-portraits-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(18px, 1.9vw, 26px);
+    line-height: 1.3;
+    color: var(--cream);
+    opacity: 0.92;
+    max-width: 540px;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.hero-meta {
+    display: flex; gap: 36px; flex-wrap: wrap;
+    padding-top: 24px; border-top: 1px solid var(--line-2);
+    max-width: 740px;
+}
+.hero-meta-item .label { margin-bottom: 6px; color: var(--cream); opacity: 0.7; }
+.hero-meta-item-value {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 15px; color: var(--cream); font-weight: 400;
+}
+.hero-corner-mark {
+    position: absolute;
+    top: 100px; right: 32px;
+    z-index: 3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.16em;
+    color: var(--cream); opacity: 0.7;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.7;
+}
+.hero-corner-mark strong { color: var(--chartreuse); font-weight: 500; }
+.hero-scroll-hint {
+    position: absolute;
+    bottom: 32px; right: 32px;
+    z-index: 3;
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--cream); opacity: 0.7;
+    text-transform: uppercase;
+}
+.hero-scroll-hint .arrow {
+    width: 1px; height: 30px;
+    background: linear-gradient(to bottom, transparent, var(--chartreuse));
+    animation: scrollHintDrop 2s ease-in-out infinite;
+}
+@keyframes scrollHintDrop {
+    0%, 100% { transform: scaleY(0.3); transform-origin: top; opacity: 0.4; }
+    50% { transform: scaleY(1); opacity: 1; }
+}
+@media (max-width: 720px) {
+    .hero-portraits-content { padding-bottom: 70px; }
+    .hero-corner-mark, .hero-scroll-hint { display: none; }
+}
+
+/* ============ MANIFESTO ============ */
+.manifesto {
+    padding: 140px 0 100px;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+}
+.manifesto-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+.manifesto-quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(28px, 3.4vw, 48px);
+    line-height: 1.12;
+    letter-spacing: -0.018em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.manifesto-quote em { color: var(--chartreuse); }
+.manifesto-quote .gold { color: var(--gold); }
+.manifesto-body p {
+    font-size: 17px; line-height: 1.7;
+    color: var(--cream); opacity: 0.84;
+    margin-bottom: 18px; max-width: 540px;
+}
+.manifesto-body strong { color: var(--cream); opacity: 1; font-weight: 500; }
+@media (max-width: 880px) {
+    .manifesto { padding: 80px 0 60px; }
+    .manifesto-grid { grid-template-columns: 1fr; gap: 36px; }
+}
+
+/* ============ SERIES — shared ============ */
+.series {
+    position: relative;
+    padding: 140px 0;
+    border-bottom: 1px solid var(--line);
+}
+.series-header {
+    margin-bottom: 80px;
+}
+.series-header-row {
+    display: flex; align-items: baseline;
+    gap: 28px; margin-bottom: 24px;
+}
+.series-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.18em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+.series-num::after {
+    content: ' /';
+    color: var(--smoke);
+}
+.series-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    color: var(--smoke); text-transform: uppercase;
+}
+.series-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    font-weight: 300; line-height: 0.94;
+    letter-spacing: -0.025em;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.series-title em { font-style: italic; color: var(--gold); }
+.series-intro {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.4;
+    color: var(--cream);
+    opacity: 0.86;
+    max-width: 620px;
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.series-meta {
+    display: flex; gap: 36px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+}
+.series-meta-item .label { margin-bottom: 6px; }
+.series-meta-item-value {
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 14px; color: var(--cream); font-weight: 400;
+}
+
+/* ============ SERIES 01: STUDIO — sticky split ============ */
+.series-studio .studio-split {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+.studio-sticky-wrap {
+    position: relative;
+    height: 200vh; /* tall container so sticky can slide */
+}
+.studio-sticky-frame {
+    position: sticky;
+    top: 10vh;
+    height: 80vh;
+    overflow: hidden;
+}
+.studio-sticky-frame img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    transition: transform 0.6s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.studio-sticky-frame:hover img { transform: scale(1.04); }
+.studio-side {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 4vh;
+}
+.studio-side-text p {
+    font-size: 16px; line-height: 1.7;
+    color: var(--cream); opacity: 0.86;
+    margin-bottom: 16px;
+    max-width: 480px;
+}
+.studio-side-text strong { color: var(--cream); opacity: 1; font-weight: 500; }
+.studio-thumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.studio-thumb {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+}
+.studio-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.6, 0, 0.2, 1), filter 0.5s ease;
+}
+.studio-thumb:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.06);
+}
+.studio-thumb::after {
+    content: attr(data-frame);
+    position: absolute;
+    top: 12px; left: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.14em;
+    color: var(--cream);
+    background: rgba(10, 9, 8, 0.7);
+    padding: 3px 6px;
+}
+.studio-thumb-wide { grid-column: 1 / -1; aspect-ratio: 16 / 11; }
+@media (max-width: 880px) {
+    .series-studio .studio-split { grid-template-columns: 1fr; gap: 40px; }
+    .studio-sticky-wrap { height: auto; }
+    .studio-sticky-frame { position: static; height: 80vh; }
+}
+
+/* ============ SERIES 02: STREET — magazine spread ============ */
+.street-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+}
+.street-cell {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg-2);
+}
+.street-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.6, 0, 0.2, 1), filter 0.5s ease;
+}
+.street-cell:hover img {
+    transform: scale(1.06);
+    filter: brightness(1.06);
+}
+.street-cell::after {
+    content: attr(data-frame);
+    position: absolute;
+    top: 14px; left: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    color: var(--cream);
+    background: rgba(10, 9, 8, 0.7);
+    padding: 4px 8px;
+    text-transform: uppercase;
+}
+.street-cell:nth-child(1) { grid-column: span 7; aspect-ratio: 3 / 4; }
+.street-cell:nth-child(2) { grid-column: span 5; aspect-ratio: 4 / 5; }
+.street-cell:nth-child(3) { grid-column: span 12; aspect-ratio: 16 / 9; }
+.street-cell:nth-child(4) { grid-column: span 5; aspect-ratio: 4 / 5; }
+.street-cell:nth-child(5) { grid-column: span 7; aspect-ratio: 3 / 4; }
+/* Cell 3 (the wide one) becomes a parallax band */
+.street-cell-parallax {
+    overflow: hidden;
+    position: relative;
+}
+.street-cell-parallax img {
+    transform: scale(1.15);
+    will-change: transform;
+}
+.street-cell-quote {
+    position: absolute;
+    left: 32px; bottom: 28px;
+    z-index: 2;
+    max-width: 420px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.2;
+    color: var(--cream);
+    letter-spacing: -0.01em;
+    text-shadow: 0 2px 24px rgba(10,9,8,0.6);
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+}
+.street-cell-quote em { color: var(--chartreuse); }
+@media (max-width: 880px) {
+    .street-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 4 / 5; }
+    .street-cell:nth-child(3) { aspect-ratio: 16 / 11; }
+}
+
+/* ============ SERIES 03: YARD — cinema reveal ============ */
+.yard-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.yard-panel {
+    position: relative;
+    height: 90vh;
+    min-height: 600px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.yard-panel-bg {
+    position: absolute;
+    inset: -8% 0;
+    background-size: cover;
+    background-position: center 25%;
+    will-change: transform;
+}
+.yard-panel-veil {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+        rgba(10,9,8,0.3) 0%,
+        rgba(10,9,8,0.0) 30%,
+        rgba(10,9,8,0.0) 60%,
+        rgba(10,9,8,0.78) 100%);
+    z-index: 1;
+}
+.yard-panel-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+    padding: 0 48px 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+}
+.yard-panel-frame {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.18em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+}
+.yard-panel-caption {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(22px, 2.6vw, 36px);
+    line-height: 1.18;
+    color: var(--cream);
+    max-width: 600px;
+    letter-spacing: -0.012em;
+    text-shadow: 0 2px 24px rgba(10,9,8,0.5);
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+}
+.yard-panel-caption em { color: var(--gold); }
+.yard-panel-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.9;
+    color: var(--cream);
+    opacity: 0.3;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+@media (max-width: 720px) {
+    .yard-panel { height: 70vh; min-height: 500px; }
+    .yard-panel-content { padding: 0 20px 32px; flex-direction: column; align-items: flex-start; gap: 16px; }
+}
+
+/* ============ SERIES 04: BTS — quiet closer ============ */
+.bts-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 28px;
+    align-items: start;
+}
+.bts-cell {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    cursor: pointer;
+}
+.bts-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.bts-cell:hover img { transform: scale(1.05); }
+.bts-cell-2 {
+    margin-top: 100px;
+}
+.bts-text {
+    padding: 56px 24px 0;
+    max-width: 480px;
+    margin-left: auto;
+}
+.bts-text p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(20px, 2.2vw, 28px);
+    line-height: 1.3;
+    color: var(--cream);
+    margin-bottom: 20px;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+}
+.bts-text p em { color: var(--gold); }
+@media (max-width: 880px) {
+    .bts-grid { grid-template-columns: 1fr; gap: 16px; }
+    .bts-cell-2 { margin-top: 0; }
+    .bts-text { padding: 32px 0 0; }
+}
+
+/* ============ SERIES FILTER CHIPS (sticky jump-nav) ============ */
+.series-filters {
+    position: sticky;
+    top: 58px;
+    z-index: 80;
+    padding: 16px 0;
+    background: rgba(10, 9, 8, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
+}
+.series-filters-inner {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.series-filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    margin-right: 8px;
+}
+.series-filter-chip {
+    padding: 8px 16px;
+    border: 1px solid var(--line);
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+    line-height: 1;
+}
+.series-filter-chip:hover {
+    border-color: var(--chartreuse);
+    color: var(--chartreuse);
+}
+.series-filter-chip.is-active {
+    background: var(--chartreuse);
+    border-color: var(--chartreuse);
+    color: var(--bg);
+}
+.series-filter-chip-num {
+    font-size: 9px;
+    margin-right: 6px;
+    opacity: 0.5;
+}
+.series-filter-chip.is-active .series-filter-chip-num { opacity: 1; }
+@media (max-width: 720px) {
+    .series-filters { padding: 12px 0; }
+    .series-filter-label { display: none; }
+    .series-filters-inner { gap: 8px; justify-content: flex-start; overflow-x: auto; padding: 0 5vw; }
+    .series-filter-chip { padding: 7px 12px; font-size: 10px; white-space: nowrap; }
+}
+
+/* ============ SERIES 05: FIELD — horizontal drag-scroll reels ============ */
+.series-field {
+    padding: 130px 0 100px;
+    background:
+        radial-gradient(circle at 80% 20%, rgba(212, 255, 61, 0.04) 0%, transparent 50%),
+        var(--bg);
+}
+.series-field > .container {
+    margin-bottom: 60px;
+}
+.field-chapter {
+    margin-bottom: 110px;
+    position: relative;
+}
+.field-chapter:last-child { margin-bottom: 0; }
+
+.field-chapter-header {
+    position: relative;
+    margin-bottom: 36px;
+    padding-bottom: 0;
+}
+.field-chapter-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--chartreuse);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+.field-chapter-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 4.4vw, 56px);
+    line-height: 0.98;
+    letter-spacing: -0.022em;
+    margin-bottom: 14px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+    color: var(--cream);
+}
+.field-chapter-title em { font-style: italic; color: var(--gold); }
+.field-chapter-tag {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--cream);
+    opacity: 0.7;
+    max-width: 620px;
+}
+.field-chapter-hint {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--smoke);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.field-chapter-hint::before {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 1px;
+    background: var(--smoke);
+}
+
+.field-reel {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
+    padding: 0 8vw 32px;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold) rgba(245, 241, 234, 0.04);
+}
+.field-reel.is-grabbing { cursor: grabbing; user-select: none; }
+.field-reel::-webkit-scrollbar { height: 6px; }
+.field-reel::-webkit-scrollbar-track { background: rgba(245, 241, 234, 0.04); }
+.field-reel::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 0; }
+.field-reel::-webkit-scrollbar-thumb:hover { background: var(--chartreuse); }
+
+.field-reel-track {
+    display: flex;
+    gap: 14px;
+    align-items: stretch;
+    padding-right: 8vw;
+}
+.field-reel-frame {
+    flex: 0 0 auto;
+    height: 68vh;
+    max-height: 720px;
+    min-height: 400px;
+    scroll-snap-align: start;
+    background: var(--bg-2);
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
+    border: none;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.45s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.field-reel-frame img {
+    height: 100%;
+    width: auto;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.7s cubic-bezier(0.6, 0, 0.2, 1), filter 0.6s ease;
+    pointer-events: none;
+}
+.field-reel-frame:hover img {
+    transform: scale(1.04);
+    filter: brightness(1.05) saturate(1.05);
+}
+.field-reel-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 9, 8, 0.55) 0%, rgba(10, 9, 8, 0) 35%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+.field-reel-frame:hover::after { opacity: 1; }
+.field-reel-frame-num {
+    position: absolute;
+    top: 14px; left: 16px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--cream);
+    background: rgba(10, 9, 8, 0.65);
+    padding: 5px 9px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+}
+.field-reel-frame-tag {
+    position: absolute;
+    left: 16px; right: 16px; bottom: 16px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+}
+.field-reel-frame:hover .field-reel-frame-tag {
+    opacity: 0.95;
+    transform: translateY(0);
+}
+
+@media (max-width: 880px) {
+    .series-field { padding: 80px 0 60px; }
+    .field-chapter { margin-bottom: 70px; }
+    .field-chapter-hint { display: none; }
+    .field-reel { padding: 0 5vw 24px; }
+    .field-reel-track { padding-right: 5vw; }
+    .field-reel-frame { height: 56vh; min-height: 300px; }
+}
+
+/* ============ DISCOVER ============ */
+.discover {
+    padding: 120px 0;
+    border-bottom: 1px solid var(--line);
+}
+.discover-header {
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+    align-items: end;
+}
+.discover-header .display {
+    font-size: clamp(40px, 5.4vw, 76px);
+    line-height: 0.96;
+}
+.discover-intro {
+    font-size: 16px; line-height: 1.6;
+    color: var(--cream); opacity: 0.74;
+    max-width: 480px; margin-left: auto;
+}
+.discover-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+.discover-card {
+    position: relative; display: block;
+    background: var(--bg-2); overflow: hidden;
+    aspect-ratio: 3 / 4;
+    text-decoration: none; color: var(--cream);
+    border: 1px solid var(--line);
+    transition: border-color 0.35s ease, transform 0.5s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.discover-card:hover {
+    border-color: var(--chartreuse);
+    transform: translateY(-6px);
+}
+.discover-card-img {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: saturate(0.85) brightness(0.5);
+    transition: filter 0.6s ease, transform 1.2s cubic-bezier(0.6, 0, 0.2, 1);
+    transform: scale(1.04); z-index: 0;
+}
+.discover-card:hover .discover-card-img {
+    filter: saturate(1.0) brightness(0.65);
+    transform: scale(1.1);
+}
+.discover-card::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,9,8,0.85) 0%, rgba(10,9,8,0.18) 60%, transparent 100%);
+    z-index: 1;
+}
+.discover-card-mark {
+    position: absolute; top: 18px; right: 18px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--chartreuse); text-transform: uppercase;
+}
+.discover-card-meta {
+    position: absolute; left: 18px; right: 18px; bottom: 56px;
+    z-index: 2;
+}
+.discover-card-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(26px, 2.8vw, 34px);
+    line-height: 1;
+    letter-spacing: -0.022em;
+    margin-bottom: 10px;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+}
+.discover-card-tag {
+    font-size: 13px; line-height: 1.4;
+    color: var(--cream); opacity: 0.8;
+}
+.discover-card-tag em { font-style: italic; color: var(--gold); }
+.discover-card-cta {
+    position: absolute; left: 18px; right: 18px; bottom: 18px;
+    z-index: 2;
+    padding-top: 12px;
+    border-top: 1px solid rgba(245, 241, 234, 0.18);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.16em;
+    color: var(--cream); text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+.discover-card:hover .discover-card-cta {
+    color: var(--chartreuse);
+    border-top-color: var(--chartreuse);
+}
+@media (max-width: 1000px) {
+    .discover-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 600px) {
+    .discover-grid { grid-template-columns: 1fr; gap: 12px; }
+    .discover-card { aspect-ratio: 4 / 3; }
+    .discover-header { grid-template-columns: 1fr; gap: 24px; }
+    .discover-intro { margin-left: 0; }
+}
+
+/* ============ CTA ============ */
+.cta-closer {
+    padding: 160px 0 140px;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+}
+.cta-closer .display {
+    font-size: clamp(48px, 8vw, 120px);
+    margin-bottom: 48px;
+    font-weight: 300;
+}
+.cta-closer-link {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: var(--chartreuse); color: var(--bg);
+    padding: 16px 28px; text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; font-weight: 500;
+    transition: gap 0.4s cubic-bezier(0.7, 0, 0.3, 1), background 0.3s ease;
+}
+.cta-closer-link::after { content: '→'; font-size: 14px; }
+.cta-closer-link:hover { gap: 20px; background: var(--cream); }
+@media (max-width: 720px) { .cta-closer { padding: 90px 0 80px; } }
+
+/* ============ FOOTER ============ */
+.footer {
+    padding: 60px 0 40px;
+    color: var(--smoke);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.1em;
+}
+.footer-grid {
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 24px;
+    text-transform: uppercase;
+}
+.footer a { color: var(--smoke); text-decoration: none; transition: color 0.2s ease; }
+.footer a:hover { color: var(--chartreuse); }
+
+/* ============ REVEAL ============ */
+.reveal {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 1s cubic-bezier(0.6, 0, 0.2, 1), transform 1s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal.delay-1 { transition-delay: 0.08s; }
+.reveal.delay-2 { transition-delay: 0.16s; }
+.reveal.delay-3 { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity: 1; transform: none; }
+    [data-parallax] { transform: none !important; }
+}
+
+/* ============ BACK TO TOP ============ */
+.back-top {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+    color: var(--cream); cursor: pointer;
+    z-index: 90;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+    opacity: 0; transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+}
+.back-top.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.back-top:hover { border-color: var(--chartreuse); color: var(--chartreuse); }
+.back-top svg { width: 18px; height: 18px; }
+.back-top-ring {
+    position: absolute; inset: -1px;
+    transform: rotate(-90deg); pointer-events: none;
+}
+.back-top-ring circle {
+    fill: none; stroke: var(--chartreuse); stroke-width: 1.5;
+    stroke-dasharray: 178; stroke-dashoffset: 178;
+    transition: stroke-dashoffset 0.1s linear;
+}
+@media (max-width: 720px) {
+    .back-top { width: 46px; height: 46px; bottom: 20px; right: 20px; }
+    .back-top svg { width: 14px; height: 14px; }
+    .back-top-ring circle { stroke-dasharray: 144; stroke-dashoffset: 144; }
+}
+
+/* ============ LIGHTBOX ============ */
+.lightbox {
+    position: fixed; inset: 0;
+    z-index: 200;
+    background: rgba(10, 9, 8, 0.97);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    flex-direction: column;
+    padding: 32px;
+}
+.lightbox.open { display: flex; }
+.lightbox-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.lightbox-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; letter-spacing: 0.14em;
+    color: var(--chartreuse); text-transform: uppercase;
+}
+.lightbox-counter strong { color: var(--cream); font-weight: 500; }
+.lightbox-series {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--cream);
+    font-variation-settings: "opsz" 60, "SOFT" 60;
+    margin-top: 4px;
+}
+.lightbox-close {
+    background: none; border: 1px solid var(--line-2);
+    color: var(--cream); cursor: pointer;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+.lightbox-close:hover { border-color: var(--chartreuse); color: var(--chartreuse); }
+.lightbox-close svg { width: 16px; height: 16px; }
+.lightbox-stage {
+    flex: 1; display: flex;
+    align-items: center; justify-content: center;
+    position: relative; min-height: 0;
+}
+.lightbox-img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain; display: block;
+    user-select: none; -webkit-user-drag: none;
+}
+.lightbox-arrow {
+    position: absolute; top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10,9,8,0.6);
+    border: 1px solid var(--line-2);
+    color: var(--cream); cursor: pointer;
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+.lightbox-arrow:hover {
+    border-color: var(--chartreuse); color: var(--chartreuse);
+    background: rgba(10,9,8,0.85);
+}
+.lightbox-arrow.prev { left: 24px; }
+.lightbox-arrow.next { right: 24px; }
+.lightbox-arrow svg { width: 18px; height: 18px; }
+.lightbox-bottom {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    color: var(--smoke); text-transform: uppercase;
+}
+.lightbox-bottom .key {
+    display: inline-block;
+    border: 1px solid var(--line-2);
+    padding: 2px 6px; margin: 0 2px;
+    color: var(--cream);
+}
+@media (max-width: 720px) {
+    .lightbox { padding: 16px; }
+    .lightbox-arrow { width: 44px; height: 44px; }
+    .lightbox-arrow.prev { left: 8px; }
+    .lightbox-arrow.next { right: 8px; }
+    .lightbox-bottom { display: none; }
+}
+</style>
+</head>
+<body>
+
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+    <filter id="g"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0"/></filter>
+    <rect width="100%" height="100%" filter="url(#g)"/>
+</svg>
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="nav" id="nav">
+    <a href="index.html" class="nav-lockup" aria-label="Aperia Visuals — home">
+        <svg viewBox="0 0 100 130" aria-hidden="true">
+            <path d="M50 14 L86 116 M50 14 L14 116" stroke="#F5F1EA" stroke-width="14" fill="none" stroke-linejoin="miter" stroke-miterlimit="6" stroke-linecap="square"/>
+            <polygon points="-7,-11 7,-11 0,11" fill="#D4FF3D" transform="translate(50 56) rotate(18)"/>
+        </svg>
+        <span class="nav-lockup-text">Aperia <em>Visuals</em></span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#work">Work</a>
+        <a href="index.html#disciplines">Disciplines</a>
+        <a href="food.html">Food</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="events.html">Events</a>
+        <a href="corporate.html">Corporate</a>
+        <a href="portraits.html" class="active">Portraits</a>
+        <a href="commercial.html">Commercial</a>
+        <a href="sports-brand.html">Sports &amp; Brand</a>
+        <a href="story.html">Story</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+</nav>
+
+<aside class="drawer" id="drawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+    <ol>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#disciplines">Disciplines</a></li>
+        <li><a href="food.html">Food</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="corporate.html">Corporate</a></li>
+        <li><a href="portraits.html">Portraits</a></li>
+        <li><a href="commercial.html">Commercial</a></li>
+        <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+        <li><a href="story.html">Story</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+    </ol>
+</aside>
+
+<!-- ===== HERO ===== -->
+<section class="hero-portraits">
+    <div class="hero-portraits-bg" id="heroBg" data-parallax="0.4"></div>
+    <div class="hero-portraits-veil"></div>
+    <div class="hero-corner-mark">№ <strong>005</strong><br/>Portraits<br/>Aperia Visuals</div>
+    <div class="container hero-portraits-content">
+        <div class="hero-stamp"><span class="dot"></span>Five chapters · 2025 — 2026</div>
+        <h1 class="hero-portraits-title">Portraits<em>.</em></h1>
+        <p class="hero-portraits-sub">Faces are arguments. Every frame either lands a sentence — or it doesn't.</p>
+        <div class="hero-meta">
+            <div class="hero-meta-item">
+                <div class="label">Chapters</div>
+                <div class="hero-meta-item-value">Studio · Street · Yard · BTS · Field</div>
+            </div>
+            <div class="hero-meta-item">
+                <div class="label">Frames selected</div>
+                <div class="hero-meta-item-value">33</div>
+            </div>
+            <div class="hero-meta-item">
+                <div class="label">Location</div>
+                <div class="hero-meta-item-value">Nairobi</div>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll-hint">
+        Scroll<span class="arrow"></span>
+    </div>
+</section>
+
+<!-- ===== MANIFESTO ===== -->
+<section class="manifesto">
+    <div class="container">
+        <div class="manifesto-grid">
+            <div class="reveal">
+                <p class="manifesto-quote">
+                    The job isn't to make someone look <em>good.</em><br/>
+                    It's to make the camera <span class="gold">listen.</span>
+                </p>
+            </div>
+            <div class="manifesto-body reveal delay-1">
+                <p>Portraits are the discipline I'm hardest on myself for. There's no plate to re-stage, no skyline to come back to. It's a face, three minutes after meeting a stranger, in a room with the wrong light. You either find them or you don't.</p>
+                <p>Below — five chapters from the last year. <strong>Studio editorial</strong> in a small room with one window. <strong>Street fashion</strong> with a model who knew exactly where to stand. <strong>Industrial editorial</strong> at a vintage rail yard at golden hour. <strong>Behind the lens</strong> — once in a while we point the camera back at the people who run the cameras. And <strong>field work</strong> — brand activations where the portrait has to <em>happen anyway,</em> inside the noise.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERIES FILTER CHIPS (sticky jump-nav) ===== -->
+<div class="series-filters" id="seriesFilters">
+    <div class="container series-filters-inner">
+        <span class="series-filter-label">Jump to →</span>
+        <a href="#series-studio" class="series-filter-chip" data-target="series-studio"><span class="series-filter-chip-num">01</span>Studio</a>
+        <a href="#series-street" class="series-filter-chip" data-target="series-street"><span class="series-filter-chip-num">02</span>Street</a>
+        <a href="#series-yard" class="series-filter-chip" data-target="series-yard"><span class="series-filter-chip-num">03</span>Yard</a>
+        <a href="#series-bts" class="series-filter-chip" data-target="series-bts"><span class="series-filter-chip-num">04</span>BTS</a>
+        <a href="#series-field" class="series-filter-chip" data-target="series-field"><span class="series-filter-chip-num">05</span>Field</a>
+    </div>
+</div>
+
+<!-- ===== SERIES 01: STUDIO ===== -->
+<section class="series series-studio" id="series-studio">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">01</span>
+                <span class="series-eyebrow">The Studio · Editorial</span>
+            </div>
+            <h2 class="series-title">A room with one <em>window.</em></h2>
+            <p class="series-intro">A small studio, a deep red velvet sofa, dark teal panels. The lighting was the room — pulled apart with one shaped flag and patience.</p>
+            <div class="series-meta">
+                <div class="series-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="series-meta-item-value">04</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Lighting</div>
+                    <div class="series-meta-item-value">Natural · single window · flag-shaped</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Format</div>
+                    <div class="series-meta-item-value">Full-frame · 50mm prime</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="studio-split">
+            <div class="studio-sticky-wrap">
+                <div class="studio-sticky-frame" data-lightbox-trigger data-series="studio" data-idx="2" data-large-src="images/portrait-studio-03-large.jpg">
+                    <img src="images/portrait-studio-03-large.jpg" alt="Studio portrait — woman in white dress on red velvet" />
+                </div>
+            </div>
+            <div class="studio-side">
+                <div class="studio-side-text reveal">
+                    <p>The sitter chose the dress. The dress chose the lighting. The room — borrowed for a Sunday afternoon — already had the panels and the sofa; we moved one chair and closed two blinds. <strong>Everything else is restraint.</strong></p>
+                    <p>The fourth frame is the one that ran. The other three are the ones that earned it.</p>
+                </div>
+                <div class="studio-thumbs reveal delay-1">
+                    <div class="studio-thumb" data-frame="02" data-lightbox-trigger data-series="studio" data-idx="1" data-large-src="images/portrait-studio-02-large.jpg">
+                        <img src="images/portrait-studio-02-med.jpg" alt="Studio portrait frame 02" loading="lazy" />
+                    </div>
+                    <div class="studio-thumb" data-frame="04" data-lightbox-trigger data-series="studio" data-idx="3" data-large-src="images/portrait-studio-04-large.jpg">
+                        <img src="images/portrait-studio-04-med.jpg" alt="Studio portrait frame 04" loading="lazy" />
+                    </div>
+                    <div class="studio-thumb studio-thumb-wide" data-frame="01" data-lightbox-trigger data-series="studio" data-idx="0" data-large-src="images/portrait-studio-01-large.jpg">
+                        <img src="images/portrait-studio-01-med.jpg" alt="Studio portrait frame 01" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERIES 02: STREET ===== -->
+<section class="series series-street" id="series-street">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">02</span>
+                <span class="series-eyebrow">Saint Live · Street Fashion</span>
+            </div>
+            <h2 class="series-title">A wardrobe, in <em>public.</em></h2>
+            <p class="series-intro">The brief was a brand collaboration on a wearable line — but the photographs are about the sitter. The graphic on the back of the tee is just the closer.</p>
+            <div class="series-meta">
+                <div class="series-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="series-meta-item-value">05</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Brand</div>
+                    <div class="series-meta-item-value">SAINT LIVE</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Location</div>
+                    <div class="series-meta-item-value">Nairobi · CBD adjacents</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="street-grid reveal">
+            <div class="street-cell" data-frame="Frame 01" data-lightbox-trigger data-series="street" data-idx="0" data-large-src="images/portrait-street-01-large.jpg">
+                <img src="images/portrait-street-01-med.jpg" alt="Street fashion portrait — fedora, sleeveless tee" loading="lazy" />
+            </div>
+            <div class="street-cell" data-frame="Frame 02" data-lightbox-trigger data-series="street" data-idx="1" data-large-src="images/portrait-street-02-large.jpg">
+                <img src="images/portrait-street-02-med.jpg" alt="Street fashion portrait frame 02" loading="lazy" />
+            </div>
+            <div class="street-cell street-cell-parallax" data-frame="Frame 03" data-lightbox-trigger data-series="street" data-idx="2" data-large-src="images/portrait-street-03-large.jpg">
+                <img src="images/portrait-street-03-large.jpg" alt="Street fashion portrait frame 03 — wide" loading="lazy" data-parallax="0.25" />
+                <div class="street-cell-quote">
+                    The fit is the <em>argument.</em> The street is the courtroom.
+                </div>
+            </div>
+            <div class="street-cell" data-frame="Frame 04" data-lightbox-trigger data-series="street" data-idx="3" data-large-src="images/portrait-street-04-large.jpg">
+                <img src="images/portrait-street-04-med.jpg" alt="Street fashion portrait frame 04 — graphic back" loading="lazy" />
+            </div>
+            <div class="street-cell" data-frame="Frame 05" data-lightbox-trigger data-series="street" data-idx="4" data-large-src="images/portrait-street-05-large.jpg">
+                <img src="images/portrait-street-05-med.jpg" alt="Street fashion portrait frame 05" loading="lazy" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERIES 03: YARD ===== -->
+<section class="series series-yard" id="series-yard">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">03</span>
+                <span class="series-eyebrow">The Yard · Industrial Editorial</span>
+            </div>
+            <h2 class="series-title">Bold colour, hard <em>light.</em></h2>
+            <p class="series-intro">Golden hour at a vintage rail yard. The model brought the fur hat and the attitude. The carriages did the rest.</p>
+            <div class="series-meta">
+                <div class="series-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="series-meta-item-value">04</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Light</div>
+                    <div class="series-meta-item-value">Natural · golden hour · low side</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Format</div>
+                    <div class="series-meta-item-value">Full-frame · 35mm · 85mm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="yard-stack">
+        <div class="yard-panel" data-lightbox-trigger data-series="yard" data-idx="2" data-large-src="images/portrait-yard-03-large.jpg">
+            <div class="yard-panel-bg" style="background-image: url('images/portrait-yard-03-large.jpg'); background-position: center 20%;" data-parallax="0.35"></div>
+            <div class="yard-panel-veil"></div>
+            <div class="yard-panel-content">
+                <div>
+                    <div class="yard-panel-frame">03 / Yard</div>
+                    <p class="yard-panel-caption">The <em>fist</em>, through the louvres.</p>
+                </div>
+                <span class="yard-panel-num">01</span>
+            </div>
+        </div>
+        <div class="yard-panel" data-lightbox-trigger data-series="yard" data-idx="0" data-large-src="images/portrait-yard-01-large.jpg">
+            <div class="yard-panel-bg" style="background-image: url('images/portrait-yard-01-large.jpg'); background-position: center 30%;" data-parallax="0.35"></div>
+            <div class="yard-panel-veil"></div>
+            <div class="yard-panel-content">
+                <div>
+                    <div class="yard-panel-frame">01 / Yard</div>
+                    <p class="yard-panel-caption">Mint suit, white frames, <em>iron in the floor.</em></p>
+                </div>
+                <span class="yard-panel-num">02</span>
+            </div>
+        </div>
+        <div class="yard-panel" data-lightbox-trigger data-series="yard" data-idx="1" data-large-src="images/portrait-yard-02-large.jpg">
+            <div class="yard-panel-bg" style="background-image: url('images/portrait-yard-02-large.jpg'); background-position: center 25%;" data-parallax="0.35"></div>
+            <div class="yard-panel-veil"></div>
+            <div class="yard-panel-content">
+                <div>
+                    <div class="yard-panel-frame">02 / Yard</div>
+                    <p class="yard-panel-caption">Window <em>frame</em>, low-side light.</p>
+                </div>
+                <span class="yard-panel-num">03</span>
+            </div>
+        </div>
+        <div class="yard-panel" data-lightbox-trigger data-series="yard" data-idx="3" data-large-src="images/portrait-yard-04-large.jpg">
+            <div class="yard-panel-bg" style="background-image: url('images/portrait-yard-04-large.jpg'); background-position: center 40%;" data-parallax="0.35"></div>
+            <div class="yard-panel-veil"></div>
+            <div class="yard-panel-content">
+                <div>
+                    <div class="yard-panel-frame">04 / Yard</div>
+                    <p class="yard-panel-caption">Carriage <em>U.R.</em> — first class, in sunset.</p>
+                </div>
+                <span class="yard-panel-num">04</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERIES 04: BTS ===== -->
+<section class="series series-bts" id="series-bts">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">04</span>
+                <span class="series-eyebrow">Behind the Lens · Creatives</span>
+            </div>
+            <h2 class="series-title">The camera, <em>turned around.</em></h2>
+        </div>
+
+        <div class="bts-grid">
+            <div class="bts-cell reveal" data-lightbox-trigger data-series="bts" data-idx="0" data-large-src="images/portrait-bts-01-large.jpg">
+                <img src="images/portrait-bts-01-large.jpg" alt="Behind-the-lens portrait — cinematographer with red car & mural" loading="lazy" />
+            </div>
+            <div>
+                <div class="bts-cell bts-cell-2 reveal delay-1" data-lightbox-trigger data-series="bts" data-idx="1" data-large-src="images/portrait-bts-02-large.jpg">
+                    <img src="images/portrait-bts-02-med.jpg" alt="Behind-the-lens portrait — second frame" loading="lazy" />
+                </div>
+                <div class="bts-text reveal delay-2">
+                    <p>Once in a while we take the lens off the brief and point it at the <em>operator.</em></p>
+                    <p>This one's a Nairobi cinematographer, a borrowed cabriolet, and a mural that didn't need our help.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERIES 05: FIELD ===== -->
+<section class="series series-field" id="series-field">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">05</span>
+                <span class="series-eyebrow">In the Field · Brand & Reportage</span>
+            </div>
+            <h2 class="series-title">When the brief is a <em>brand,</em><br/>not a portrait.</h2>
+            <p class="series-intro">Activations, launches, brand events. People at work, people at play. The portrait still happens — just inside the noise instead of outside it. Two chapters here: Red Bull's hackathon, and Heineken's matchday on a padel court.</p>
+            <div class="series-meta">
+                <div class="series-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="series-meta-item-value">18</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Approach</div>
+                    <div class="series-meta-item-value">Available light · candid · brand-aware</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Format</div>
+                    <div class="series-meta-item-value">Full-frame · 35–85mm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter A: Red Bull Basement -->
+    <div class="field-chapter reveal delay-1">
+        <div class="container">
+            <div class="field-chapter-header">
+                <div class="field-chapter-mark">№ 05.A</div>
+                <h3 class="field-chapter-title">Red Bull Basement <em>· 2025.</em></h3>
+                <p class="field-chapter-tag">A hackathon, indoors and out. Speakers, partners, a rooftop bar at golden hour, and the conversations that happen when the room is mostly other founders.</p>
+                <span class="field-chapter-hint">Drag ⇆ or scroll</span>
+            </div>
+        </div>
+        <div class="field-reel" data-reel="rbb">
+            <div class="field-reel-track">
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="0" data-large-src="images/portrait-field-rbb-01-large.jpg" aria-label="Open frame 01">
+                    <img src="images/portrait-field-rbb-01-med.jpg" alt="Red Bull Basement — rooftop bar, group at counter" loading="lazy"/>
+                    <span class="field-reel-frame-num">01</span>
+                    <span class="field-reel-frame-tag">The bar · Rooftop</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="1" data-large-src="images/portrait-field-rbb-02-large.jpg" aria-label="Open frame 02">
+                    <img src="images/portrait-field-rbb-02-med.jpg" alt="Red Bull Basement — conversation, red coat" loading="lazy"/>
+                    <span class="field-reel-frame-num">02</span>
+                    <span class="field-reel-frame-tag">The conversation</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="2" data-large-src="images/portrait-field-rbb-03-large.jpg" aria-label="Open frame 03">
+                    <img src="images/portrait-field-rbb-03-med.jpg" alt="Red Bull Basement — two women laughing" loading="lazy"/>
+                    <span class="field-reel-frame-num">03</span>
+                    <span class="field-reel-frame-tag">Between sessions</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="3" data-large-src="images/portrait-field-rbb-04-large.jpg" aria-label="Open frame 04">
+                    <img src="images/portrait-field-rbb-04-med.jpg" alt="Red Bull Basement — indoor candid, sunglasses" loading="lazy"/>
+                    <span class="field-reel-frame-num">04</span>
+                    <span class="field-reel-frame-tag">TownMate · indoor</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="4" data-large-src="images/portrait-field-rbb-05-large.jpg" aria-label="Open frame 05">
+                    <img src="images/portrait-field-rbb-05-med.jpg" alt="Red Bull Basement — interior crowd" loading="lazy"/>
+                    <span class="field-reel-frame-num">05</span>
+                    <span class="field-reel-frame-tag">The room</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="5" data-large-src="images/portrait-field-rbb-06-large.jpg" aria-label="Open frame 06">
+                    <img src="images/portrait-field-rbb-06-med.jpg" alt="Red Bull Basement — speaker, Partners screen" loading="lazy"/>
+                    <span class="field-reel-frame-num">06</span>
+                    <span class="field-reel-frame-tag">Partners · stage</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="6" data-large-src="images/portrait-field-rbb-07-large.jpg" aria-label="Open frame 07">
+                    <img src="images/portrait-field-rbb-07-med.jpg" alt="Red Bull Basement — SENTI staging" loading="lazy"/>
+                    <span class="field-reel-frame-num">07</span>
+                    <span class="field-reel-frame-tag">SENTI</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-rbb" data-idx="7" data-large-src="images/portrait-field-rbb-08-large.jpg" aria-label="Open frame 08">
+                    <img src="images/portrait-field-rbb-08-med.jpg" alt="Red Bull Basement — speaker portrait, microphone" loading="lazy"/>
+                    <span class="field-reel-frame-num">08</span>
+                    <span class="field-reel-frame-tag">One idea · one impact</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter B: Nani's Heineken -->
+    <div class="field-chapter reveal delay-2">
+        <div class="container">
+            <div class="field-chapter-header">
+                <div class="field-chapter-mark">№ 05.B</div>
+                <h3 class="field-chapter-title">Nani's · Heineken <em>· 2025.</em></h3>
+                <p class="field-chapter-tag">A matchday activation on a blue padel court. UEFA's evening, Heineken 0.0's branding, ten frames around the players, the watchers, and the side of the court no-one looks at.</p>
+                <span class="field-chapter-hint">Drag ⇆ or scroll</span>
+            </div>
+        </div>
+        <div class="field-reel" data-reel="nani">
+            <div class="field-reel-track">
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="0" data-large-src="images/portrait-field-nani-01-large.jpg" aria-label="Open frame 01">
+                    <img src="images/portrait-field-nani-01-med.jpg" alt="Nani's Heineken — Heineken bicycle setup" loading="lazy"/>
+                    <span class="field-reel-frame-num">01</span>
+                    <span class="field-reel-frame-tag">The set · before doors</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="1" data-large-src="images/portrait-field-nani-02-large.jpg" aria-label="Open frame 02">
+                    <img src="images/portrait-field-nani-02-med.jpg" alt="Nani's Heineken — woman with white cap" loading="lazy"/>
+                    <span class="field-reel-frame-num">02</span>
+                    <span class="field-reel-frame-tag">White cap</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="2" data-large-src="images/portrait-field-nani-03-large.jpg" aria-label="Open frame 03">
+                    <img src="images/portrait-field-nani-03-med.jpg" alt="Nani's Heineken — peace sign" loading="lazy"/>
+                    <span class="field-reel-frame-num">03</span>
+                    <span class="field-reel-frame-tag">Between matches</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="3" data-large-src="images/portrait-field-nani-04-large.jpg" aria-label="Open frame 04">
+                    <img src="images/portrait-field-nani-04-med.jpg" alt="Nani's Heineken — woman with cup" loading="lazy"/>
+                    <span class="field-reel-frame-num">04</span>
+                    <span class="field-reel-frame-tag">Refill</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="4" data-large-src="images/portrait-field-nani-05-large.jpg" aria-label="Open frame 05">
+                    <img src="images/portrait-field-nani-05-med.jpg" alt="Nani's Heineken — five women on padel court" loading="lazy"/>
+                    <span class="field-reel-frame-num">05</span>
+                    <span class="field-reel-frame-tag">Pre-match</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="5" data-large-src="images/portrait-field-nani-06-large.jpg" aria-label="Open frame 06">
+                    <img src="images/portrait-field-nani-06-med.jpg" alt="Nani's Heineken — white headband" loading="lazy"/>
+                    <span class="field-reel-frame-num">06</span>
+                    <span class="field-reel-frame-tag">In motion</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="6" data-large-src="images/portrait-field-nani-07-large.jpg" aria-label="Open frame 07">
+                    <img src="images/portrait-field-nani-07-med.jpg" alt="Nani's Heineken — wide court scene" loading="lazy"/>
+                    <span class="field-reel-frame-num">07</span>
+                    <span class="field-reel-frame-tag">The crowd</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="7" data-large-src="images/portrait-field-nani-08-large.jpg" aria-label="Open frame 08">
+                    <img src="images/portrait-field-nani-08-med.jpg" alt="Nani's Heineken — woman speaking with microphone" loading="lazy"/>
+                    <span class="field-reel-frame-num">08</span>
+                    <span class="field-reel-frame-tag">The host</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="8" data-large-src="images/portrait-field-nani-09-large.jpg" aria-label="Open frame 09">
+                    <img src="images/portrait-field-nani-09-med.jpg" alt="Nani's Heineken — four women in athletic wear" loading="lazy"/>
+                    <span class="field-reel-frame-num">09</span>
+                    <span class="field-reel-frame-tag">The four</span>
+                </button>
+                <button class="field-reel-frame" data-lightbox-trigger data-series="field-nani" data-idx="9" data-large-src="images/portrait-field-nani-10-large.jpg" aria-label="Open frame 10">
+                    <img src="images/portrait-field-nani-10-med.jpg" alt="Nani's Heineken — player in motion" loading="lazy"/>
+                    <span class="field-reel-frame-num">10</span>
+                    <span class="field-reel-frame-tag">The serve</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== DISCOVER ===== -->
+<section class="discover">
+    <div class="container">
+        <div class="discover-header reveal">
+            <div>
+                <h2 class="display">More from<br/>the <em>studio.</em></h2>
+            </div>
+            <p class="discover-intro">The other disciplines, each in their own room. Tap a card to open the full body of work.</p>
+        </div>
+        <div class="discover-grid reveal delay-1">
+            <a href="food.html" class="discover-card" aria-label="View Food work">
+                <div class="discover-card-img" style="background-image: url('images/cover-food.jpg');"></div>
+                <div class="discover-card-mark">№ 001</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Food.</h3>
+                    <p class="discover-card-tag">Plated <em>honestly.</em></p>
+                </div>
+                <div class="discover-card-cta"><span>View</span><span>→</span></div>
+            </a>
+            <a href="architecture.html" class="discover-card" aria-label="View Architecture work">
+                <div class="discover-card-img" style="background-image: url('images/cover-architecture.jpg');"></div>
+                <div class="discover-card-mark">№ 002</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Architecture.</h3>
+                    <p class="discover-card-tag">Spaces, made <em>still.</em></p>
+                </div>
+                <div class="discover-card-cta"><span>View</span><span>→</span></div>
+            </a>
+            <a href="events.html" class="discover-card" aria-label="View Events work">
+                <div class="discover-card-img" style="background-image: url('images/event-rbb-01-med.jpg');"></div>
+                <div class="discover-card-mark">№ 003</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Events.</h3>
+                    <p class="discover-card-tag">Reportage with a <em>cinematographer's</em> eye.</p>
+                </div>
+                <div class="discover-card-cta"><span>View</span><span>→</span></div>
+            </a>
+            <a href="story.html" class="discover-card" aria-label="Read Story">
+                <div class="discover-card-img" style="background-image: url('images/allindi-portrait.jpg');"></div>
+                <div class="discover-card-mark">№ 004</div>
+                <div class="discover-card-meta">
+                    <h3 class="discover-card-title">Story.</h3>
+                    <p class="discover-card-tag">Process, principles, <em>clients.</em></p>
+                </div>
+                <div class="discover-card-cta"><span>Read</span><span>→</span></div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-closer">
+    <div class="container">
+        <h2 class="display reveal">Got a face to <em>frame?</em></h2>
+        <a class="cta-closer-link reveal delay-1" href="index.html#contact">Start a project</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div><a href="index.html">aperia.studio</a></div>
+        </div>
+    </div>
+</footer>
+
+<button class="back-top" id="backTop" aria-label="Back to top">
+    <svg class="back-top-ring" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28.5" id="backTopRing"/></svg>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Portrait viewer">
+    <div class="lightbox-top">
+        <div>
+            <div class="lightbox-counter"><strong id="lbCounter">01</strong> / <span id="lbTotal">15</span></div>
+            <div class="lightbox-series" id="lightboxSeries">The Studio</div>
+        </div>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close viewer">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 6L18 18M6 18L18 6" stroke="currentColor" stroke-width="1.5"/></svg>
+        </button>
+    </div>
+    <div class="lightbox-stage">
+        <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+        <button class="lightbox-arrow prev" id="lbPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="lightbox-arrow next" id="lbNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </div>
+    <div class="lightbox-bottom">Esc to close · ← → to step</div>
+</div>
+
+<script>
+(function(){
+    'use strict';
+
+    /* ===== Series data (flat order, for lightbox) ===== */
+    const SERIES = {
+        studio:     { label: 'The Studio · Editorial', count: 4, prefix: 'portrait-studio' },
+        street:     { label: 'Saint Live · Street Fashion', count: 5, prefix: 'portrait-street' },
+        yard:       { label: 'The Yard · Industrial Editorial', count: 4, prefix: 'portrait-yard' },
+        bts:        { label: 'Behind the Lens · Creatives', count: 2, prefix: 'portrait-bts' },
+        'field-rbb':  { label: 'Red Bull Basement · Field', count: 8, prefix: 'portrait-field-rbb' },
+        'field-nani': { label: "Nani's · Heineken · Field", count: 10, prefix: 'portrait-field-nani' }
+    };
+
+    /* ===== Scroll progress + nav scrolled + back-to-top ===== */
+    const sp = document.getElementById('scrollProgress');
+    const nav = document.getElementById('nav');
+    const backTop = document.getElementById('backTop');
+    const backTopRing = document.getElementById('backTopRing');
+    let backTopRingDash = null;
+    function onScroll() {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const sc = Math.min(1, Math.max(0, window.scrollY / Math.max(1, docH)));
+        sp.style.transform = 'scaleX(' + sc + ')';
+        nav.classList.toggle('scrolled', window.scrollY > 24);
+        backTop.classList.toggle('visible', window.scrollY > 600);
+        if (backTopRing) {
+            if (backTopRingDash === null) {
+                try { backTopRingDash = backTopRing.getTotalLength ? backTopRing.getTotalLength() : 178; }
+                catch(_) { backTopRingDash = 178; }
+                backTopRing.style.strokeDasharray = backTopRingDash;
+            }
+            backTopRing.style.strokeDashoffset = backTopRingDash * (1 - sc);
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* ===== Drawer ===== */
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerClose = document.getElementById('drawerClose');
+    menuBtn.addEventListener('click', () => { drawer.classList.add('open'); drawer.setAttribute('aria-hidden', 'false'); });
+    drawerClose.addEventListener('click', () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); });
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { drawer.classList.remove('open'); drawer.setAttribute('aria-hidden', 'true'); }));
+
+    /* ===== Reveal on scroll ===== */
+    const reveals = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+        reveals.forEach(el => io.observe(el));
+    } else {
+        reveals.forEach(el => el.classList.add('in'));
+    }
+    setTimeout(() => reveals.forEach(el => el.classList.add('in')), 2500);
+
+    /* ===== Parallax — JS driven, rAF-throttled ===== */
+    const parallaxEls = Array.from(document.querySelectorAll('[data-parallax]'));
+    let parallaxTicking = false;
+    function applyParallax() {
+        const viewportH = window.innerHeight;
+        parallaxEls.forEach(el => {
+            const speed = parseFloat(el.dataset.parallax) || 0.3;
+            const rect = el.getBoundingClientRect();
+            // Only update if near viewport
+            if (rect.bottom < -200 || rect.top > viewportH + 200) return;
+            // Distance from viewport center
+            const elCenter = rect.top + rect.height / 2;
+            const distance = elCenter - viewportH / 2;
+            const yOffset = -distance * speed * 0.25;
+            el.style.transform = `translate3d(0, ${yOffset}px, 0)`;
+        });
+        parallaxTicking = false;
+    }
+    function onParallaxScroll() {
+        if (!parallaxTicking) {
+            requestAnimationFrame(applyParallax);
+            parallaxTicking = true;
+        }
+    }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', onParallaxScroll, { passive: true });
+        window.addEventListener('resize', onParallaxScroll, { passive: true });
+        applyParallax();
+    }
+
+    /* ===== Cursor follower (desktop only) ===== */
+    const cursorRing = document.getElementById('cursorRing');
+    if (cursorRing && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+        let cursorRaf;
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorRing.classList.add('visible');
+            if (!cursorRaf) {
+                cursorRaf = requestAnimationFrame(updateCursor);
+            }
+        });
+        function updateCursor() {
+            ringX += (mouseX - ringX) * 0.18;
+            ringY += (mouseY - ringY) * 0.18;
+            cursorRing.style.left = ringX + 'px';
+            cursorRing.style.top = ringY + 'px';
+            if (Math.abs(mouseX - ringX) > 0.5 || Math.abs(mouseY - ringY) > 0.5) {
+                cursorRaf = requestAnimationFrame(updateCursor);
+            } else {
+                cursorRaf = null;
+            }
+        }
+        document.addEventListener('mouseleave', () => { cursorRing.classList.remove('visible'); });
+        // Hover state on interactive elements
+        document.querySelectorAll('[data-lightbox-trigger], a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursorRing.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorRing.classList.remove('hover'));
+        });
+        document.addEventListener('mousedown', () => cursorRing.classList.add('click'));
+        document.addEventListener('mouseup', () => cursorRing.classList.remove('click'));
+    }
+
+    /* ===== Drag-to-scroll for FIELD reels ===== */
+    document.querySelectorAll('.field-reel').forEach(reel => {
+        let isDown = false;
+        let startX = 0;
+        let scrollStart = 0;
+        let moved = false;
+
+        reel.addEventListener('pointerdown', (e) => {
+            if (e.button !== 0 && e.pointerType === 'mouse') return;
+            isDown = true;
+            moved = false;
+            startX = e.clientX;
+            scrollStart = reel.scrollLeft;
+            reel.classList.add('is-grabbing');
+            try { reel.setPointerCapture(e.pointerId); } catch(_) {}
+        });
+        reel.addEventListener('pointermove', (e) => {
+            if (!isDown) return;
+            const dx = e.clientX - startX;
+            if (Math.abs(dx) > 6) moved = true;
+            reel.scrollLeft = scrollStart - dx * 1.4;
+        });
+        function endDrag(e) {
+            if (!isDown) return;
+            isDown = false;
+            reel.classList.remove('is-grabbing');
+            if (e && e.pointerId !== undefined) {
+                try { reel.releasePointerCapture(e.pointerId); } catch(_) {}
+            }
+        }
+        reel.addEventListener('pointerup', endDrag);
+        reel.addEventListener('pointercancel', endDrag);
+        reel.addEventListener('pointerleave', endDrag);
+
+        // Suppress clicks on frames when there was drag movement
+        reel.addEventListener('click', (e) => {
+            if (moved) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                moved = false;
+            }
+        }, true);
+    });
+
+    /* ===== Filter chip active state via IntersectionObserver ===== */
+    const filterChips = document.querySelectorAll('.series-filter-chip');
+    const seriesSections = ['series-studio','series-street','series-yard','series-bts','series-field']
+        .map(id => document.getElementById(id))
+        .filter(Boolean);
+    if (filterChips.length && seriesSections.length && 'IntersectionObserver' in window) {
+        const chipMap = {};
+        filterChips.forEach(c => { chipMap[c.dataset.target] = c; });
+        const visibility = new Map();
+        const sio = new IntersectionObserver((entries) => {
+            entries.forEach(e => visibility.set(e.target.id, e.intersectionRatio));
+            let best = null; let bestRatio = 0;
+            visibility.forEach((ratio, id) => {
+                if (ratio > bestRatio) { best = id; bestRatio = ratio; }
+            });
+            filterChips.forEach(c => c.classList.remove('is-active'));
+            if (best && bestRatio > 0.05 && chipMap[best]) {
+                chipMap[best].classList.add('is-active');
+            }
+        }, { threshold: [0, 0.05, 0.2, 0.4, 0.7, 1.0] });
+        seriesSections.forEach(s => sio.observe(s));
+    }
+
+    /* ===== Smooth scroll for filter chip jumps (offset for sticky header) ===== */
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', (e) => {
+            const targetId = chip.dataset.target;
+            const target = document.getElementById(targetId);
+            if (target) {
+                e.preventDefault();
+                const offset = 140;
+                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+        });
+    });
+
+    /* ===== Lightbox ===== */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCounter = document.getElementById('lbCounter');
+    const lbTotal = document.getElementById('lbTotal');
+    const lbSeries = document.getElementById('lightboxSeries');
+    const lbClose = document.getElementById('lightboxClose');
+    const lbPrev = document.getElementById('lbPrev');
+    const lbNext = document.getElementById('lbNext');
+
+    // Build flat sequence: studio (4) → street (5) → yard (4) → bts (2) → field-rbb (8) → field-nani (10) = 33
+    const FLAT = [];
+    ['studio','street','yard','bts','field-rbb','field-nani'].forEach(key => {
+        const s = SERIES[key];
+        for (let i = 0; i < s.count; i++) {
+            const trigEl = document.querySelector(`[data-lightbox-trigger][data-series="${key}"][data-idx="${i}"]`);
+            const largeSrc = (trigEl && trigEl.getAttribute('data-large-src')) || `images/${s.prefix}-${String(i+1).padStart(2,'0')}-large.jpg`;
+            const thumbImg = trigEl ? trigEl.querySelector('img') : null;
+            const thumbSrc = thumbImg ? thumbImg.src : null;
+            FLAT.push({
+                series: key,
+                idx: i,
+                label: s.label,
+                src: largeSrc,
+                fallback: thumbSrc,
+                num: FLAT.length + 1
+            });
+        }
+    });
+
+    let lbIdx = 0;
+    function renderLB() {
+        const item = FLAT[lbIdx];
+        lbImg.onerror = function() {
+            // If large image failed to load (e.g. external path in inlined preview), fall back to thumb
+            if (item.fallback && lbImg.src !== item.fallback) {
+                lbImg.src = item.fallback;
+            }
+            lbImg.onerror = null;
+        };
+        lbImg.src = item.src;
+        lbImg.alt = `${item.label} — frame ${item.idx + 1}`;
+        lbCounter.textContent = String(item.num).padStart(2, '0');
+        lbTotal.textContent = String(FLAT.length);
+        lbSeries.textContent = item.label;
+    }
+    function openLightbox(series, idx) {
+        // Find flat index
+        const found = FLAT.findIndex(it => it.series === series && it.idx === idx);
+        if (found < 0) return;
+        lbIdx = found;
+        renderLB();
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+        lightbox.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function goPrev() { lbIdx = (lbIdx - 1 + FLAT.length) % FLAT.length; renderLB(); }
+    function goNext() { lbIdx = (lbIdx + 1) % FLAT.length; renderLB(); }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', goPrev);
+    lbNext.addEventListener('click', goNext);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        else if (e.key === 'ArrowLeft') goPrev();
+        else if (e.key === 'ArrowRight') goNext();
+    });
+
+    // Wire up triggers
+    document.querySelectorAll('[data-lightbox-trigger]').forEach(el => {
+        el.addEventListener('click', () => {
+            const series = el.dataset.series;
+            const idx = parseInt(el.dataset.idx, 10);
+            openLightbox(series, idx);
+        });
+    });
+
+})();
+</script>
+
+</body>
+</html>

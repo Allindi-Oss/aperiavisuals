@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    // Always start at the top on refresh (unless URL has a #hash).
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!location.hash) window.scrollTo(0, 0);
+    });
+  </script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <title>Aperia Visuals — Frames that reveal.</title>
+  <meta name="description" content="Aperia Visuals — Cinematic photography and film, based in Nairobi. Food, Architecture, Corporate, Events, Portraits, Commercial, Sports & Brand." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Hanken+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="preload" as="image" href="images/home-01.jpg" />
+
+  <!-- Favicon: simplified Aperia mark, optimized for 32px -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0908' rx='4'/%3E%3Cpath d='M 6 27 L 16 5 L 26 27' stroke='%23F5F1EA' stroke-width='3.2' stroke-linejoin='miter' stroke-linecap='butt' stroke-miterlimit='6' fill='none'/%3E%3Cpath d='M 13.2 17.5 L 18.8 17.5 L 16 12 Z' fill='%23D4FF3D' transform='rotate(18 16 14.7)'/%3E%3C/svg%3E" />
+
+  <style>
+    /* =========================================================================
+       APERIA VISUALS — Editorial dark, with high-contrast chartreuse.
+       ========================================================================= */
+
+    :root {
+      --bg:            #0A0908;
+      --bg-elevated:   #141210;
+      --bg-surface:    #1C1A18;
+      --text:          #F5F1EA;
+      --text-muted:    #8A847A;
+      --text-faint:    #5A554F;
+      --border:        #2A2724;
+      --border-bright: #3F3A34;
+
+      /* Accents — gold for warmth/heritage, chartreuse for active/contrast */
+      --accent:        #C9A36B;
+      --accent-bright: #E5C18C;
+      --contrast:      #D4FF3D;
+      --contrast-dim:  #A8CC2E;
+
+      --font-display: 'Fraunces', 'Times New Roman', serif;
+      --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+      --gutter-x: clamp(1.25rem, 4vw, 4rem);
+
+      --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-padding-top: 70px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+      overflow-x: hidden;
+      letter-spacing: -0.005em;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, video { max-width: 100%; display: block; }
+    button { font: inherit; color: inherit; cursor: pointer; background: none; border: none; }
+
+    /* Sections with anchor IDs need clear space below the fixed nav */
+    section[id], header[id] { scroll-margin-top: 70px; }
+
+    /* Grain overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+      mix-blend-mode: overlay;
+    }
+
+    .label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .label--accent { color: var(--accent); }
+    .label--contrast { color: var(--contrast); }
+
+    .display {
+      font-family: var(--font-display);
+      font-weight: 350;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+    }
+    .display em {
+      font-style: italic;
+      font-weight: 300;
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+
+    .lead {
+      font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+      line-height: 1.5;
+      max-width: 50ch;
+      font-weight: 300;
+    }
+
+    .body-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 60ch;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1600px;
+      margin-inline: auto;
+      padding-inline: var(--gutter-x);
+    }
+
+    /* =========================================================================
+       SCROLL PROGRESS BAR
+       ========================================================================= */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--contrast);
+      box-shadow: 0 0 12px rgba(212, 255, 61, 0.6);
+      z-index: 110;
+      transition: width 0.05s linear;
+    }
+
+    /* =========================================================================
+       BACK-TO-TOP BUTTON
+       ========================================================================= */
+    .back-to-top {
+      position: fixed;
+      right: clamp(1rem, 3vw, 2rem);
+      bottom: clamp(1.25rem, 3vw, 2rem);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border-bright);
+      color: var(--text);
+      cursor: pointer;
+      z-index: 90;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px) scale(0.9);
+      transition:
+        opacity 0.4s var(--ease-out),
+        transform 0.4s var(--ease-out),
+        background 0.3s var(--ease-out),
+        border-color 0.3s var(--ease-out),
+        color 0.3s var(--ease-out),
+        visibility 0s linear 0.4s;
+    }
+    .back-to-top.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      transition:
+        opacity 0.4s var(--ease-out),
+        transform 0.4s var(--ease-out),
+        background 0.3s var(--ease-out),
+        border-color 0.3s var(--ease-out),
+        color 0.3s var(--ease-out),
+        visibility 0s linear;
+    }
+    .back-to-top:hover {
+      background: var(--contrast);
+      border-color: var(--contrast);
+      color: var(--bg);
+    }
+    .back-to-top svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .back-to-top:hover svg { transform: translateY(-3px); }
+
+    /* Tiny circular progress ring around the button — fills as you scroll */
+    .back-to-top__ring {
+      position: absolute;
+      inset: -1px;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      pointer-events: none;
+    }
+    .back-to-top__ring circle {
+      fill: none;
+      stroke: var(--contrast);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      stroke-dasharray: 175.93;
+      stroke-dashoffset: 175.93;
+      transition: stroke-dashoffset 0.1s linear;
+      opacity: 0.7;
+    }
+
+    @media (max-width: 760px) {
+      .back-to-top {
+        width: 46px;
+        height: 46px;
+        right: 1rem;
+        bottom: 1rem;
+      }
+      .back-to-top svg { width: 15px; height: 15px; }
+    }
+
+    /* =========================================================================
+       NAV
+       ========================================================================= */
+
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 0;
+      transition: background 0.4s var(--ease-out), border-color 0.4s var(--ease-out), backdrop-filter 0.4s var(--ease-out), padding 0.3s var(--ease-out);
+      border-bottom: 1px solid transparent;
+    }
+    .nav.is-scrolled {
+      background: rgba(10, 9, 8, 0.82);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border-bottom-color: var(--border);
+      padding: 0.7rem 0;
+    }
+    .nav__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    /* Brand lockup: actual SVG mark + APERIA / Visuals stacked type */
+    .nav__brand {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      color: var(--text);
+    }
+    .nav__brand-symbol {
+      width: 24px;
+      height: 31px;
+      flex-shrink: 0;
+      transition: transform 0.4s var(--ease-out);
+    }
+    .nav__brand:hover .nav__brand-symbol { transform: rotate(-3deg) scale(1.05); }
+    .nav__brand-type {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      gap: 0.2rem;
+    }
+    .nav__brand-mark {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 350;
+      letter-spacing: 0.05em;
+      font-variation-settings: "opsz" 144, "SOFT" 40;
+    }
+    .nav__brand-sub {
+      font-family: var(--font-mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav__menu {
+      display: flex;
+      gap: 2.25rem;
+      list-style: none;
+    }
+    .nav__menu a {
+      font-size: 0.86rem;
+      letter-spacing: 0.01em;
+      color: var(--text-muted);
+      transition: color 0.25s var(--ease-out);
+      position: relative;
+      padding-block: 0.4rem;
+    }
+    .nav__menu a:hover { color: var(--text); }
+    .nav__menu a::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 100%; bottom: 0;
+      height: 1px;
+      background: var(--contrast);
+      transition: right 0.4s var(--ease-out);
+    }
+    .nav__menu a:hover::after { right: 0; }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav__cta {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      padding: 0.65rem 1.2rem;
+      border: 1px solid var(--border-bright);
+      border-radius: 999px;
+      transition: background 0.3s var(--ease-out), border-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
+    }
+    .nav__cta:hover {
+      background: var(--contrast);
+      border-color: var(--contrast);
+      color: var(--bg);
+    }
+
+    /* Hamburger button (mobile only) */
+    .nav__toggle {
+      display: none;
+      width: 28px;
+      height: 28px;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      border: none;
+      position: relative;
+      z-index: 110;
+    }
+    .nav__toggle span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: var(--text);
+      transition: transform 0.4s var(--ease-out), opacity 0.3s var(--ease-out);
+      transform-origin: center;
+    }
+    .nav__toggle.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav__toggle.is-open span:nth-child(2) { opacity: 0; }
+    .nav__toggle.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu drawer */
+    .nav__mobile {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 105;
+      background: var(--bg);
+      padding: 5.5rem var(--gutter-x) 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-20px);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), visibility 0s linear 0.4s;
+      overflow-y: auto;
+    }
+    .nav__mobile.is-open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out), visibility 0s linear;
+    }
+    .nav__mobile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      list-style: none;
+      flex-shrink: 0;
+    }
+    .nav__mobile-list a {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 7vw, 2.4rem);
+      font-weight: 350;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--text);
+      font-variation-settings: "opsz" 144, "SOFT" 40;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .nav__mobile-list a .num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--contrast);
+      font-weight: 500;
+    }
+    .nav__mobile-list a:hover { color: var(--accent); }
+    .nav__mobile-foot {
+      margin-top: auto;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .nav__mobile-foot a { color: var(--text); }
+
+    @media (max-width: 980px) {
+      .nav__menu { display: none; }
+      .nav__cta { display: none; }
+      .nav__toggle { display: flex; }
+    }
+
+    /* =========================================================================
+       HERO
+       ========================================================================= */
+
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      padding-top: 7rem;
+      padding-bottom: 3rem;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .hero__media {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+    }
+    .hero__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      filter: brightness(0.6) contrast(1.08) saturate(0.9);
+      transform: scale(1.06);
+      transition: transform 9s var(--ease-out);
+    }
+    .hero.is-loaded .hero__media img { transform: scale(1); }
+    .hero__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(10,9,8,0.5) 0%, rgba(10,9,8,0.15) 30%, rgba(10,9,8,0.65) 75%, var(--bg) 100%),
+        linear-gradient(90deg, rgba(10,9,8,0.35) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .hero__inner {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .hero__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+    .hero__location {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .hero__coord {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+    .hero__year {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--contrast);
+    }
+
+    .hero__headline {
+      font-size: clamp(3.8rem, 13vw, 12rem);
+      line-height: 0.92;
+      letter-spacing: -0.045em;
+    }
+    .hero__headline-line {
+      display: block;
+      overflow: hidden;
+    }
+    .hero__headline-inner {
+      display: inline-block;
+      transform: translateY(110%);
+      transition: transform 1.2s var(--ease-smooth);
+    }
+    .hero.is-loaded .hero__headline-inner { transform: translateY(0); }
+    .hero__headline-line:nth-child(2) .hero__headline-inner { transition-delay: 0.12s; }
+
+    .hero__bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s var(--ease-out) 0.6s, transform 1s var(--ease-out) 0.6s;
+    }
+    .hero.is-loaded .hero__bottom { opacity: 1; transform: translateY(0); }
+
+    .hero__sub {
+      max-width: 36ch;
+      font-size: clamp(0.95rem, 1.1vw, 1.1rem);
+      line-height: 1.55;
+      color: var(--text);
+    }
+    .hero__sub strong { font-weight: 500; color: var(--text); }
+
+    .hero__caption {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      align-items: flex-end;
+      text-align: right;
+    }
+    .hero__caption-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text);
+    }
+    .hero__caption-meta {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 720px) {
+      .hero__bottom {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .hero__caption { align-items: flex-start; text-align: left; }
+    }
+
+    /* =========================================================================
+       STATUS STRIP — live editorial band between hero and philosophy
+       ========================================================================= */
+    .status-strip {
+      background: var(--bg-elevated);
+      border-block: 1px solid var(--border);
+      padding-block: 1.1rem;
+      overflow: hidden;
+    }
+    .status-strip__row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: nowrap;
+    }
+    .status-strip__group {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      white-space: nowrap;
+      min-width: 0;
+    }
+    .status-strip__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--contrast);
+      box-shadow: 0 0 10px rgba(212, 255, 61, 0.55);
+      animation: statusPulse 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+      align-self: center;
+    }
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.55; transform: scale(0.78); }
+    }
+    .status-strip__label {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .status-strip__value {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.92rem;
+      font-weight: 300;
+      letter-spacing: -0.005em;
+      color: var(--text);
+      font-variation-settings: "opsz" 60, "SOFT" 100;
+    }
+    .status-strip__value--accent { color: var(--contrast); font-style: normal; font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.06em; }
+
+    @media (max-width: 880px) {
+      .status-strip__row { gap: 1.25rem; }
+      .status-strip__group--hide-mobile { display: none; }
+    }
+    @media (max-width: 520px) {
+      .status-strip__row { gap: 0.75rem; }
+      .status-strip__label { font-size: 0.55rem; letter-spacing: 0.18em; }
+      .status-strip__value { font-size: 0.82rem; }
+      .status-strip__value--accent { font-size: 0.7rem; }
+    }
+
+    /* =========================================================================
+       SECTIONS
+       ========================================================================= */
+
+    .section {
+      padding-block: clamp(5rem, 10vw, 9rem);
+    }
+
+    @media (max-width: 760px) {
+      .section { padding-block: 4rem; }
+      .section__head { margin-bottom: 2.5rem; padding-bottom: 1.5rem; }
+    }
+
+    .section__head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      gap: 3rem;
+      align-items: end;
+      margin-bottom: clamp(3rem, 6vw, 5rem);
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section__index {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    .section__index::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.2rem;
+      bottom: 0.2rem;
+      width: 1px;
+      background: linear-gradient(180deg, var(--contrast) 0%, transparent 100%);
+    }
+    .section__title {
+      font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+      line-height: 1;
+      max-width: 14ch;
+    }
+    @media (max-width: 760px) {
+      .section__head {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        align-items: start;
+      }
+    }
+
+    /* =========================================================================
+       PHILOSOPHY
+       ========================================================================= */
+
+    .philosophy__grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+      gap: clamp(2rem, 6vw, 6rem);
+      align-items: start;
+    }
+    .philosophy__quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      font-weight: 300;
+      color: var(--text);
+      font-variation-settings: "opsz" 144, "SOFT" 60;
+    }
+    .philosophy__quote em {
+      font-style: italic;
+      color: var(--accent);
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+    .philosophy__quote .mark {
+      color: var(--contrast);
+      font-style: normal;
+    }
+
+    /* =========================================================================
+       SCROLL-DRIVEN WORD HIGHLIGHTING — words light up as scroll passes
+       ========================================================================= */
+    .scroll-word {
+      display: inline-block;
+      color: var(--text-faint);
+      transition: color 0.5s var(--ease-out), opacity 0.5s var(--ease-out);
+      will-change: color;
+    }
+    .scroll-word.is-lit {
+      color: var(--text);
+    }
+    /* Inside <em>, the lit color shifts to gold to keep the italic accent */
+    em .scroll-word.is-lit { color: var(--accent); }
+    /* Inside the .mark span (the chartreuse "revealing" word), keep chartreuse on lit, dim version on unlit */
+    .mark .scroll-word { color: #5e7012; }
+    .mark .scroll-word.is-lit { color: var(--contrast); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-word, .scroll-word.is-lit { color: var(--text); transition: none; }
+      em .scroll-word, em .scroll-word.is-lit { color: var(--accent); }
+      .mark .scroll-word, .mark .scroll-word.is-lit { color: var(--contrast); }
+    }
+
+    /* Aperture-ring animation — dilates behind "revealing" once the quote is in view */
+    .mark--aperture {
+      position: relative;
+      display: inline-block;
+      isolation: isolate;
+    }
+    .mark__aperture-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--contrast);
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .mark__text { position: relative; z-index: 1; }
+
+    /* Trigger the animation when the philosophy section is in view */
+    .philosophy[data-aperture-trigger].is-aperture-active .mark__aperture-ring {
+      animation: apertureOpen 1.6s var(--ease-smooth) 0.6s forwards;
+    }
+    @keyframes apertureOpen {
+      0%   { width: 0; height: 0; opacity: 0; }
+      35%  { width: 1.6em; height: 1.6em; opacity: 0.5; }
+      100% { width: 2.4em; height: 2.4em; opacity: 0; border-width: 0.5px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .mark__aperture-ring { display: none; }
+    }
+    .philosophy__body p + p { margin-top: 1.4rem; }
+    .philosophy__etymology {
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    .philosophy__etymology strong {
+      color: var(--contrast);
+      font-weight: 500;
+    }
+    @media (max-width: 880px) {
+      .philosophy__grid { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================================================
+       DISCIPLINES — Lando-style horizontal scroll
+       Sticky outer wrapper translates vertical scroll into horizontal movement
+       ========================================================================= */
+
+    .disciplines {
+      position: relative;
+      background: var(--bg);
+    }
+
+    /* Outer wrapper sets the scroll distance — taller = more scroll required */
+    .disciplines__scroll-wrap {
+      position: relative;
+      /* 8 cards + intro card = 9 panels. Height = (n_panels) * viewport_height roughly */
+      height: 500vh;
+    }
+
+    .disciplines__sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .disciplines__track {
+      display: flex;
+      gap: clamp(1rem, 2vw, 2rem);
+      padding-inline: clamp(1.25rem, 4vw, 4rem);
+      will-change: transform;
+      align-items: center;
+      height: 80vh;
+    }
+
+    /* Intro panel — sits at the head of the horizontal track */
+    .disciplines__intro {
+      flex-shrink: 0;
+      width: clamp(280px, 32vw, 480px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-block: 4rem;
+      padding-right: 2rem;
+      border-right: 1px solid var(--border);
+    }
+    .disciplines__intro-top {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .disciplines__intro-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      font-weight: 350;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      font-variation-settings: "opsz" 144, "SOFT" 30;
+    }
+    .disciplines__intro-title em {
+      font-style: italic;
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+    .disciplines__intro-body {
+      font-size: 0.95rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      max-width: 32ch;
+    }
+    .disciplines__intro-hint {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .disciplines__intro-hint .arrow {
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--contrast);
+      position: relative;
+      animation: hintSlide 2.4s var(--ease-smooth) infinite;
+    }
+    .disciplines__intro-hint .arrow::after {
+      content: "";
+      position: absolute;
+      right: -1px;
+      top: -3px;
+      width: 7px;
+      height: 7px;
+      border-top: 1px solid var(--contrast);
+      border-right: 1px solid var(--contrast);
+      transform: rotate(45deg);
+    }
+    @keyframes hintSlide {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(8px); }
+    }
+
+    /* Each discipline becomes a fixed-width card in the track */
+    .discipline {
+      flex-shrink: 0;
+      position: relative;
+      background: var(--bg);
+      width: clamp(260px, 30vw, 440px);
+      height: 100%;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .discipline__img {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .discipline__img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(0.55) saturate(0.85) contrast(1.05);
+      transform: scale(1.02);
+      transition: transform 1.2s var(--ease-out), filter 0.6s var(--ease-out);
+    }
+    .discipline:hover .discipline__img img {
+      transform: scale(1.08);
+      filter: brightness(0.75) saturate(1) contrast(1.1);
+    }
+    .discipline__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(10,9,8,0.35) 0%, rgba(10,9,8,0.85) 100%);
+      transition: opacity 0.5s var(--ease-out);
+    }
+    .discipline:hover .discipline__overlay { opacity: 0.55; }
+
+    .discipline__content {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: clamp(1.25rem, 2.5vw, 2rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .discipline__index {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      transition: color 0.3s var(--ease-out);
+    }
+    .discipline:hover .discipline__index { color: var(--contrast); }
+
+    .discipline__name {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      font-weight: 350;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-variation-settings: "opsz" 144, "SOFT" 50;
+    }
+    .discipline__arrow {
+      display: inline-block;
+      margin-left: 0.5rem;
+      transform: translateX(-4px);
+      opacity: 0;
+      transition: transform 0.4s var(--ease-out), opacity 0.4s var(--ease-out);
+      color: var(--contrast);
+    }
+    .discipline:hover .discipline__arrow {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    /* CTA card — typographic only, no image */
+    .discipline--cta {
+      background: var(--bg-elevated);
+      transition: background 0.4s var(--ease-out);
+    }
+    .discipline--cta:hover { background: var(--contrast); }
+    .discipline--cta:hover .discipline__name,
+    .discipline--cta:hover .discipline__index { color: var(--bg); }
+    .discipline--cta:hover .discipline__arrow { color: var(--bg); opacity: 1; transform: translateX(0); }
+    .discipline--cta .discipline__name { color: var(--contrast); }
+    .discipline--cta .discipline__index { color: var(--text-muted); }
+
+    /* Progress indicator at bottom of sticky section */
+    .disciplines__progress {
+      position: absolute;
+      left: clamp(1.25rem, 4vw, 4rem);
+      right: clamp(1.25rem, 4vw, 4rem);
+      bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      z-index: 5;
+      pointer-events: none;
+    }
+    .disciplines__progress-track {
+      height: 1px;
+      background: var(--border-bright);
+      position: relative;
+      overflow: hidden;
+    }
+    .disciplines__progress-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 0;
+      background: var(--contrast);
+      box-shadow: 0 0 8px rgba(212, 255, 61, 0.5);
+      transition: width 0.05s linear;
+    }
+    .disciplines__progress-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .disciplines__progress-meta .current { color: var(--contrast); }
+
+    /* Mobile fallback — vertical stack on small screens, horizontal scroll doesn't translate well */
+    @media (max-width: 760px) {
+      .disciplines__scroll-wrap {
+        height: auto !important;
+        min-height: 0 !important;
+      }
+      .disciplines__sticky {
+        position: static !important;
+        height: auto !important;
+        overflow: visible;
+        display: block;
+      }
+      .disciplines__track {
+        flex-direction: column;
+        height: auto;
+        gap: 1px;
+        background: var(--border);
+        border-block: 1px solid var(--border);
+        padding-inline: 0;
+        align-items: stretch;
+      }
+      .disciplines__intro {
+        width: 100%;
+        height: auto;
+        padding: 3rem clamp(1.25rem, 4vw, 2rem) 2.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        gap: 1.5rem;
+      }
+      .disciplines__intro-hint { display: none; }
+      .discipline {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 10;
+      }
+      .disciplines__progress { display: none; }
+    }
+
+    /* =========================================================================
+       STREAM — 4-column staggered scroll-parallax gallery (replaces Selected Work list)
+       ========================================================================= */
+    .stream {
+      padding-block: clamp(2rem, 5vw, 5rem) clamp(4rem, 8vw, 7rem);
+      overflow: hidden;
+    }
+    .stream__inner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(0.6rem, 1.2vw, 1.2rem);
+      padding-inline: clamp(1.25rem, 4vw, 4rem);
+    }
+    .stream__col {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.6rem, 1.2vw, 1.2rem);
+      will-change: transform;
+    }
+    /* Stagger: every other column starts pushed down so the photos don't align in rows */
+    .stream__col--offset-down {
+      margin-top: clamp(5rem, 14vw, 12rem);
+    }
+
+    .stream__cell {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      background: var(--bg-elevated);
+      aspect-ratio: 4 / 5;
+      /* Reveal animation — cells start hidden, fade up on intersection */
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .stream__cell.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Aspect ratio rhythm: vary throughout column for a true 'river' feel */
+    .stream__col .stream__cell:nth-child(3n+1) { aspect-ratio: 4 / 5; }
+    .stream__col .stream__cell:nth-child(3n+2) { aspect-ratio: 3 / 4; }
+    .stream__col .stream__cell:nth-child(3n+3) { aspect-ratio: 5 / 7; }
+    /* gentle rhythm break on the extended set */
+    .stream__col .stream__cell:nth-child(8) { aspect-ratio: 4 / 5; }
+    .stream__col .stream__cell:nth-child(10) { aspect-ratio: 3 / 4; }
+
+    .stream__cell img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      /* Slower, more cinematic ease on hover */
+      transition: transform 2.2s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.9s var(--ease-out);
+    }
+    .stream__cell:hover img {
+      transform: scale(1.06);
+      filter: brightness(1.07) saturate(1.04);
+    }
+
+    .stream__overlay {
+      position: absolute;
+      left: clamp(0.8rem, 1.4vw, 1.2rem);
+      right: clamp(0.8rem, 1.4vw, 1.2rem);
+      bottom: clamp(0.8rem, 1.4vw, 1.2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+    }
+    .stream__cell::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(10,9,8,0.85) 100%);
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-out);
+      z-index: 1;
+    }
+    .stream__cell:hover .stream__overlay { opacity: 1; transform: translateY(0); }
+    .stream__cell:hover::after { opacity: 1; }
+
+    .stream__title {
+      font-family: var(--font-display);
+      font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+      font-weight: 400;
+      line-height: 1.15;
+      color: var(--text);
+      font-variation-settings: "opsz" 60, "SOFT" 50;
+    }
+    .stream__title em { font-style: italic; color: var(--accent); }
+    .stream__meta {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Tablet — 2 columns */
+    @media (max-width: 980px) {
+      .stream__inner { grid-template-columns: repeat(2, 1fr); }
+      .stream__col--offset-down { margin-top: clamp(2rem, 5vw, 4rem); }
+    }
+
+    /* Mobile — single column, no stagger, no parallax (handled in JS) */
+    @media (max-width: 600px) {
+      .stream__inner { grid-template-columns: 1fr 1fr; gap: 4px; padding-inline: 1rem; }
+      .stream__col--offset-down { margin-top: clamp(2rem, 6vw, 4rem); }
+      .stream__col:nth-child(2), .stream__col:nth-child(3) { display: none; }
+      .stream__col:nth-child(1) { grid-column: 1; }
+      .stream__col:nth-child(4) { grid-column: 2; }
+      .stream__overlay { opacity: 1; transform: translateY(0); }
+      .stream__cell::after { opacity: 1; }
+      /* cells keep reveal-on-scroll on mobile */
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .stream__col { transform: none !important; transition: none; }
+      .stream__cell { opacity: 1 !important; transform: none !important; transition: none; }
+    }
+
+    /* =========================================================================
+       MARQUEE
+       ========================================================================= */
+
+    .marquee {
+      padding-block: clamp(3rem, 6vw, 5rem);
+      border-block: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--bg-elevated);
+    }
+    .marquee__track {
+      display: flex;
+      gap: 4rem;
+      width: max-content;
+      animation: marquee 38s linear infinite;
+    }
+    .marquee__item {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      color: var(--text);
+      font-variation-settings: "opsz" 144, "SOFT" 60;
+      display: inline-flex;
+      align-items: center;
+      gap: 4rem;
+    }
+    .marquee__item em {
+      font-style: italic;
+      color: var(--accent);
+      font-variation-settings: "opsz" 144, "SOFT" 100;
+    }
+    .marquee__item .live {
+      font-style: normal;
+      color: var(--contrast);
+    }
+    .marquee__dot {
+      display: inline-block;
+      width: 0.6em;
+      height: 0.6em;
+      border-radius: 50%;
+      background: var(--accent);
+      transform: translateY(-0.1em);
+    }
+    .marquee__dot--contrast { background: var(--contrast); }
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    /* =========================================================================
+       CLIENTS
+       ========================================================================= */
+
+    .clients__list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+    .clients__item {
+      padding: clamp(2rem, 4vw, 3rem) clamp(1rem, 2vw, 2rem);
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      justify-content: center;
+      min-height: 9rem;
+      transition: background 0.4s var(--ease-out);
+      position: relative;
+    }
+    .clients__item:hover { background: var(--bg-elevated); }
+    .clients__item::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--contrast);
+      transition: width 0.5s var(--ease-out);
+    }
+    .clients__item:hover::before { width: 100%; }
+    .clients__name {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2vw, 1.7rem);
+      font-weight: 350;
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      font-variation-settings: "opsz" 144, "SOFT" 40;
+    }
+    .clients__meta {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    @media (max-width: 880px) { .clients__list { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .clients__list { grid-template-columns: 1fr; } }
+
+    /* =========================================================================
+       CONTACT
+       ========================================================================= */
+
+    .contact { padding-block: clamp(6rem, 12vw, 10rem); }
+    .contact__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 8vw, 8rem);
+      align-items: end;
+    }
+    .contact__head { display: flex; flex-direction: column; gap: 2rem; }
+    .contact__title {
+      font-size: clamp(3rem, 9vw, 8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+    .contact__details { display: flex; flex-direction: column; gap: 2rem; }
+    .contact__group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .contact__group-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .contact__group-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      font-weight: 350;
+      letter-spacing: -0.01em;
+      font-variation-settings: "opsz" 60, "SOFT" 50;
+    }
+    .contact__group-value a { transition: color 0.3s var(--ease-out); }
+    .contact__group-value a:hover { color: var(--contrast); }
+
+    @media (max-width: 880px) {
+      .contact__inner { grid-template-columns: 1fr; }
+    }
+
+    /* =========================================================================
+       FOOTER
+       ========================================================================= */
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-block: 2.5rem;
+    }
+    .footer__row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .footer__left {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .footer__social {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    .footer__social a {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.25s var(--ease-out);
+    }
+    .footer__social a:hover { color: var(--contrast); }
+
+    /* =========================================================================
+       SCROLL REVEAL UTILITIES
+       ========================================================================= */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
+    }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .reveal--delay-1 { transition-delay: 0.1s; }
+    .reveal--delay-2 { transition-delay: 0.2s; }
+    .reveal--delay-3 { transition-delay: 0.3s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+      .reveal, .frame__caption { opacity: 1; transform: none; }
+      .frame__media { clip-path: none; }
+      .frame__media img { transform: none; }
+    }
+
+    ::selection { background: var(--contrast); color: var(--bg); }
+
+    @media (prefers-reduced-motion: reduce) {
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg class="back-to-top__ring" viewBox="0 0 60 60" aria-hidden="true">
+      <circle cx="30" cy="30" r="28" id="backToTopRing"></circle>
+    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <!-- ====================================================================== -->
+  <nav class="nav" id="nav">
+    <div class="container nav__row">
+      <a href="index.html" class="nav__brand" aria-label="Aperia Visuals home">
+        <svg class="nav__brand-symbol" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 10 130 L 50 10 L 90 130" stroke="currentColor" stroke-width="14" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="6" fill="none"/>
+          <path d="M 43 67 L 57 67 L 50 45 Z" fill="#D4FF3D" transform="rotate(18 50 56)"/>
+        </svg>
+        <span class="nav__brand-type">
+          <span class="nav__brand-mark">APERIA</span>
+          <span class="nav__brand-sub">Visuals</span>
+        </span>
+      </a>
+      <ul class="nav__menu">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#disciplines">Disciplines</a></li>
+        <li><a href="food.html">Food</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="corporate.html">Corporate</a></li>
+        <li><a href="portraits.html">Portraits</a></li>
+            <li><a href="commercial.html">Commercial</a></li>
+            <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+            <li><a href="story.html">Story</a></li>
+      </ul>
+      <div class="nav__right">
+        <a href="#contact" class="nav__cta">Start a project</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile menu drawer -->
+  <div class="nav__mobile" id="navMobile" aria-hidden="true">
+    <ul class="nav__mobile-list">
+      <li><a href="#work" data-mobile-link><span class="num">01</span>Work</a></li>
+      <li><a href="#disciplines" data-mobile-link><span class="num">02</span>Disciplines</a></li>
+      <li><a href="food.html" data-mobile-link><span class="num">03</span>Food</a></li>
+      <li><a href="architecture.html" data-mobile-link><span class="num">04</span>Architecture</a></li>
+      <li><a href="events.html" data-mobile-link><span class="num">05</span>Events</a></li>
+      <li><a href="portraits.html" data-mobile-link><span class="num">06</span>Portraits</a></li>
+
+      <li><a href="commercial.html" data-mobile-link><span class="num">07</span>Commercial</a></li>
+      <li><a href="story.html" data-mobile-link><span class="num">08</span>Story</a></li>
+      <li><a href="#contact" data-mobile-link><span class="num">09</span>Contact</a></li>
+    </ul>
+    <div class="nav__mobile-foot">
+      <span>Aperia Visuals · Westlands, Nairobi</span>
+      <a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
+  <header class="hero" id="hero">
+    <div class="hero__media">
+      <img src="images/home-01.jpg" alt="" />
+    </div>
+
+    <div class="container hero__inner">
+      <div class="hero__top">
+        <div class="hero__location">
+          <span class="hero__coord">01°17′ S — 36°49′ E</span>
+          <span class="hero__year">Nairobi · MMXXVI</span>
+        </div>
+        <span class="label">№ 001</span>
+      </div>
+
+      <h1 class="display hero__headline">
+        <span class="hero__headline-line"><span class="hero__headline-inner">Frames that</span></span>
+        <span class="hero__headline-line"><span class="hero__headline-inner"><em>reveal.</em></span></span>
+      </h1>
+
+      <div class="hero__bottom">
+        <p class="hero__sub">
+          A Nairobi-based photography &amp; film studio. We make cinematic work for brands, spaces, and moments worth keeping.
+        </p>
+        <div class="hero__caption">
+          <span class="hero__caption-title"><em>Five Spice</em></span>
+          <span class="hero__caption-meta">Food · 24mm · f/2.8 · 1/200s · ISO 400</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====================================================================== -->
+  <!-- Status ticker — gives the site a sense of being live -->
+  <div class="status-strip">
+    <div class="container status-strip__row">
+      <div class="status-strip__group">
+        <span class="status-strip__dot"></span>
+        <span class="status-strip__label">Studio</span>
+        <span class="status-strip__value">Nairobi · 01°17′ S</span>
+      </div>
+      <div class="status-strip__group">
+        <span class="status-strip__label">Booking</span>
+        <span class="status-strip__value status-strip__value--accent">Q3 / Q4 2026</span>
+      </div>
+      <div class="status-strip__group status-strip__group--hide-mobile">
+        <span class="status-strip__label">Currently shooting</span>
+        <span class="status-strip__value">Hospitality &amp; brand campaigns</span>
+      </div>
+      <div class="status-strip__group">
+        <span class="status-strip__label">Reply</span>
+        <span class="status-strip__value">&lt; 48 hrs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
+  <section class="section philosophy" id="about" data-aperture-trigger>
+    <div class="container">
+      <div class="section__head">
+        <div class="section__index reveal">
+          <span class="label">№ 002</span>
+          <span class="label label--contrast">Philosophy</span>
+        </div>
+        <h2 class="display section__title reveal reveal--delay-1">A name with <em>weight.</em></h2>
+      </div>
+
+      <div class="philosophy__grid">
+        <p class="philosophy__quote reveal">
+          Photography is light, <em>shaped into truth.</em> Every frame we make is a small act of <span class="mark mark--aperture"><span class="mark__aperture-ring" aria-hidden="true"></span><span class="mark__text">revealing</span></span> — what you stand for, what your story looks like when it's stilled and seen.
+        </p>
+
+        <div class="philosophy__body reveal reveal--delay-1">
+          <p class="body-text">
+            We don't chase trends or filters. We build images the way film directors build scenes — with intention, restraint, and an instinct for the moment that makes the rest of the moments matter.
+          </p>
+          <p class="body-text">
+            Whether it's a plate, a portrait, an event, or a brand campaign, the work has to do one thing first: hold attention long enough to land. Then it has to last.
+          </p>
+          <div class="philosophy__etymology">
+            <strong>aperia</strong> — from the Latin <em>aperio</em>: to uncover, to reveal, to make clear. The same root as <em>aperture</em> — the opening through which light enters and an image is born.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <section class="disciplines" id="disciplines">
+    <div class="disciplines__scroll-wrap" id="disciplinesScrollWrap">
+      <div class="disciplines__sticky">
+        <div class="disciplines__track" id="disciplinesTrack">
+
+          <!-- Intro panel -->
+          <div class="disciplines__intro">
+            <div class="disciplines__intro-top">
+              <span class="label label--contrast">№ 003 · Disciplines</span>
+              <h2 class="disciplines__intro-title">Seven ways<br />we work with <em>light.</em></h2>
+              <p class="disciplines__intro-body">From a single plate to a full hospitality refresh — every discipline approached with the same patience and intent.</p>
+            </div>
+            <div class="disciplines__intro-hint">
+              <span>Scroll to explore</span>
+              <span class="arrow"></span>
+            </div>
+          </div>
+
+          <a class="discipline" href="food.html">
+            <div class="discipline__img"><img src="images/food-03.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">01 · Food</span>
+              <span class="discipline__name">Food<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="architecture.html">
+            <div class="discipline__img"><img src="images/home-02.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">02 · Architecture</span>
+              <span class="discipline__name">Architecture<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="corporate.html">
+            <div class="discipline__img"><img src="images/home-03.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">03 · Corporate</span>
+              <span class="discipline__name">Corporate<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="events.html">
+            <div class="discipline__img"><img src="images/home-04.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">04 · Events</span>
+              <span class="discipline__name">Events<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="portraits.html">
+            <div class="discipline__img"><img src="images/portrait-studio-03-large.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">05 · Portraits</span>
+              <span class="discipline__name">Portraits<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="commercial.html">
+            <div class="discipline__img"><img src="images/oltotoi-09-med.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">06 · Commercial &amp; Documentary</span>
+              <span class="discipline__name">Commercial &amp; Documentary<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline" href="sports-brand.html">
+            <div class="discipline__img"><img src="images/home-06.jpg" alt="" loading="lazy" /></div>
+            <div class="discipline__overlay"></div>
+            <div class="discipline__content">
+              <span class="discipline__index">07 · Sports &amp; Brand</span>
+              <span class="discipline__name">Sports &amp; Brand<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+          <a class="discipline discipline--cta" href="#contact">
+            <div class="discipline__content">
+              <span class="discipline__index">08 · Inquire</span>
+              <span class="discipline__name">Start a project<span class="discipline__arrow">→</span></span>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Progress indicator -->
+        <div class="disciplines__progress">
+          <div class="disciplines__progress-track">
+            <div class="disciplines__progress-bar" id="disciplinesProgressBar"></div>
+          </div>
+          <div class="disciplines__progress-meta">
+            <span><span class="current" id="disciplinesProgressNum">01</span> / 07</span>
+            <span>Disciplines</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <section class="section selected" id="work">
+    <div class="container">
+      <div class="section__head">
+        <div class="section__index reveal">
+          <span class="label">№ 004</span>
+          <span class="label label--contrast">Selected Work</span>
+        </div>
+        <h2 class="display section__title reveal reveal--delay-1">A river of <em>frames.</em></h2>
+      </div>
+    </div>
+
+    <!-- 4-column staggered scroll gallery -->
+    <div class="stream" id="stream" aria-label="Selected photography across disciplines">
+      <div class="stream__inner">
+
+        <!-- Column 1 — slowest scroll -->
+        <div class="stream__col" data-stream-speed="0.65">
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-03.jpg" alt="Pizza top-down on dark surface" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Margherita</em></span>
+              <span class="stream__meta">Food · Bonds</span>
+            </div>
+          </a>
+          <a href="architecture.html" class="stream__cell">
+            <img src="images/arch-09.jpg" alt="Indigo bedroom with mosquito net" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Net</em> over indigo</span>
+              <span class="stream__meta">Architecture · Coast</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-22.jpg" alt="Tall pilsner with wheat" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Pilsner</em>, with grain</span>
+              <span class="stream__meta">Food · Crafty Chameleon</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-studio-03-med.jpg" alt="Studio portrait — woman in white dress on red velvet sofa" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Red velvet</em> studio</span>
+              <span class="stream__meta">Portraits · Editorial</span>
+            </div>
+          </a>
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/asili-01-med.jpg" alt="Coffee farmer in branded polo inspecting cherries on the row" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>On</em> the row</span>
+              <span class="stream__meta">Commercial · Asili Coffee</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/event-nani-03-med.jpg" alt="Woman at microphone, Heineken activation" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>host</em></span>
+              <span class="stream__meta">Portraits · Field</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-01-med.jpg" alt="Two women in conversation at a gold-framed table, daylight" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>corner</em> table</span>
+              <span class="stream__meta">Corporate · Networking</span>
+            </div>
+          </a>
+          <a href="architecture.html" class="stream__cell">
+            <img src="images/arch-12.jpg" alt="Architectural interior detail" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Interior</em>, late light</span>
+              <span class="stream__meta">Architecture · Workable</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-field-nani-07-med.jpg" alt="Portrait, Heineken activation field" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>regular</em></span>
+              <span class="stream__meta">Portraits · Field</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-09-med.jpg" alt="Man in striped shirt smiling at evening corporate event" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">A <em>good</em> answer</span>
+              <span class="stream__meta">Corporate · Night</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Column 2 — slow -->
+        <div class="stream__col stream__col--offset-down" data-stream-speed="0.85">
+          <a href="architecture.html" class="stream__cell">
+            <img src="images/arch-07.jpg" alt="Cafeteria with ring lights" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Cafeteria</em></span>
+              <span class="stream__meta">Architecture · Workable</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-09.jpg" alt="Mixed grilled skewers on terrazzo plate" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Skewers</em>, three sauces</span>
+              <span class="stream__meta">Food · Bambino</span>
+            </div>
+          </a>
+          <a href="architecture.html" class="stream__cell">
+            <img src="images/arch-13.jpg" alt="Restaurant interior with sheer curtains" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Restaurant</em> in light</span>
+              <span class="stream__meta">Architecture · Hotel</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-yard-03-med.jpg" alt="Bold fashion portrait, golden hour, rail yard" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Fist</em> through louvres</span>
+              <span class="stream__meta">Portraits · Yard</span>
+            </div>
+          </a>
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/tamuwa-01-med.jpg" alt="Tamuwa team handling biomass under open sky" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>yard</em>, working</span>
+              <span class="stream__meta">Commercial · Tamuwa</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-bts-01-med.jpg" alt="Cinematographer with red vintage car and mural" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Behind</em> the lens</span>
+              <span class="stream__meta">Portraits · BTS</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-04-med.jpg" alt="Three women in conversation at rooftop event, daylight" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">Held <em>court</em></span>
+              <span class="stream__meta">Corporate · Foodlibrary</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-18.jpg" alt="Plated food at restaurant" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Plated</em></span>
+              <span class="stream__meta">Food · Restaurant</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-03-med.jpg" alt="MC with microphone at corporate event, daylight" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Centre</em> stage</span>
+              <span class="stream__meta">Corporate · Programme</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-field-nani-04-med.jpg" alt="Field portrait, sun-soaked moment" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Mid</em> exchange</span>
+              <span class="stream__meta">Portraits · Field</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Column 3 — faster -->
+        <div class="stream__col" data-stream-speed="1.15">
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-10.jpg" alt="Beer-battered fish and chips" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Fish</em> &amp; chips</span>
+              <span class="stream__meta">Food · Bonds</span>
+            </div>
+          </a>
+          <a href="#" class="stream__cell">
+            <img src="images/home-04.jpg" alt="Heineken event activation crowd" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Day Party</em></span>
+              <span class="stream__meta">Event · Heineken</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-05.jpg" alt="Seared pork chop" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Seared pork</em> chop</span>
+              <span class="stream__meta">Food · Gem Forest</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-street-01-med.jpg" alt="Street fashion portrait, fedora, sleeveless tee" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Saint</em> live</span>
+              <span class="stream__meta">Portraits · Street</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-field-rbb-08-med.jpg" alt="Speaker at Red Bull Basement event" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">One <em>idea</em></span>
+              <span class="stream__meta">Portraits · Field</span>
+            </div>
+          </a>
+          <a href="events.html" class="stream__cell">
+            <img src="images/event-rbb-07-med.jpg" alt="Late night Red Bull event scene" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Late</em> set</span>
+              <span class="stream__meta">Event · Red Bull Basement</span>
+            </div>
+          </a>
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/oltotoi-09-med.jpg" alt="Smiling young worker in black Oltotoi Ranch coverall" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>shift</em>, closed</span>
+              <span class="stream__meta">Commercial · Oltotoi Ranch</span>
+            </div>
+          </a>
+          <a href="sports-brand.html" class="stream__cell">
+            <img src="images/sports-ibiza-04-med.jpg" alt="Red Bull Ibiza Royale endurance challenge" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Endurance</em></span>
+              <span class="stream__meta">Sports · Red Bull</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-12-med.jpg" alt="Three women in candid laughter at evening event" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>cheer</em></span>
+              <span class="stream__meta">Corporate · Candid</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-19.jpg" alt="Dish on dark surface" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">On <em>dark</em></span>
+              <span class="stream__meta">Food · Editorial</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Column 4 — fastest -->
+        <div class="stream__col stream__col--offset-down" data-stream-speed="1.35">
+          <a href="architecture.html" class="stream__cell">
+            <img src="images/arch-03.jpg" alt="Boardroom with hexagon panels" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Boardroom</em>, hex panels</span>
+              <span class="stream__meta">Architecture · Workable</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-16.jpg" alt="Black bun cheeseburger" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>Charcoal</em></span>
+              <span class="stream__meta">Food · Bonds</span>
+            </div>
+          </a>
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/tamuwa-06-med.jpg" alt="Portrait of Tamuwa worker in PPE, branded yellow hard hat" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>line</em>, held</span>
+              <span class="stream__meta">Commercial · Tamuwa</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-studio-01-med.jpg" alt="Studio portrait — leaning, white dress" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>White</em> against dark</span>
+              <span class="stream__meta">Portraits · Editorial</span>
+            </div>
+          </a>
+          <a href="events.html" class="stream__cell">
+            <img src="images/event-nani-08-med.jpg" alt="Heineken activation matchday energy" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Match</em>day</span>
+              <span class="stream__meta">Event · Nani's Heineken</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/event-nani-09-med.jpg" alt="White-cap portrait, Heineken activation" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">White <em>cap</em></span>
+              <span class="stream__meta">Portraits · Field</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-13-med.jpg" alt="Group networking with drinks at evening event" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">After <em>19:00</em></span>
+              <span class="stream__meta">Corporate · Networking</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-bts-02-med.jpg" alt="Behind the scenes portrait" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>BTS</em></span>
+              <span class="stream__meta">Portraits · BTS</span>
+            </div>
+          </a>
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-08-med.jpg" alt="Speaker with microphone at dusk, Fleischer Foundation banner" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Open</em> mic</span>
+              <span class="stream__meta">Corporate · Speakers</span>
+            </div>
+          </a>
+          <a href="events.html" class="stream__cell">
+            <img src="images/event-rbb-08-med.jpg" alt="Red Bull Basement evening crowd" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>room</em></span>
+              <span class="stream__meta">Event · Red Bull Basement</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__item">Photography <span class="marquee__dot"></span> <em>Film</em> <span class="marquee__dot marquee__dot--contrast"></span> <em>Direction</em> <span class="marquee__dot"></span> <em>Editorial</em> <span class="marquee__dot"></span> Brand <span class="marquee__dot marquee__dot--contrast"></span> </span>
+      <span class="marquee__item">Photography <span class="marquee__dot"></span> <em>Film</em> <span class="marquee__dot marquee__dot--contrast"></span> <em>Direction</em> <span class="marquee__dot"></span> <em>Editorial</em> <span class="marquee__dot"></span> Brand <span class="marquee__dot marquee__dot--contrast"></span> </span>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
+  <section class="section clients-section" id="clients">
+    <div class="container">
+      <div class="section__head">
+        <div class="section__index reveal">
+          <span class="label">№ 005</span>
+          <span class="label label--contrast">Trusted by</span>
+        </div>
+        <h2 class="display section__title reveal reveal--delay-1">Brands we've<br />made <em>light</em> for.</h2>
+      </div>
+
+      <div class="clients__list reveal">
+        <div class="clients__item">
+          <span class="clients__name">Red Bull Media House</span>
+          <span class="clients__meta">Network Photographer · 2025</span>
+        </div>
+        <div class="clients__item">
+          <span class="clients__name">Workable LTD</span>
+          <span class="clients__meta">Corporate · 2024</span>
+        </div>
+        <div class="clients__item">
+          <span class="clients__name">Glee Hotel</span>
+          <span class="clients__meta">Hospitality · 2024</span>
+        </div>
+        <div class="clients__item">
+          <span class="clients__name">Foodlibrary by JIT</span>
+          <span class="clients__meta">Brand · 2024</span>
+        </div>
+        <div class="clients__item">
+          <span class="clients__name">Kaash Media</span>
+          <span class="clients__meta">Editorial · 2024</span>
+        </div>
+        <div class="clients__item">
+          <span class="clients__name">Emsi &amp; Associates</span>
+          <span class="clients__meta">Corporate · 2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <section class="section contact" id="contact">
+    <div class="container">
+      <div class="section__head">
+        <div class="section__index reveal">
+          <span class="label">№ 006</span>
+          <span class="label label--contrast">Contact</span>
+        </div>
+        <h2 class="display section__title reveal reveal--delay-1">Let's reveal <em>something.</em></h2>
+      </div>
+
+      <div class="contact__inner">
+        <div class="contact__head">
+          <p class="lead reveal">
+            Briefs, brand campaigns, hospitality, sport, food — we'd love to see what you're building. A sentence or a deck is enough. Studio replies within two working days.
+          </p>
+        </div>
+
+        <div class="contact__details reveal reveal--delay-1">
+          <div class="contact__group">
+            <span class="contact__group-label">General</span>
+            <span class="contact__group-value"><a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a></span>
+          </div>
+          <div class="contact__group">
+            <span class="contact__group-label">Coverage</span>
+            <span class="contact__group-value">Nairobi metro<br />East Africa on request</span>
+          </div>
+          <div class="contact__group">
+            <span class="contact__group-label">Hours</span>
+            <span class="contact__group-value">Mon–Fri · 09:00–18:00 EAT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <footer class="footer">
+    <div class="container footer__row">
+      <span class="footer__left">© Aperia Visuals · MMXXVI · Nairobi</span>
+      <ul class="footer__social">
+        <li><a href="https://instagram.com/collinsallindi" target="_blank" rel="noopener">Instagram</a></li>
+        <li><a href="#">Behance</a></li>
+        <li><a href="#">Vimeo</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Hero load animation
+    requestAnimationFrame(() => {
+      document.getElementById('hero').classList.add('is-loaded');
+    });
+
+    // Sticky-nav scrolled state + scroll progress bar + back-to-top + disciplines horizontal scroll
+    const nav = document.getElementById('nav');
+    const progress = document.getElementById('scrollProgress');
+    const backToTop = document.getElementById('backToTop');
+    const ringCircle = document.getElementById('backToTopRing');
+    const RING_CIRCUMFERENCE = 175.93; // 2π * r where r=28
+
+    // Disciplines horizontal scroll refs
+    const discScrollWrap = document.getElementById('disciplinesScrollWrap');
+    const discTrack = document.getElementById('disciplinesTrack');
+    const discProgressBar = document.getElementById('disciplinesProgressBar');
+    const discProgressNum = document.getElementById('disciplinesProgressNum');
+    const isMobile = () => window.matchMedia('(max-width: 760px)').matches;
+
+    // Track distance is computed lazily — width of the track minus viewport width
+    let discMaxScroll = 0;
+    const computeDiscScroll = () => {
+      if (!discTrack || isMobile()) { discMaxScroll = 0; return; }
+      // The track's full scrollable width = total width of all children minus the visible viewport
+      discMaxScroll = Math.max(0, discTrack.scrollWidth - window.innerWidth);
+    };
+    computeDiscScroll();
+    window.addEventListener('resize', computeDiscScroll);
+
+    // Stream gallery references
+    const streamEl = document.getElementById('stream');
+    const streamCols = streamEl ? Array.from(streamEl.querySelectorAll('.stream__col')) : [];
+    const isStreamMobile = () => window.matchMedia('(max-width: 380px)').matches;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+
+      // Nav scrolled state
+      if (y > 24) nav.classList.add('is-scrolled');
+      else nav.classList.remove('is-scrolled');
+
+      // Page scroll progress bar
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docHeight > 0 ? (y / docHeight) * 100 : 0;
+      progress.style.width = pct + '%';
+
+      // Back-to-top visibility (after 1 viewport scrolled)
+      if (y > window.innerHeight * 0.8) backToTop.classList.add('is-visible');
+      else backToTop.classList.remove('is-visible');
+
+      // Back-to-top circular progress ring
+      if (ringCircle) {
+        const offset = RING_CIRCUMFERENCE * (1 - pct / 100);
+        ringCircle.style.strokeDashoffset = offset;
+      }
+
+      // Disciplines horizontal-scroll driver
+      // When the sticky wrap is in the scroll zone, translate the track horizontally
+      if (discScrollWrap && discTrack && !isMobile()) {
+        const wrapRect = discScrollWrap.getBoundingClientRect();
+        const wrapTop = window.scrollY + wrapRect.top;
+        const wrapHeight = discScrollWrap.offsetHeight;
+        const stickyHeight = window.innerHeight;
+        // Active range: from when the sticky engages (y >= wrapTop) until it disengages (y >= wrapTop + wrapHeight - stickyHeight)
+        const activeRange = wrapHeight - stickyHeight;
+        if (activeRange > 0) {
+          const within = Math.min(Math.max(y - wrapTop, 0), activeRange);
+          const ratio = within / activeRange; // 0..1
+          const x = -ratio * discMaxScroll;
+          discTrack.style.transform = `translate3d(${x}px, 0, 0)`;
+
+          // Update progress UI
+          if (discProgressBar) discProgressBar.style.width = (ratio * 100) + '%';
+          if (discProgressNum) {
+            // Map ratio 0..1 to discipline 1..7
+            const idx = Math.min(7, Math.max(1, Math.ceil(ratio * 7) || 1));
+            discProgressNum.textContent = String(idx).padStart(2, '0');
+          }
+        }
+      } else if (discTrack && isMobile()) {
+        // Mobile — clear any residual transform
+        discTrack.style.transform = '';
+      }
+
+      // Stream parallax is handled by a separate rAF loop below (smoothed scroll for Loisaba-feel)
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ============ STREAM PARALLAX — smoothed rAF loop ============
+    // Uses a lerped scroll position for buttery, slightly-laggy parallax (Loisaba/Lenis-style).
+    // The cells reveal on intersection; parallax motion is amplified vs. scroll for a more
+    // immersive feel.
+    let smoothedScrollY = window.scrollY;
+    const lerp = 0.085; // 0.08-0.12 sweet spot — lower = more lag/inertia
+    function streamRAF() {
+      smoothedScrollY += (window.scrollY - smoothedScrollY) * lerp;
+      if (streamEl && streamCols.length && !isStreamMobile()) {
+        const sRect = streamEl.getBoundingClientRect();
+        const vh = window.innerHeight;
+        if (sRect.bottom > -vh * 0.4 && sRect.top < vh * 1.4) {
+          // Use a smoothed reference: stream's offset from current smoothed scroll
+          const streamTop = sRect.top + (window.scrollY - smoothedScrollY);
+          const streamProgress = -streamTop + vh * 0.5;
+          for (let i = 0; i < streamCols.length; i++) {
+            const col = streamCols[i];
+            const speed = parseFloat(col.dataset.streamSpeed) || 1;
+            // Stronger multiplier (1.1 vs old 0.6) for more pronounced motion
+            const offset = (speed - 1) * streamProgress * 1.05;
+            col.style.transform = `translate3d(0, ${offset.toFixed(2)}px, 0)`;
+          }
+        }
+      }
+      requestAnimationFrame(streamRAF);
+    }
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      requestAnimationFrame(streamRAF);
+    }
+
+    // Reveal-on-scroll for stream cells — staggered fade-up as they enter
+    if ('IntersectionObserver' in window) {
+      const streamCells = streamEl ? streamEl.querySelectorAll('.stream__cell') : [];
+      const cellObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            cellObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      streamCells.forEach(c => cellObserver.observe(c));
+    } else {
+      // Fallback: just reveal everything
+      const streamCells = streamEl ? streamEl.querySelectorAll('.stream__cell') : [];
+      streamCells.forEach(c => c.classList.add('is-revealed'));
+    }
+
+    // Re-compute discipline scroll after fonts/images load (which can shift widths)
+    window.addEventListener('load', () => {
+      computeDiscScroll();
+      onScroll();
+    });
+
+    // Back-to-top click
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const navMobile = document.getElementById('navMobile');
+    const closeMobile = () => {
+      navToggle.classList.remove('is-open');
+      navMobile.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      navMobile.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    };
+    navToggle.addEventListener('click', () => {
+      const isOpen = navToggle.classList.toggle('is-open');
+      navMobile.classList.toggle('is-open', isOpen);
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      navMobile.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    document.querySelectorAll('[data-mobile-link]').forEach(link => {
+      link.addEventListener('click', closeMobile);
+    });
+
+    // Reveal-on-scroll — generic .reveal class + [data-reveal] frames
+    const revealEls = document.querySelectorAll('.reveal, [data-reveal]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
+    revealEls.forEach(el => io.observe(el));
+
+    // Safety net — reveal everything that's already visible on initial load
+    // (covers the case where elements are already in viewport before observer attaches)
+    requestAnimationFrame(() => {
+      const vh = window.innerHeight;
+      revealEls.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) el.classList.add('is-visible');
+      });
+    });
+
+    // Hard fallback — reveal everything after 2.5s no matter what
+    setTimeout(() => {
+      revealEls.forEach(el => el.classList.add('is-visible'));
+    }, 2500);
+
+    // Aperture animation trigger — fires once when philosophy section enters view
+    const apertureEl = document.querySelector('[data-aperture-trigger]');
+    if (apertureEl) {
+      const aio = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            apertureEl.classList.add('is-aperture-active');
+            aio.unobserve(apertureEl);
+          }
+        });
+      }, { threshold: 0.35 });
+      aio.observe(apertureEl);
+    }
+
+    // ========================================================================
+    // SCROLL-DRIVEN WORD HIGHLIGHTING (philosophy quote)
+    // Walks the quote's text nodes, wraps each word in a .scroll-word span,
+    // then lights words whose vertical center is inside the active viewport band
+    // ========================================================================
+    const philosophyQuote = document.querySelector('.philosophy__quote');
+    let scrollWords = [];
+
+    if (philosophyQuote) {
+      // Walk all text nodes inside the quote, wrap each word
+      const walker = document.createTreeWalker(philosophyQuote, NodeFilter.SHOW_TEXT, null);
+      const textNodes = [];
+      let n;
+      while (n = walker.nextNode()) textNodes.push(n);
+
+      textNodes.forEach(node => {
+        // Skip if inside the aperture-ring (decorative)
+        if (node.parentElement && node.parentElement.classList.contains('mark__aperture-ring')) return;
+        const text = node.nodeValue;
+        if (!text.trim()) return;
+        const frag = document.createDocumentFragment();
+        // Tokenize into words + spaces
+        const tokens = text.split(/(\s+)/);
+        tokens.forEach(tok => {
+          if (!tok) return;
+          if (/^\s+$/.test(tok)) {
+            frag.appendChild(document.createTextNode(tok));
+          } else {
+            const span = document.createElement('span');
+            span.className = 'scroll-word';
+            span.textContent = tok;
+            frag.appendChild(span);
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+
+      scrollWords = Array.from(philosophyQuote.querySelectorAll('.scroll-word'));
+    }
+
+    // Light words progressively as their vertical position crosses an
+    // imaginary "reading line" near the upper-mid of the viewport.
+    // Two-way: words above the line are lit, words below are dim.
+    // The line sits at 55% of viewport height by default, which feels natural
+    // for narrative reading flow.
+    let highlightTicking = false;
+    const updateWordHighlights = () => {
+      if (!scrollWords.length) return;
+      const vh = window.innerHeight;
+      const readingLine = vh * 0.55;
+
+      scrollWords.forEach(w => {
+        const r = w.getBoundingClientRect();
+        // Word is "lit" once its top edge has passed above the reading line
+        // (i.e. we've scrolled it up past that point on screen)
+        const isLit = r.top < readingLine;
+        if (isLit) w.classList.add('is-lit');
+        else w.classList.remove('is-lit');
+      });
+    };
+
+    const requestHighlightUpdate = () => {
+      if (highlightTicking) return;
+      highlightTicking = true;
+      requestAnimationFrame(() => {
+        updateWordHighlights();
+        highlightTicking = false;
+      });
+    };
+    window.addEventListener('scroll', requestHighlightUpdate, { passive: true });
+    window.addEventListener('resize', requestHighlightUpdate);
+    requestHighlightUpdate();
+  </script>
+
+</body>
+</html>
