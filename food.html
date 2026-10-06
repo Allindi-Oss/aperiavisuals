@@ -14,7 +14,7 @@
   <title>Food Photography in Nairobi — Aperia Visuals</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Plated dishes, menu shoots, and brand content for Kenyan restaurants and food brands." />
+  <meta name="description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Menu and drinks shoots for Café Barbera, plated dishes and brand content for Kenyan restaurants and food brands." />
   <meta name="keywords" content="food photography Nairobi, restaurant photography Kenya, menu photography, plated food photography, editorial food photography, food photographer Kenya, Aperia Visuals" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Food Photography in Nairobi — Aperia Visuals" />
-  <meta property="og:description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Plated dishes, menu shoots, and brand content for Kenyan restaurants and food brands." />
+  <meta property="og:description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Menu and drinks shoots for Café Barbera, plated dishes and brand content for Kenyan restaurants and food brands." />
   <meta property="og:url" content="https://aperiavisuals.com/food" />
   <meta property="og:image" content="https://aperiavisuals.com/images/cover-food.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — Food work" />
@@ -35,7 +35,7 @@
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Food Photography in Nairobi — Aperia Visuals" />
-  <meta name="twitter:description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Plated dishes, menu shoots, and brand content for Kenyan restaurants and food brands." />
+  <meta name="twitter:description" content="Editorial and restaurant food photography by Aperia Visuals, Nairobi. Menu and drinks shoots for Café Barbera, plated dishes and brand content for Kenyan restaurants and food brands." />
   <meta name="twitter:image" content="https://aperiavisuals.com/images/cover-food.jpg" />
   <meta name="twitter:image:alt" content="Aperia Visuals — Food work" />
 
@@ -47,7 +47,7 @@
   "@id": "https://aperiavisuals.com/food#webpage",
   "url": "https://aperiavisuals.com/food",
   "name": "Food Photography in Nairobi — Aperia Visuals",
-  "description": "Editorial and restaurant food photography by Aperia Visuals, Nairobi. Plated dishes, menu shoots, and brand content for Kenyan restaurants and food brands.",
+  "description": "Editorial and restaurant food photography by Aperia Visuals, Nairobi. Menu and drinks shoots for Café Barbera, plated dishes and brand content for Kenyan restaurants and food brands.",
   "isPartOf": {
     "@type": "WebSite",
     "@id": "https://aperiavisuals.com/#website",
@@ -523,7 +523,7 @@
   }
   .partners__list {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1px;
     background: var(--border);
     border-block: 1px solid var(--border);
@@ -977,11 +977,85 @@
   }
 
   /* Reveal */
+
+  /* =========================================================================
+     FEATURED CLIENT — "read it like a menu" (sticky course index)
+     ========================================================================= */
+  .menu-case { border-bottom: 1px solid var(--border); }
+  .mc-layout { display: grid; grid-template-columns: minmax(220px, 3fr) 9fr; gap: clamp(2rem, 5vw, 5rem); align-items: start; }
+  .mc-index { position: sticky; top: 96px; display: flex; flex-direction: column; gap: 2.5rem; }
+  .mc-facts { display: grid; gap: 1rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .mc-facts div { display: flex; flex-direction: column; gap: 0.25rem; }
+  .mc-facts dt { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-faint); }
+  .mc-facts dd { font-size: 0.95rem; color: var(--text); }
+  .mc-courses { list-style: none; display: flex; flex-direction: column; }
+  .mc-courses a { display: grid; grid-template-columns: 2.4rem 1fr auto; align-items: baseline; padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    font-family: var(--font-display); font-size: 1.25rem; font-weight: 350; color: var(--text-faint); transition: color .4s var(--ease-out), padding .4s var(--ease-out); }
+  .mc-courses a span { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-faint); }
+  .mc-courses a i { font-style: normal; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.15em; }
+  .mc-courses a:hover { color: var(--text-muted); }
+  .mc-courses a.is-active { color: var(--text); padding-left: 0.4rem; }
+  .mc-courses a.is-active span, .mc-courses a.is-active i { color: var(--contrast); }
+  .mc-progress { height: 1px; background: var(--border); position: relative; overflow: hidden; }
+  .mc-progress span { position: absolute; inset: 0 auto 0 0; width: 0; background: var(--accent); transition: width .2s linear; }
+
+  .mc-courses-body { display: flex; flex-direction: column; gap: clamp(4rem, 8vw, 7rem); }
+  .mc-course { scroll-margin-top: 90px; }
+  .mc-course__head { display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+  .mc-course__num { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--contrast); }
+  .mc-course__title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem, 3.2vw, 2.8rem); line-height: 1; letter-spacing: -0.02em; }
+  .mc-course__title em { font-style: italic; color: var(--accent); }
+  .mc-course__count { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); }
+  .mc-course__note { max-width: 46ch; color: var(--text-muted); font-size: 0.98rem; line-height: 1.6; margin-bottom: 2rem; }
+
+  .mc-grid { display: grid; gap: clamp(0.5rem, 1vw, 0.9rem); }
+  .mc-photo { display: block; aspect-ratio: 4 / 5; }
+  .mc-grid--espresso { grid-template-columns: repeat(6, 1fr); }
+  .mc-grid--espresso .mc-a { grid-column: span 4; grid-row: span 2; aspect-ratio: auto; }
+  .mc-grid--espresso .mc-b, .mc-grid--espresso .mc-c { grid-column: span 2; }
+  .mc-grid--espresso .mc-d, .mc-grid--espresso .mc-e { grid-column: span 3; aspect-ratio: 1 / 1; }
+  .mc-grid--cold { grid-template-columns: repeat(3, 1fr); }
+  .mc-grid--cold .mc-photo { aspect-ratio: 2 / 3; }
+  .mc-grid--kitchen { grid-template-columns: repeat(4, 1fr); }
+  .mc-grid--kitchen .mc-photo { aspect-ratio: 3 / 4; }
+  .mc-grid--kitchen .mc-wide { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .mc-grid--kitchen .mc-wide--short { aspect-ratio: 21 / 9; }
+
+  @media (max-width: 980px) {
+    .mc-layout { grid-template-columns: 1fr; }
+    .mc-index { position: sticky; top: 64px; z-index: 5; gap: 0; margin-inline: 0; padding: 0.5rem 0; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .mc-facts, .mc-progress { display: none; }
+    .mc-courses { flex-direction: row; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; }
+    .mc-courses a { display: flex; gap: 0.5rem; white-space: nowrap; font-size: 0.95rem; padding: 0.45rem 0.8rem; border: 1px solid var(--border-bright); border-radius: 999px; }
+    .mc-courses a.is-active { padding-left: 0.8rem; border-color: var(--contrast); }
+    .mc-courses a i { display: none; }
+  }
+  @media (max-width: 700px) {
+    .mc-grid--espresso { grid-template-columns: repeat(2, 1fr); }
+    .mc-grid--espresso .mc-a { grid-column: 1 / -1; grid-row: auto; aspect-ratio: 4 / 5; }
+    .mc-grid--espresso .mc-b, .mc-grid--espresso .mc-c, .mc-grid--espresso .mc-d, .mc-grid--espresso .mc-e { grid-column: span 1; aspect-ratio: 4 / 5; }
+    .mc-grid--cold { grid-template-columns: repeat(2, 1fr); }
+    .mc-grid--cold .mc-photo:first-child { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+    .mc-grid--kitchen { grid-template-columns: repeat(2, 1fr); }
+    .mc-grid--kitchen .mc-wide, .mc-grid--kitchen .mc-wide--short { aspect-ratio: 4 / 3; }
+    .mc-course__head { grid-template-columns: auto 1fr; }
+    .mc-course__count { display: none; }
+  }
+
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
   .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .reveal--delay-1 { transition-delay: 0.12s; }
   .reveal--delay-2 { transition-delay: 0.24s; }
 </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -1043,7 +1117,7 @@
       <li><a href="index.html#contact" data-mobile-link><span class="num">09</span>Contact</a></li>
     </ul>
     <div class="nav__mobile-foot">
-      Aperia Visuals · Westlands, Nairobi<br />
+      Aperia Visuals · Nairobi<br />
       <a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a>
     </div>
   </div>
@@ -1053,7 +1127,7 @@
 <!-- PAGE HERO -->
 <header class="page-hero" id="top">
   <div class="page-hero__bg" data-parallax-bg>
-    <img src="images/food-01.jpg" alt="Beer-battered fish and chips on copper pan" />
+    <img src="images/food-barbera-08-xl.jpg" srcset="images/food-barbera-08-large.jpg 1600w, images/food-barbera-08-xl.jpg 2400w" sizes="100vw" alt="Overhead spread of pizza, pasta, salads and pastries at Café Barbera" fetchpriority="high" />
   </div>
   <div class="page-hero__atmosphere" data-parallax-atmosphere aria-hidden="true"></div>
   <div class="container page-hero__inner">
@@ -1074,8 +1148,8 @@
           Editorial photography for Nairobi's hospitality scene — restaurants, breweries, and chefs who treat the plate as a frame.
         </p>
         <div class="page-hero__caption">
-          <span class="page-hero__caption-title"><em>Beer-battered cod</em></span>
-          <span class="page-hero__caption-meta">Bonds · 35mm · f/2.8 · 1/200s</span>
+          <span class="page-hero__caption-title"><em>The full table</em></span>
+          <span class="page-hero__caption-meta">Café Barbera · Nairobi</span>
         </div>
       </div>
     </div>
@@ -1097,6 +1171,157 @@
   </div>
 </section>
 
+
+<!-- ====================================================================== -->
+<!-- FEATURED CLIENT — CAFÉ BARBERA (read it like a menu) -->
+<section class="section menu-case" id="barbera">
+  <div class="container">
+    <div class="section__head">
+      <div class="section__index reveal" data-reveal>
+        <span class="label">№ 004</span>
+        <span class="label label--contrast">Featured client</span>
+      </div>
+      <h2 class="display reveal reveal--delay-1" data-reveal>Café Barbera.<br />Read it like a <em>menu.</em></h2>
+    </div>
+
+    <div class="mc-layout">
+      <aside class="mc-index" aria-label="Courses">
+        <dl class="mc-facts">
+          <div><dt>Client</dt><dd>Café Barbera</dd></div>
+          <div><dt>Brief</dt><dd>Menu &amp; drinks</dd></div>
+          <div><dt>Stations</dt><dd>Bar · cold · kitchen</dd></div>
+          <div><dt>Selected</dt><dd>14 frames</dd></div>
+        </dl>
+        <ol class="mc-courses">
+          <li><a href="#course-espresso" class="is-active" data-course-link="0"><span>I</span> Espresso bar <i>05</i></a></li>
+          <li><a href="#course-cold" data-course-link="1"><span>II</span> Cold &amp; bar <i>03</i></a></li>
+          <li><a href="#course-kitchen" data-course-link="2"><span>III</span> Kitchen <i>06</i></a></li>
+        </ol>
+        <div class="mc-progress" aria-hidden="true"><span id="mcProgress"></span></div>
+      </aside>
+
+      <div class="mc-courses-body">
+      <div class="mc-course" id="course-espresso" data-course="0">
+        <div class="mc-course__head"><span class="mc-course__num">I</span><h3 class="mc-course__title">The espresso <em>bar.</em></h3><span class="mc-course__count">05 frames</span></div>
+        <p class="mc-course__note">Low sun cut across the counter and we let it. Crema, foam and glass read best in hard light against something dark.</p>
+        <div class="mc-grid mc-grid--espresso">
+          <a href="images/food-barbera-01-large.jpg" class="photo mc-photo mc-a" data-cat="barbera"
+          data-title="Espresso, <em>croissant</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-01-large.jpg">
+          <span class="photo__index">I · 01</span>
+          <img class="photo__img" src="images/food-barbera-01-med.jpg" srcset="images/food-barbera-01-med.jpg 800w, images/food-barbera-01-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 66vw" alt="Espresso in a glass cup beside a croissant on a dark table" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Espresso, <em>croissant</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-02-large.jpg" class="photo mc-photo mc-b" data-cat="barbera"
+          data-title="A <em>layered</em> cortado" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-02-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-02-med.jpg" srcset="images/food-barbera-02-med.jpg 800w, images/food-barbera-02-large.jpg 1600w" sizes="(max-width: 760px) 50vw, 25vw" alt="Layered espresso and condensed milk in a glass cup" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">A <em>layered</em> cortado</span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-03-large.jpg" class="photo mc-photo mc-c" data-cat="barbera"
+          data-title="The house <em>latte</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-03-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-03-med.jpg" srcset="images/food-barbera-03-med.jpg 800w, images/food-barbera-03-large.jpg 1600w" sizes="(max-width: 760px) 50vw, 25vw" alt="Latte in a branded Barbera glass on a saucer" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">The house <em>latte</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-04-large.jpg" class="photo mc-photo mc-d" data-cat="barbera"
+          data-title="Cappuccino, <em>dotted</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-04-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-04-med.jpg" srcset="images/food-barbera-04-med.jpg 800w, images/food-barbera-04-large.jpg 1600w" sizes="(max-width: 760px) 50vw, 25vw" alt="Cappuccino with chocolate dots on the foam" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Cappuccino, <em>dotted</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-07-large.jpg" class="photo mc-photo mc-e" data-cat="barbera"
+          data-title="A heart, <em>poured</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-07-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-07-med.jpg" srcset="images/food-barbera-07-med.jpg 800w, images/food-barbera-07-large.jpg 1600w" sizes="(max-width: 760px) 50vw, 25vw" alt="Latte art heart viewed from above" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">A heart, <em>poured</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="mc-course" id="course-cold" data-course="1">
+        <div class="mc-course__head"><span class="mc-course__num">II</span><h3 class="mc-course__title">Cold, and the <em>bar.</em></h3><span class="mc-course__count">03 frames</span></div>
+        <p class="mc-course__note">Tall glasses, short window. Foam settles and ice clouds within minutes, so these are shot the moment they land.</p>
+        <div class="mc-grid mc-grid--cold">
+          <a href="images/food-barbera-05-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Cold brew, <em>still settling</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-05-large.jpg">
+          <span class="photo__index">II · 01</span>
+          <img class="photo__img" src="images/food-barbera-05-med.jpg" srcset="images/food-barbera-05-med.jpg 800w, images/food-barbera-05-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Tall glass of cold brew with foam cascading" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Cold brew, <em>still settling</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-06-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Caramel <em>frappé</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-06-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-06-med.jpg" srcset="images/food-barbera-06-med.jpg 800w, images/food-barbera-06-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Caramel frappé with whipped cream in a tall glass" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Caramel <em>frappé</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-09-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Three <em>mocktails</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-09-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-09-med.jpg" srcset="images/food-barbera-09-med.jpg 800w, images/food-barbera-09-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Three colourful mocktails photographed from above on dark stone" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Three <em>mocktails</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+        </div>
+      </div>
+      <div class="mc-course" id="course-kitchen" data-course="2">
+        <div class="mc-course__head"><span class="mc-course__num">III</span><h3 class="mc-course__title">The <em>kitchen.</em></h3><span class="mc-course__count">06 frames</span></div>
+        <p class="mc-course__note">The whole table first, for the menu cover. Then each plate on its own, top-down or at the angle a guest sees it.</p>
+        <div class="mc-grid mc-grid--kitchen">
+          <a href="images/food-barbera-08-large.jpg" class="photo mc-photo mc-wide" data-cat="barbera"
+          data-title="The <em>full table</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-08-large.jpg">
+          <span class="photo__index">III · 01</span>
+          <img class="photo__img" src="images/food-barbera-08-med.jpg" srcset="images/food-barbera-08-med.jpg 800w, images/food-barbera-08-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 66vw" alt="Overhead spread of pizza, pasta, salads and pastries on a dark table" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">The <em>full table</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-13-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="<em>Pizza</em>, close" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-13-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-13-med.jpg" srcset="images/food-barbera-13-med.jpg 800w, images/food-barbera-13-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Close crop of a vegetable pizza on a wooden board" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title"><em>Pizza</em>, close</span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-11-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Sliced <em>steak</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-11-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-11-med.jpg" srcset="images/food-barbera-11-med.jpg 800w, images/food-barbera-11-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Sliced steak with salad on a white plate under hard light" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Sliced <em>steak</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-10-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Panini &amp; <em>fries</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-10-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-10-med.jpg" srcset="images/food-barbera-10-med.jpg 800w, images/food-barbera-10-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Grilled panini with a basket of fries" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Panini &amp; <em>fries</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-14-large.jpg" class="photo mc-photo " data-cat="barbera"
+          data-title="Avocado <em>salad</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-14-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-14-med.jpg" srcset="images/food-barbera-14-med.jpg 800w, images/food-barbera-14-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Avocado and egg salad in a white bowl" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Avocado <em>salad</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+          <a href="images/food-barbera-12-large.jpg" class="photo mc-photo mc-wide mc-wide--short" data-cat="barbera"
+          data-title="Fish on <em>red</em>" data-meta="Café Barbera · Nairobi" data-large="images/food-barbera-12-large.jpg">
+          
+          <img class="photo__img" src="images/food-barbera-12-med.jpg" srcset="images/food-barbera-12-med.jpg 800w, images/food-barbera-12-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 66vw" alt="Grilled fish fillet with salad on a red table" loading="lazy" decoding="async" />
+          <div class="photo__overlay"></div>
+          <div class="photo__info"><span class="photo__title">Fish on <em>red</em></span><span class="photo__meta">Café Barbera</span></div>
+        </a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ====================================================================== -->
 <!-- PARTNERS -->
 <section class="partners">
@@ -1106,6 +1331,10 @@
       <span class="partners__count">№ 005 · Partners</span>
     </div>
     <div class="partners__list">
+      <div class="partner reveal" data-reveal>
+        <span class="partner__name">Café Barbera</span>
+        <span class="partner__type">Café · Coffee house</span>
+      </div>
       <div class="partner reveal" data-reveal>
         <span class="partner__name">Gem Forest Hotel</span>
         <span class="partner__type">Hospitality · F&amp;B</span>
@@ -1137,7 +1366,7 @@
     <div class="section__head">
       <div class="section__index reveal" data-reveal>
         <span class="label">№ 006</span>
-        <span class="label label--contrast">Selected Frames</span>
+        <span class="label label--contrast">From the archive</span>
       </div>
       <h2 class="display reveal reveal--delay-1" data-reveal>Thirteen plates,<br />a few <em>pours.</em></h2>
     </div>
@@ -1388,8 +1617,10 @@
   <div class="container foot__inner">
     <span>Aperia Visuals · MMXXVI</span>
     <span><a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a></span>
-    <span>Westlands, Nairobi</span>
+    <span>Nairobi, Kenya</span>
   </div>
+
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
 </footer>
 
 <script>
@@ -1513,13 +1744,14 @@
   // ============================================================================
   const filterBtns = document.querySelectorAll('.filter-btn');
   const photos = document.querySelectorAll('.photo');
+  const archivePhotos = document.querySelectorAll('#gallery-grid .photo');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('is-active'));
       btn.classList.add('is-active');
       const filter = btn.dataset.filter;
-      photos.forEach(photo => {
+      archivePhotos.forEach(photo => {
         if (filter === 'all' || photo.dataset.cat === filter) {
           photo.classList.remove('is-filtered-out');
         } else {
@@ -1591,6 +1823,38 @@
     else if (e.key === 'ArrowLeft') navLightbox(-1);
     else if (e.key === 'ArrowRight') navLightbox(1);
   });
+
+  // ============================================================================
+  // FEATURED CLIENT — sticky course index follows the scroll
+  // ============================================================================
+  (() => {
+    const courses = Array.from(document.querySelectorAll('.mc-course'));
+    const links = Array.from(document.querySelectorAll('[data-course-link]'));
+    const bar = document.getElementById('mcProgress');
+    const body = document.querySelector('.mc-courses-body');
+    if (!courses.length) return;
+    const setActive = (i) => links.forEach((l, k) => {
+      l.classList.toggle('is-active', k === i);
+      if (k === i && l.scrollIntoView && window.matchMedia('(max-width: 980px)').matches) {
+        l.parentElement.parentElement.scrollTo({ left: l.offsetLeft - 16, behavior: 'smooth' });
+      }
+    });
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const mid = window.innerHeight * 0.4;
+      let active = 0;
+      courses.forEach((c, i) => { if (c.getBoundingClientRect().top < mid) active = i; });
+      setActive(active);
+      if (bar && body) {
+        const r = body.getBoundingClientRect();
+        const pct = Math.min(1, Math.max(0, (mid - r.top) / r.height));
+        bar.style.width = (pct * 100) + '%';
+      }
+    };
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
+  })();
 </script>
 
 </body>

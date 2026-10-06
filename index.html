@@ -14,7 +14,7 @@
   <title>Aperia Visuals — Photography &amp; Film by Collins Allindi · Nairobi</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Cinematic photography &amp; videography by Collins Allindi, based in Westlands, Nairobi. Aperia Visuals shoots commercial, documentary, events, portraits, food, architecture and brand work across Kenya." />
+  <meta name="description" content="Cinematic photography &amp; videography by Collins Allindi, based in Nairobi. Aperia Visuals shoots commercial, documentary, events, portraits, food, architecture and brand work across Kenya." />
   <meta name="keywords" content="photography Nairobi, photographer Kenya, commercial photography Kenya, documentary photography Nairobi, brand photography, videography Kenya, event photography Nairobi, food photography Kenya, architecture photography, portrait photography Nairobi, sports photography, Aperia Visuals, Collins Allindi, Westlands photographer" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Aperia Visuals — Photography &amp; Film by Collins Allindi" />
-  <meta property="og:description" content="Cinematic photography &amp; videography by Collins Allindi, based in Westlands, Nairobi. Commercial, documentary, events, portraits, food, architecture and brand work across Kenya." />
+  <meta property="og:description" content="Cinematic photography &amp; videography by Collins Allindi, based in Nairobi. Commercial, documentary, events, portraits, food, architecture and brand work across Kenya." />
   <meta property="og:url" content="https://aperiavisuals.com/" />
   <meta property="og:image" content="https://aperiavisuals.com/images/home-01.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — cinematic photography by Collins Allindi, Nairobi" />
@@ -50,7 +50,7 @@
     "url": "https://aperiavisuals.com/",
     "image": "https://aperiavisuals.com/images/home-01.jpg",
     "logo": "https://aperiavisuals.com/favicon.svg",
-    "description": "Cinematic photography and videography studio based in Westlands, Nairobi. Commercial, documentary, events, portraits, food, architecture and brand work across Kenya.",
+    "description": "Cinematic photography and videography studio based in Nairobi. Commercial, documentary, events, portraits, food, architecture and brand work across Kenya.",
     "founder": {
       "@type": "Person",
       "name": "Collins Allindi",
@@ -58,7 +58,6 @@
     },
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Annex Building, Westlands",
       "addressLocality": "Nairobi",
       "addressRegion": "Nairobi County",
       "addressCountry": "KE"
@@ -1309,6 +1308,27 @@
        CLIENTS
        ========================================================================= */
 
+
+    /* ===== Clients ledger (grouped, hover preview) ===== */
+    .ledger { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(1.5rem, 3vw, 3rem); }
+    .ledger__head { display: grid; grid-template-columns: auto 1fr auto; gap: 0.8rem; align-items: baseline; padding-bottom: 0.9rem; border-bottom: 1px solid var(--text-faint); margin-bottom: 0.3rem; }
+    .ledger__num, .ledger__count { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.18em; color: var(--contrast); }
+    .ledger__count { color: var(--text-faint); }
+    .ledger__sector { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); }
+    .ledger__row { display: grid; grid-template-columns: 1fr auto; align-items: baseline; column-gap: 0.6rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border); position: relative; }
+    .ledger__name { font-family: var(--font-display); font-size: clamp(1.05rem, 1.4vw, 1.3rem); font-weight: 350; line-height: 1.15; color: var(--text); transition: color .35s var(--ease-out), transform .35s var(--ease-out); }
+    .ledger__kind { grid-column: 1; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-faint); margin-top: 0.3rem; }
+    .ledger__arr { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--text-faint); transition: color .35s var(--ease-out), transform .35s var(--ease-out); }
+    a.ledger__row:hover .ledger__name { color: var(--accent); font-style: italic; transform: translateX(4px); }
+    a.ledger__row:hover .ledger__arr { color: var(--contrast); transform: translateX(4px); }
+    .ledger__foot { margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); }
+    .ledger__preview { position: fixed; left: 0; top: 0; width: 220px; aspect-ratio: 4 / 5; pointer-events: none; z-index: 60; overflow: hidden; opacity: 0; transform: translate3d(-9999px,0,0) scale(.92); transition: opacity .25s ease, scale .25s ease; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); border: 1px solid var(--border); }
+    .ledger__preview.is-on { opacity: 1; }
+    .ledger__preview img { width: 100%; height: 100%; object-fit: cover; }
+    @media (max-width: 1100px) { .ledger { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .ledger { grid-template-columns: 1fr; } }
+    @media (hover: none) { .ledger__preview, .ledger__foot { display: none; } }
+
     .clients__list {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -1460,6 +1480,15 @@
     }
 
   </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -1526,7 +1555,7 @@
       <li><a href="#contact" data-mobile-link><span class="num">09</span>Contact</a></li>
     </ul>
     <div class="nav__mobile-foot">
-      <span>Aperia Visuals · Westlands, Nairobi</span>
+      <span>Aperia Visuals · Nairobi</span>
       <a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a>
     </div>
   </div>
@@ -1736,6 +1765,13 @@
         <!-- Column 1 — slowest scroll -->
         <div class="stream__col" data-stream-speed="0.65">
           <a href="food.html" class="stream__cell">
+            <img src="images/food-barbera-02-med.jpg" alt="Layered espresso in a glass cup in hard light" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">A <em>layered</em> cortado</span>
+              <span class="stream__meta">Food · Café Barbera</span>
+            </div>
+          </a>
+          <a href="food.html" class="stream__cell">
             <img src="images/food-03.jpg" alt="Pizza top-down on dark surface" loading="lazy" />
             <div class="stream__overlay">
               <span class="stream__title"><em>Margherita</em></span>
@@ -1770,6 +1806,13 @@
               <span class="stream__meta">Commercial · Asili Coffee</span>
             </div>
           </a>
+          <a href="events.html" class="stream__cell">
+            <img src="images/event-her-04-med.jpg" alt="Host in a green dress laughing with a microphone" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>host</em>, mid-laugh</span>
+              <span class="stream__meta">Events · HER screening</span>
+            </div>
+          </a>
           <a href="portraits.html" class="stream__cell">
             <img src="images/event-nani-03-med.jpg" alt="Woman at microphone, Heineken activation" loading="lazy" />
             <div class="stream__overlay">
@@ -1791,24 +1834,17 @@
               <span class="stream__meta">Architecture · Workable</span>
             </div>
           </a>
-          <a href="portraits.html" class="stream__cell">
-            <img src="images/portrait-field-nani-07-med.jpg" alt="Portrait, Heineken activation field" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title">The <em>regular</em></span>
-              <span class="stream__meta">Portraits · Field</span>
-            </div>
-          </a>
-          <a href="corporate.html" class="stream__cell">
-            <img src="images/corp-09-med.jpg" alt="Man in striped shirt smiling at evening corporate event" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title">A <em>good</em> answer</span>
-              <span class="stream__meta">Corporate · Night</span>
-            </div>
-          </a>
         </div>
 
         <!-- Column 2 — slow -->
         <div class="stream__col stream__col--offset-down" data-stream-speed="0.85">
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/loreal-03-med.jpg" alt="Face wash gel poured into an open palm on red" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">The <em>pour</em></span>
+              <span class="stream__meta">Commercial · L'Oréal</span>
+            </div>
+          </a>
           <a href="architecture.html" class="stream__cell">
             <img src="images/arch-07.jpg" alt="Cafeteria with ring lights" loading="lazy" />
             <div class="stream__overlay">
@@ -1845,6 +1881,13 @@
             </div>
           </a>
           <a href="portraits.html" class="stream__cell">
+            <img src="images/portrait-aphf-05-med.jpg" alt="Corporate headshot in a printed jacket against grey" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">One <em>light</em>, whole team</span>
+              <span class="stream__meta">Portraits · APHF</span>
+            </div>
+          </a>
+          <a href="portraits.html" class="stream__cell">
             <img src="images/portrait-bts-01-med.jpg" alt="Cinematographer with red vintage car and mural" loading="lazy" />
             <div class="stream__overlay">
               <span class="stream__title"><em>Behind</em> the lens</span>
@@ -1865,24 +1908,17 @@
               <span class="stream__meta">Food · Restaurant</span>
             </div>
           </a>
-          <a href="corporate.html" class="stream__cell">
-            <img src="images/corp-03-med.jpg" alt="MC with microphone at corporate event, daylight" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title"><em>Centre</em> stage</span>
-              <span class="stream__meta">Corporate · Programme</span>
-            </div>
-          </a>
-          <a href="portraits.html" class="stream__cell">
-            <img src="images/portrait-field-nani-04-med.jpg" alt="Field portrait, sun-soaked moment" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title"><em>Mid</em> exchange</span>
-              <span class="stream__meta">Portraits · Field</span>
-            </div>
-          </a>
         </div>
 
         <!-- Column 3 — faster -->
         <div class="stream__col" data-stream-speed="1.15">
+          <a href="corporate.html" class="stream__cell">
+            <img src="images/corp-ebury-08-med.jpg" alt="Guest in a bright blue blazer listening on a rooftop" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">Arms folded, <em>fully in it</em></span>
+              <span class="stream__meta">Corporate · Ebury</span>
+            </div>
+          </a>
           <a href="food.html" class="stream__cell">
             <img src="images/food-10.jpg" alt="Beer-battered fish and chips" loading="lazy" />
             <div class="stream__overlay">
@@ -1890,7 +1926,7 @@
               <span class="stream__meta">Food · Bonds</span>
             </div>
           </a>
-          <a href="#" class="stream__cell">
+          <a href="events.html" class="stream__cell">
             <img src="images/home-04.jpg" alt="Heineken event activation crowd" loading="lazy" />
             <div class="stream__overlay">
               <span class="stream__title"><em>Day Party</em></span>
@@ -1918,6 +1954,13 @@
               <span class="stream__meta">Portraits · Field</span>
             </div>
           </a>
+          <a href="food.html" class="stream__cell">
+            <img src="images/food-barbera-05-med.jpg" alt="Tall glass of cold brew with foam cascading" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">Cold brew, <em>settling</em></span>
+              <span class="stream__meta">Food · Café Barbera</span>
+            </div>
+          </a>
           <a href="events.html" class="stream__cell">
             <img src="images/event-rbb-07-med.jpg" alt="Late night Red Bull event scene" loading="lazy" />
             <div class="stream__overlay">
@@ -1939,24 +1982,17 @@
               <span class="stream__meta">Sports · Red Bull</span>
             </div>
           </a>
-          <a href="corporate.html" class="stream__cell">
-            <img src="images/corp-12-med.jpg" alt="Three women in candid laughter at evening event" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title">The <em>cheer</em></span>
-              <span class="stream__meta">Corporate · Candid</span>
-            </div>
-          </a>
-          <a href="food.html" class="stream__cell">
-            <img src="images/food-19.jpg" alt="Dish on dark surface" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title">On <em>dark</em></span>
-              <span class="stream__meta">Food · Editorial</span>
-            </div>
-          </a>
         </div>
 
         <!-- Column 4 — fastest -->
         <div class="stream__col stream__col--offset-down" data-stream-speed="1.35">
+          <a href="events.html" class="stream__cell">
+            <img src="images/event-mw-01-med.jpg" alt="Man wearing a flag as a cape in front of stage lights" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title">Flag <em>up</em></span>
+              <span class="stream__meta">Events · The Most Wanted</span>
+            </div>
+          </a>
           <a href="architecture.html" class="stream__cell">
             <img src="images/arch-03.jpg" alt="Boardroom with hexagon panels" loading="lazy" />
             <div class="stream__overlay">
@@ -1992,6 +2028,13 @@
               <span class="stream__meta">Event · Nani's Heineken</span>
             </div>
           </a>
+          <a href="commercial.html" class="stream__cell">
+            <img src="images/edies-02-med.jpg" alt="Edie's matcha pack from above with a spoon of matcha powder" loading="lazy" />
+            <div class="stream__overlay">
+              <span class="stream__title"><em>Matcha</em>, plated</span>
+              <span class="stream__meta">Commercial · Edie's</span>
+            </div>
+          </a>
           <a href="portraits.html" class="stream__cell">
             <img src="images/event-nani-09-med.jpg" alt="White-cap portrait, Heineken activation" loading="lazy" />
             <div class="stream__overlay">
@@ -2011,20 +2054,6 @@
             <div class="stream__overlay">
               <span class="stream__title"><em>BTS</em></span>
               <span class="stream__meta">Portraits · BTS</span>
-            </div>
-          </a>
-          <a href="corporate.html" class="stream__cell">
-            <img src="images/corp-08-med.jpg" alt="Speaker with microphone at dusk, Fleischer Foundation banner" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title"><em>Open</em> mic</span>
-              <span class="stream__meta">Corporate · Speakers</span>
-            </div>
-          </a>
-          <a href="events.html" class="stream__cell">
-            <img src="images/event-rbb-08-med.jpg" alt="Red Bull Basement evening crowd" loading="lazy" />
-            <div class="stream__overlay">
-              <span class="stream__title">The <em>room</em></span>
-              <span class="stream__meta">Event · Red Bull Basement</span>
             </div>
           </a>
         </div>
@@ -2047,38 +2076,104 @@
       <div class="section__head">
         <div class="section__index reveal">
           <span class="label">№ 005</span>
-          <span class="label label--contrast">Trusted by</span>
+          <span class="label label--contrast">Trusted by · 19</span>
         </div>
         <h2 class="display section__title reveal reveal--delay-1">Brands we've<br />made <em>light</em> for.</h2>
       </div>
 
-      <div class="clients__list reveal">
-        <div class="clients__item">
-          <span class="clients__name">Red Bull Media House</span>
-          <span class="clients__meta">Network Photographer · 2025</span>
-        </div>
-        <div class="clients__item">
-          <span class="clients__name">Workable LTD</span>
-          <span class="clients__meta">Corporate · 2024</span>
-        </div>
-        <div class="clients__item">
-          <span class="clients__name">Glee Hotel</span>
-          <span class="clients__meta">Hospitality · 2024</span>
-        </div>
-        <div class="clients__item">
-          <span class="clients__name">Foodlibrary by JIT</span>
-          <span class="clients__meta">Brand · 2024</span>
-        </div>
-        <div class="clients__item">
-          <span class="clients__name">Kaash Media</span>
-          <span class="clients__meta">Editorial · 2024</span>
-        </div>
-        <div class="clients__item">
-          <span class="clients__name">Emsi &amp; Associates</span>
-          <span class="clients__meta">Corporate · 2024</span>
-        </div>
+      <div class="ledger">
+          <div class="ledger__group reveal">
+            <div class="ledger__head"><span class="ledger__num">01</span><span class="ledger__sector">Hospitality &amp; F&amp;B</span><span class="ledger__count">06</span></div>
+            <a class="ledger__row" href="food.html#barbera" data-preview="images/food-barbera-02-med.jpg">
+              <span class="ledger__name">Café Barbera</span>
+              <span class="ledger__kind">Coffee house</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="food.html" data-preview="images/food-07.jpg">
+              <span class="ledger__name">Glee Hotel</span>
+              <span class="ledger__kind">Hotel</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="food.html" data-preview="images/food-05.jpg">
+              <span class="ledger__name">Gem Forest Hotel</span>
+              <span class="ledger__kind">Hotel</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="food.html" data-preview="images/food-03.jpg">
+              <span class="ledger__name">Bonds Restaurant</span>
+              <span class="ledger__kind">Restaurant</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="food.html" data-preview="images/food-22.jpg">
+              <span class="ledger__name">Crafty Chameleon</span>
+              <span class="ledger__kind">Brewery</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="food.html" data-preview="images/food-09.jpg">
+              <span class="ledger__name">Bambino</span>
+              <span class="ledger__kind">Restaurant</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="ledger__group reveal reveal--delay-1">
+            <div class="ledger__head"><span class="ledger__num">02</span><span class="ledger__sector">Corporate</span><span class="ledger__count">05</span></div>
+            <a class="ledger__row" href="corporate.html#ebury" data-preview="images/corp-ebury-01-med.jpg">
+              <span class="ledger__name">Ebury</span>
+              <span class="ledger__kind">Breakfast briefing</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="corporate.html" data-preview="images/corp-01-med.jpg">
+              <span class="ledger__name">Workable LTD</span>
+              <span class="ledger__kind">Workspace</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="portraits.html#series-board" data-preview="images/portrait-aphf-01-med.jpg">
+              <span class="ledger__name">Africa Public Health Foundation</span>
+              <span class="ledger__kind">Headshots</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="corporate.html">
+              <span class="ledger__name">Foodlibrary by JIT</span>
+              <span class="ledger__kind">Corporate event</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <div class="ledger__row">
+              <span class="ledger__name">Emsi &amp; Associates</span>
+              <span class="ledger__kind">Profiles</span>
+            </div>
+          </div>
+          <div class="ledger__group reveal">
+            <div class="ledger__head"><span class="ledger__num">03</span><span class="ledger__sector">Brands &amp; product</span><span class="ledger__count">06</span></div>
+            <a class="ledger__row" href="events.html#event-rbb" data-preview="images/event-rbb-01-med.jpg">
+              <span class="ledger__name">Red Bull Media House</span>
+              <span class="ledger__kind">Network photographer</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="commercial.html#report-loreal" data-preview="images/loreal-02-med.jpg">
+              <span class="ledger__name">L'Oréal Men Expert</span>
+              <span class="ledger__kind">Studio product</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="commercial.html#report-edies" data-preview="images/edies-01-med.jpg">
+              <span class="ledger__name">Edie's</span>
+              <span class="ledger__kind">Studio product</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="commercial.html#report-tamuwa" data-preview="images/tamuwa-01-med.jpg">
+              <span class="ledger__name">Tamuwa Limited</span>
+              <span class="ledger__kind">Field report</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="commercial.html#report-asili" data-preview="images/asili-01-med.jpg">
+              <span class="ledger__name">Asili Coffee Farm</span>
+              <span class="ledger__kind">Field report</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <a class="ledger__row" href="commercial.html#report-oltotoi" data-preview="images/oltotoi-09-med.jpg">
+              <span class="ledger__name">Oltotoi Ranch</span>
+              <span class="ledger__kind">Field report</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="ledger__group reveal reveal--delay-1">
+            <div class="ledger__head"><span class="ledger__num">04</span><span class="ledger__sector">Media &amp; community</span><span class="ledger__count">02</span></div>
+            <a class="ledger__row" href="events.html#event-nani" data-preview="images/event-nani-01-med.jpg">
+              <span class="ledger__name">Nani's Cafe Party</span>
+              <span class="ledger__kind">Events</span><span class="ledger__arr" aria-hidden="true">→</span>
+            </a>
+            <div class="ledger__row">
+              <span class="ledger__name">Kaash Media</span>
+              <span class="ledger__kind">Editorial</span>
+            </div>
+          </div>
       </div>
+      <p class="ledger__foot reveal">Hover a name to see the work. Every name links to the room it was made in.</p>
     </div>
+    <div class="ledger__preview" id="ledgerPreview" aria-hidden="true"><img alt="" /></div>
   </section>
 
   <!-- ====================================================================== -->
@@ -2123,12 +2218,12 @@
       <span class="footer__left">© Aperia Visuals · MMXXVI · Nairobi</span>
       <ul class="footer__social">
         <li><a href="https://instagram.com/collinsallindi" target="_blank" rel="noopener">Instagram</a></li>
-        <li><a href="#">Behance</a></li>
-        <li><a href="#">Vimeo</a></li>
-        <li><a href="#">LinkedIn</a></li>
+        <li><a href="mailto:hello@aperiavisuals.com">Email</a></li>
       </ul>
     </div>
-  </footer>
+  
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
+</footer>
 
   <script>
     // Hero load animation
@@ -2415,5 +2510,20 @@
     requestHighlightUpdate();
   </script>
 
+
+  <script>
+    // Clients ledger — floating preview follows the cursor
+    (function () {
+      var prev = document.getElementById('ledgerPreview');
+      if (!prev || !window.matchMedia('(hover: hover)').matches) return;
+      var img = prev.querySelector('img'), x = 0, y = 0, raf = null;
+      var move = function () { raf = null; prev.style.transform = 'translate3d(' + (x + 24) + 'px,' + (y - 140) + 'px,0)'; };
+      document.querySelectorAll('.ledger__row[data-preview]').forEach(function (row) {
+        row.addEventListener('mouseenter', function () { img.src = row.dataset.preview; prev.classList.add('is-on'); });
+        row.addEventListener('mouseleave', function () { prev.classList.remove('is-on'); });
+        row.addEventListener('mousemove', function (e) { x = e.clientX; y = e.clientY; if (!raf) raf = requestAnimationFrame(move); });
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   <title>Portrait Photography in Nairobi — Aperia Visuals</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Editorial, environmental and field portraits by Aperia Visuals, Nairobi. Studio, street and on-assignment portraiture across Kenya." />
+  <meta name="description" content="Editorial, environmental and corporate headshot portraits by Aperia Visuals, Nairobi. Studio, street, team headshots and on-assignment portraiture across Kenya." />
   <meta name="keywords" content="portrait photography Nairobi, portrait photographer Kenya, environmental portrait, studio portrait, field portrait, editorial portrait, Aperia Visuals" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Portrait Photography in Nairobi — Aperia Visuals" />
-  <meta property="og:description" content="Editorial, environmental and field portraits by Aperia Visuals, Nairobi. Studio, street and on-assignment portraiture across Kenya." />
+  <meta property="og:description" content="Editorial, environmental and corporate headshot portraits by Aperia Visuals, Nairobi. Studio, street, team headshots and on-assignment portraiture across Kenya." />
   <meta property="og:url" content="https://aperiavisuals.com/portraits" />
   <meta property="og:image" content="https://aperiavisuals.com/images/portrait-field-nani-01-large.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — Portraits work" />
@@ -35,7 +35,7 @@
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Portrait Photography in Nairobi — Aperia Visuals" />
-  <meta name="twitter:description" content="Editorial, environmental and field portraits by Aperia Visuals, Nairobi. Studio, street and on-assignment portraiture across Kenya." />
+  <meta name="twitter:description" content="Editorial, environmental and corporate headshot portraits by Aperia Visuals, Nairobi. Studio, street, team headshots and on-assignment portraiture across Kenya." />
   <meta name="twitter:image" content="https://aperiavisuals.com/images/portrait-field-nani-01-large.jpg" />
   <meta name="twitter:image:alt" content="Aperia Visuals — Portraits work" />
 
@@ -47,7 +47,7 @@
   "@id": "https://aperiavisuals.com/portraits#webpage",
   "url": "https://aperiavisuals.com/portraits",
   "name": "Portrait Photography in Nairobi — Aperia Visuals",
-  "description": "Editorial, environmental and field portraits by Aperia Visuals, Nairobi. Studio, street and on-assignment portraiture across Kenya.",
+  "description": "Editorial, environmental and corporate headshot portraits by Aperia Visuals, Nairobi. Studio, street, team headshots and on-assignment portraiture across Kenya.",
   "isPartOf": {
     "@type": "WebSite",
     "@id": "https://aperiavisuals.com/#website",
@@ -1144,6 +1144,28 @@ body {
 }
 
 /* ============ LIGHTBOX ============ */
+
+/* ===== SERIES 06: BOARDROOM (APHF headshots) ===== */
+.series-board { padding: 120px 0 100px; border-top: 1px solid rgba(255,255,255,0.06); }
+.board-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 48px; }
+.board-cell { position: relative; aspect-ratio: 2 / 3; overflow: hidden; padding: 0; border: 0; background: #1C1A18; cursor: zoom-in; }
+.board-cell img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.35) brightness(0.92); transition: filter .6s ease, transform 1.2s cubic-bezier(0.22,1,0.36,1); }
+.board-cell:hover img, .board-cell:focus-visible img { filter: none; transform: scale(1.03); }
+.board-cell-num { position: absolute; left: 10px; bottom: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #0A0908; background: rgba(245,241,234,.85); padding: 3px 6px; }
+.board-note { display: flex; flex-direction: column; justify-content: flex-end; gap: 14px; padding: 20px; border: 1px solid rgba(255,255,255,0.08); }
+.board-note p { font-family: 'Fraunces', serif; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.2; font-weight: 300; color: var(--cream); }
+.board-note p em { color: var(--gold); font-style: italic; }
+.board-group { position: relative; display: block; width: 100%; margin-top: 10px; aspect-ratio: 21 / 9; overflow: hidden; padding: 0; border: 0; background: #1C1A18; cursor: zoom-in; }
+.board-group img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
+.board-group-cap { position: absolute; left: 24px; bottom: 20px; font-family: 'Fraunces', serif; font-size: clamp(20px, 2.2vw, 30px); color: var(--cream); text-shadow: 0 2px 20px rgba(0,0,0,.6); }
+.board-group-cap em { color: var(--gold); }
+@media (max-width: 900px) {
+    .series-board { padding: 80px 0 60px; }
+    .board-grid { grid-template-columns: repeat(2, 1fr); }
+    .board-note { grid-column: 1 / -1; }
+    .board-group { aspect-ratio: 3 / 2; }
+}
+
 .lightbox {
     position: fixed; inset: 0;
     z-index: 200;
@@ -1233,6 +1255,15 @@ body {
     .lightbox-bottom { display: none; }
 }
 </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -1294,17 +1325,17 @@ body {
     <div class="hero-portraits-veil"></div>
     <div class="hero-corner-mark">№ <strong>005</strong><br/>Portraits<br/>Aperia Visuals</div>
     <div class="container hero-portraits-content">
-        <div class="hero-stamp"><span class="dot"></span>Five chapters · 2025 — 2026</div>
+        <div class="hero-stamp"><span class="dot"></span>Six chapters · 2025 — 2026</div>
         <h1 class="hero-portraits-title">Portraits<em>.</em></h1>
         <p class="hero-portraits-sub">Faces are arguments. Every frame either lands a sentence — or it doesn't.</p>
         <div class="hero-meta">
             <div class="hero-meta-item">
                 <div class="label">Chapters</div>
-                <div class="hero-meta-item-value">Studio · Street · Yard · BTS · Field</div>
+                <div class="hero-meta-item-value">Studio · Street · Yard · BTS · Field · Boardroom</div>
             </div>
             <div class="hero-meta-item">
                 <div class="label">Frames selected</div>
-                <div class="hero-meta-item-value">33</div>
+                <div class="hero-meta-item-value">43</div>
             </div>
             <div class="hero-meta-item">
                 <div class="label">Location</div>
@@ -1329,7 +1360,7 @@ body {
             </div>
             <div class="manifesto-body reveal delay-1">
                 <p>Portraits are the discipline I'm hardest on myself for. There's no plate to re-stage, no skyline to come back to. It's a face, three minutes after meeting a stranger, in a room with the wrong light. You either find them or you don't.</p>
-                <p>Below — five chapters from the last year. <strong>Studio editorial</strong> in a small room with one window. <strong>Street fashion</strong> with a model who knew exactly where to stand. <strong>Industrial editorial</strong> at a vintage rail yard at golden hour. <strong>Behind the lens</strong> — once in a while we point the camera back at the people who run the cameras. And <strong>field work</strong> — brand activations where the portrait has to <em>happen anyway,</em> inside the noise.</p>
+                <p>Below — six chapters from the last year. <strong>Studio editorial</strong> in a small room with one window. <strong>Street fashion</strong> with a model who knew exactly where to stand. <strong>Industrial editorial</strong> at a vintage rail yard at golden hour. <strong>Behind the lens</strong> — once in a while we point the camera back at the people who run the cameras. And <strong>field work</strong> — brand activations where the portrait has to <em>happen anyway,</em> inside the noise. And the <strong>boardroom</strong> — a whole team, one backdrop, one light.</p>
             </div>
         </div>
     </div>
@@ -1344,6 +1375,7 @@ body {
         <a href="#series-yard" class="series-filter-chip" data-target="series-yard"><span class="series-filter-chip-num">03</span>Yard</a>
         <a href="#series-bts" class="series-filter-chip" data-target="series-bts"><span class="series-filter-chip-num">04</span>BTS</a>
         <a href="#series-field" class="series-filter-chip" data-target="series-field"><span class="series-filter-chip-num">05</span>Field</a>
+        <a href="#series-board" class="series-filter-chip" data-target="series-board"><span class="series-filter-chip-num">06</span>Boardroom</a>
     </div>
 </div>
 
@@ -1701,6 +1733,82 @@ body {
     </div>
 </section>
 
+
+<!-- ===== SERIES 06: BOARDROOM ===== -->
+<section class="series series-board" id="series-board">
+    <div class="container">
+        <div class="series-header reveal">
+            <div class="series-header-row">
+                <span class="series-num">06</span>
+                <span class="series-eyebrow">APHF · Corporate Headshots</span>
+            </div>
+            <h2 class="series-title">A whole team, <em>one light.</em></h2>
+            <p class="series-intro">A headshot day for the Africa Public Health Foundation. A portable grey backdrop set up on site, and every person given a few minutes to stop performing for the camera.</p>
+            <div class="series-meta">
+                <div class="series-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="series-meta-item-value">10</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Client</div>
+                    <div class="series-meta-item-value">Africa Public Health Foundation</div>
+                </div>
+                <div class="series-meta-item">
+                    <div class="label">Setting</div>
+                    <div class="series-meta-item-value">On site · portable backdrop</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="board-grid reveal">
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="0" data-large-src="images/portrait-aphf-01-large.jpg" aria-label="Open headshot 1">
+                <img src="images/portrait-aphf-01-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">01</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="1" data-large-src="images/portrait-aphf-02-large.jpg" aria-label="Open headshot 2">
+                <img src="images/portrait-aphf-02-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">02</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="2" data-large-src="images/portrait-aphf-03-large.jpg" aria-label="Open headshot 3">
+                <img src="images/portrait-aphf-03-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">03</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="3" data-large-src="images/portrait-aphf-04-large.jpg" aria-label="Open headshot 4">
+                <img src="images/portrait-aphf-04-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">04</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="4" data-large-src="images/portrait-aphf-05-large.jpg" aria-label="Open headshot 5">
+                <img src="images/portrait-aphf-05-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">05</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="5" data-large-src="images/portrait-aphf-06-large.jpg" aria-label="Open headshot 6">
+                <img src="images/portrait-aphf-06-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">06</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="6" data-large-src="images/portrait-aphf-07-large.jpg" aria-label="Open headshot 7">
+                <img src="images/portrait-aphf-07-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">07</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="8" data-large-src="images/portrait-aphf-09-large.jpg" aria-label="Open headshot 8">
+                <img src="images/portrait-aphf-09-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">08</span>
+            </button>
+            <button class="board-cell" data-lightbox-trigger data-series="aphf" data-idx="9" data-large-src="images/portrait-aphf-10-large.jpg" aria-label="Open headshot 9">
+                <img src="images/portrait-aphf-10-med.jpg" alt="Corporate headshot against a pale grey backdrop" loading="lazy" decoding="async"/>
+                <span class="board-cell-num">09</span>
+            </button>
+            <div class="board-note">
+                <span class="label">The rule</span>
+                <p>Same backdrop, same light, same care — for the <em>director</em> and for the newest hire.</p>
+            </div>
+        </div>
+        <button class="board-group reveal" data-lightbox-trigger data-series="aphf" data-idx="7" data-large-src="images/portrait-aphf-08-large.jpg" aria-label="Open team photo">
+            <img src="images/portrait-aphf-08-large.jpg" alt="The full APHF team photographed together in their office" loading="lazy" decoding="async"/>
+            <span class="board-group-cap"><em>And then everyone,</em> together.</span>
+        </button>
+    </div>
+</section>
+
 <!-- ===== DISCOVER ===== -->
 <section class="discover">
     <div class="container">
@@ -1762,10 +1870,12 @@ body {
 <footer class="footer">
     <div class="container">
         <div class="footer-grid">
-            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div>© 2026 Aperia Visuals — Nairobi</div>
             <div><a href="index.html">aperia.studio</a></div>
         </div>
     </div>
+
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
 </footer>
 
 <button class="back-top" id="backTop" aria-label="Back to top">
@@ -1807,7 +1917,8 @@ body {
         yard:       { label: 'The Yard · Industrial Editorial', count: 4, prefix: 'portrait-yard' },
         bts:        { label: 'Behind the Lens · Creatives', count: 2, prefix: 'portrait-bts' },
         'field-rbb':  { label: 'Red Bull Basement · Field', count: 8, prefix: 'portrait-field-rbb' },
-        'field-nani': { label: "Nani's · Heineken · Field", count: 10, prefix: 'portrait-field-nani' }
+        'field-nani': { label: "Nani's · Heineken · Field", count: 10, prefix: 'portrait-field-nani' },
+        aphf:       { label: 'APHF · Corporate Headshots', count: 10, prefix: 'portrait-aphf' }
     };
 
     /* ===== Scroll progress + nav scrolled + back-to-top ===== */
@@ -1970,7 +2081,7 @@ body {
 
     /* ===== Filter chip active state via IntersectionObserver ===== */
     const filterChips = document.querySelectorAll('.series-filter-chip');
-    const seriesSections = ['series-studio','series-street','series-yard','series-bts','series-field']
+    const seriesSections = ['series-studio','series-street','series-yard','series-bts','series-field','series-board']
         .map(id => document.getElementById(id))
         .filter(Boolean);
     if (filterChips.length && seriesSections.length && 'IntersectionObserver' in window) {
@@ -2015,9 +2126,9 @@ body {
     const lbPrev = document.getElementById('lbPrev');
     const lbNext = document.getElementById('lbNext');
 
-    // Build flat sequence: studio (4) → street (5) → yard (4) → bts (2) → field-rbb (8) → field-nani (10) = 33
+    // Build flat sequence: studio (4) → street (5) → yard (4) → bts (2) → field-rbb (8) → field-nani (10) → aphf (10) = 43
     const FLAT = [];
-    ['studio','street','yard','bts','field-rbb','field-nani'].forEach(key => {
+    ['studio','street','yard','bts','field-rbb','field-nani','aphf'].forEach(key => {
         const s = SERIES[key];
         for (let i = 0; i < s.count; i++) {
             const trigEl = document.querySelector(`[data-lightbox-trigger][data-series="${key}"][data-idx="${i}"]`);

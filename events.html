@@ -14,7 +14,7 @@
   <title>Event Photography in Nairobi — Aperia Visuals</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of festivals, launches, and brand activations by Aperia Visuals." />
+  <meta name="description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of pitch nights, film screenings, festivals and brand activations by Aperia Visuals." />
   <meta name="keywords" content="event photography Nairobi, event photographer Kenya, brand activation photography, festival photography, launch event coverage, Aperia Visuals" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Event Photography in Nairobi — Aperia Visuals" />
-  <meta property="og:description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of festivals, launches, and brand activations by Aperia Visuals." />
+  <meta property="og:description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of pitch nights, film screenings, festivals and brand activations by Aperia Visuals." />
   <meta property="og:url" content="https://aperiavisuals.com/events" />
   <meta property="og:image" content="https://aperiavisuals.com/images/event-nani-01-large.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — Events work" />
@@ -35,7 +35,7 @@
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Event Photography in Nairobi — Aperia Visuals" />
-  <meta name="twitter:description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of festivals, launches, and brand activations by Aperia Visuals." />
+  <meta name="twitter:description" content="Event photography for brands and activations across Kenya. Documentary-style coverage of pitch nights, film screenings, festivals and brand activations by Aperia Visuals." />
   <meta name="twitter:image" content="https://aperiavisuals.com/images/event-nani-01-large.jpg" />
   <meta name="twitter:image:alt" content="Aperia Visuals — Events work" />
 
@@ -47,7 +47,7 @@
   "@id": "https://aperiavisuals.com/events#webpage",
   "url": "https://aperiavisuals.com/events",
   "name": "Event Photography in Nairobi — Aperia Visuals",
-  "description": "Event photography for brands and activations across Kenya. Documentary-style coverage of festivals, launches, and brand activations by Aperia Visuals.",
+  "description": "Event photography for brands and activations across Kenya. Documentary-style coverage of pitch nights, film screenings, festivals and brand activations by Aperia Visuals.",
   "isPartOf": {
     "@type": "WebSite",
     "@id": "https://aperiavisuals.com/#website",
@@ -892,6 +892,31 @@ section { position: relative; }
 .mosaic.mosaic-rbb .mosaic-cell:nth-child(8) { grid-column: span 8; aspect-ratio: 16 / 10; }
 .mosaic.mosaic-rbb .mosaic-cell:nth-child(9) { grid-column: span 4; aspect-ratio: 2 / 3; }
 
+
+/* Mosaic — HER screening (11 cells) */
+.mosaic.mosaic-her .mosaic-cell:nth-child(-n+4) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-her .mosaic-cell:nth-child(5) { grid-column: span 8; aspect-ratio: 4 / 3; }
+.mosaic.mosaic-her .mosaic-cell:nth-child(6),
+.mosaic.mosaic-her .mosaic-cell:nth-child(7),
+.mosaic.mosaic-her .mosaic-cell:nth-child(8) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-her .mosaic-cell:nth-child(9) { grid-column: span 8; aspect-ratio: 4 / 3; }
+.mosaic.mosaic-her .mosaic-cell:nth-child(10) { grid-column: span 4; aspect-ratio: 2 / 3; }
+.mosaic.mosaic-her .mosaic-cell:nth-child(11) { grid-column: span 12; aspect-ratio: 21 / 9; }
+/* Mosaic — Most Wanted (4 cells) */
+.mosaic.mosaic-mw .mosaic-cell { grid-column: span 3; aspect-ratio: 2 / 3; }
+
+/* Hero — four chapters */
+.hero-events--quad .hero-half + .hero-half { border-left: 1px solid rgba(212,255,61,0.18); }
+.hero-events--quad .hero-half-content { padding: 40px 28px 64px; }
+.hero-events--quad .hero-half-title { font-size: clamp(28px, 2.9vw, 46px); max-width: none; }
+.hero-events--quad .hero-half-meta { gap: 18px; }
+.hero-events--quad .hero-overlay-title { top: 34%; }
+@media (max-width: 880px) {
+    .hero-events--quad .hero-half { min-height: 48vh; }
+    .hero-events--quad .hero-half + .hero-half { border-left: 0; border-top: 1px solid rgba(212,255,61,0.18); }
+    .mosaic.mosaic-mw .mosaic-cell { grid-column: span 6; }
+}
+
 /* Mosaic — Nani's (9 cells in mosaic) */
 .mosaic.mosaic-nani .mosaic-cell:nth-child(1) { grid-column: span 7; aspect-ratio: 3 / 2; }
 .mosaic.mosaic-nani .mosaic-cell:nth-child(2) { grid-column: span 5; aspect-ratio: 2 / 3; }
@@ -907,6 +932,7 @@ section { position: relative; }
     .mosaic { gap: 10px; }
     .mosaic.mosaic-rbb .mosaic-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 16 / 11; }
     .mosaic.mosaic-nani .mosaic-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 16 / 11; }
+    .mosaic.mosaic-her .mosaic-cell:nth-child(n) { grid-column: span 12; aspect-ratio: 16 / 11; }
     .mosaic-cell-info { transform: translateY(0); opacity: 1; }
 }
 
@@ -1181,6 +1207,15 @@ section { position: relative; }
     .back-top-ring circle { stroke-dasharray: 144; stroke-dashoffset: 144; }
 }
 </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -1242,7 +1277,7 @@ section { position: relative; }
 </aside>
 
 <!-- ========== HERO: DUAL EVENT SPLIT ========== -->
-<section class="hero-events" aria-label="Featured events">
+<section class="hero-events hero-events--quad" aria-label="Featured events">
     <a href="#event-rbb" class="hero-half" data-event="rbb">
         <div class="hero-half-img" style="background-image: url('images/event-rbb-01-large.jpg');"></div>
         <div class="hero-half-veil"></div>
@@ -1257,7 +1292,6 @@ section { position: relative; }
             <span class="hero-half-cta">Enter the chapter</span>
         </div>
     </a>
-    <div class="hero-divider" aria-hidden="true"></div>
     <a href="#event-nani" class="hero-half" data-event="nani">
         <div class="hero-half-img" style="background-image: url('images/event-nani-01-large.jpg');"></div>
         <div class="hero-half-veil"></div>
@@ -1272,9 +1306,35 @@ section { position: relative; }
             <span class="hero-half-cta">Enter the chapter</span>
         </div>
     </a>
+    <a href="#event-her" class="hero-half" data-event="her">
+        <div class="hero-half-img" style="background-image: url('images/event-her-01-large.jpg');"></div>
+        <div class="hero-half-veil"></div>
+        <div class="hero-half-content">
+            <div class="hero-half-mark">№ 03 / Film &amp; Community</div>
+            <h2 class="hero-half-title"><em>HER</em> screening.</h2>
+            <div class="hero-half-meta">
+                <div class="hero-half-meta-item">Format<strong>Screening · Q&amp;A</strong></div>
+                <div class="hero-half-meta-item">Frames<strong>Selected · 12</strong></div>
+            </div>
+            <span class="hero-half-cta">Enter the chapter</span>
+        </div>
+    </a>
+    <a href="#event-mw" class="hero-half" data-event="mw">
+        <div class="hero-half-img" style="background-image: url('images/event-mw-01-large.jpg');"></div>
+        <div class="hero-half-veil"></div>
+        <div class="hero-half-content">
+            <div class="hero-half-mark">№ 04 / Festival · Night</div>
+            <h2 class="hero-half-title">Most <em>Wanted.</em></h2>
+            <div class="hero-half-meta">
+                <div class="hero-half-meta-item">Format<strong>Open-air festival</strong></div>
+                <div class="hero-half-meta-item">Frames<strong>Selected · 05</strong></div>
+            </div>
+            <span class="hero-half-cta">Enter the chapter</span>
+        </div>
+    </a>
     <div class="hero-overlay-title">
         <span class="label">№ 003 — Events</span>
-        <h1 class="display">Two rooms.<br/>One <em>kind</em> of energy.</h1>
+        <h1 class="display">Four rooms.<br/>One <em>kind</em> of energy.</h1>
     </div>
 </section>
 
@@ -1293,7 +1353,7 @@ section { position: relative; }
             <div class="manifesto-body reveal delay-1">
                 <p>You can re-shoot a plate. You can re-light a room. You <strong>cannot</strong> re-stage someone realising they're meeting the right person.</p>
                 <p>Event work is reportage with a cinematographer's eye. We move fast, light gently, and read the room before we read the brief. The result is a deck of frames a brand can actually use — speaker portraits, candid networking, atmosphere shots, and the wide hero that anchors the recap.</p>
-                <p>Two events below. Two completely different rooms. One disciplined approach.</p>
+                <p>Four events below — a pitch night, a padel social, a film screening and a festival after dark. Four completely different rooms. One disciplined approach.</p>
             </div>
         </div>
     </div>
@@ -1304,6 +1364,8 @@ section { position: relative; }
     <div class="event-tabs">
         <a href="#event-rbb" class="event-tab" data-target="event-rbb"><span class="num">01 /</span> Red Bull Basement</a>
         <a href="#event-nani" class="event-tab" data-target="event-nani"><span class="num">02 /</span> Nani's Cafe Party</a>
+        <a href="#event-her" class="event-tab" data-target="event-her"><span class="num">03 /</span> HER Screening</a>
+        <a href="#event-mw" class="event-tab" data-target="event-mw"><span class="num">04 /</span> The Most Wanted</a>
     </div>
 </div>
 
@@ -1579,6 +1641,250 @@ section { position: relative; }
     </div>
 </section>
 
+
+<!-- ========== EVENT 03 — HER ========== -->
+<section class="event-chapter" id="event-her">
+    <div class="container">
+        <div class="event-header reveal">
+            <div class="event-header-mark">№ 03 — Film &amp; Community</div>
+            <h2 class="event-title"><em>HER</em> — the screening.</h2>
+            <div class="event-meta">
+                <div class="event-meta-item">
+                    <div class="label">Host</div>
+                    <div class="event-meta-item-value">Nani's Cafe Party</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Format</div>
+                    <div class="event-meta-item-value">Documentary screening · Q&amp;A · Dinner</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Venue</div>
+                    <div class="event-meta-item-value">Screening room, Nairobi</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="event-meta-item-value">Selected · 12</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-stage reveal" data-scrub="her">
+            <div class="feature-frame" data-feature="her">
+                <img src="images/event-her-01-large.jpg" data-idx="0" class="active" alt="Audience settling into pink cinema seats" />
+                <img src="images/event-her-02-large.jpg" data-idx="1" alt="Two speakers on stools on a red carpet in front of the screen" loading="lazy" />
+                <img src="images/event-her-03-large.jpg" data-idx="2" alt="Guest in a shearling jacket asking a question with a microphone and a drink" loading="lazy" />
+                <img src="images/event-her-04-large.jpg" data-idx="3" alt="Host in a green dress laughing with a microphone" loading="lazy" />
+                <img src="images/event-her-05-large.jpg" data-idx="4" alt="Guest in purple standing to speak in the cinema" loading="lazy" />
+                <img src="images/event-her-06-large.jpg" data-idx="5" alt="Three friends laughing at a dinner table" loading="lazy" />
+                <img src="images/event-her-07-large.jpg" data-idx="6" alt="Guest posing in a leather jacket in front of film posters" loading="lazy" />
+                <img src="images/event-her-08-large.jpg" data-idx="7" alt="Long dinner tables full of guests under string lights" loading="lazy" />
+                <img src="images/event-her-09-large.jpg" data-idx="8" alt="Two guests posing in front of framed film posters" loading="lazy" />
+                <img src="images/event-her-10-large.jpg" data-idx="9" alt="Guests leaning in to talk across a busy table" loading="lazy" />
+                <img src="images/event-her-11-large.jpg" data-idx="10" alt="Guest in a plaid shirt speaking into a microphone" loading="lazy" />
+                <img src="images/event-her-12-large.jpg" data-idx="11" alt="Two panellists seated in front of the screen" loading="lazy" />
+                <div class="feature-caption">
+                    <div class="feature-caption-text" data-caption-out>The <em>room</em> — full house before the lights drop.</div>
+                    <div class="feature-caption-counter">
+                        <strong data-counter-out>01</strong>
+                        <span>of 12</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scrub-row">
+                <div class="scrub-label"><span class="scrub-label-dot"></span> Drag · Scroll · Tap</div>
+                <div class="scrub-strip" data-strip="her">
+                    <button type="button" class="scrub-thumb active" data-idx="0" aria-label="Frame 1"><span class="scrub-thumb-num">01</span><img src="images/event-her-01-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="1" aria-label="Frame 2"><span class="scrub-thumb-num">02</span><img src="images/event-her-02-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="2" aria-label="Frame 3"><span class="scrub-thumb-num">03</span><img src="images/event-her-03-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="3" aria-label="Frame 4"><span class="scrub-thumb-num">04</span><img src="images/event-her-04-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="4" aria-label="Frame 5"><span class="scrub-thumb-num">05</span><img src="images/event-her-05-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="5" aria-label="Frame 6"><span class="scrub-thumb-num">06</span><img src="images/event-her-06-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="6" aria-label="Frame 7"><span class="scrub-thumb-num">07</span><img src="images/event-her-07-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="7" aria-label="Frame 8"><span class="scrub-thumb-num">08</span><img src="images/event-her-08-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="8" aria-label="Frame 9"><span class="scrub-thumb-num">09</span><img src="images/event-her-09-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="9" aria-label="Frame 10"><span class="scrub-thumb-num">10</span><img src="images/event-her-10-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="10" aria-label="Frame 11"><span class="scrub-thumb-num">11</span><img src="images/event-her-11-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="11" aria-label="Frame 12"><span class="scrub-thumb-num">12</span><img src="images/event-her-12-med.jpg" alt="" loading="lazy" /></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-index reveal" style="margin-bottom: 28px;">
+            <span class="label">The full set</span>
+        </div>
+        <div class="mosaic mosaic-her reveal" data-gallery="her-mosaic">
+            <div class="mosaic-cell" data-idx="1">
+                <img src="images/event-her-02-med.jpg" srcset="images/event-her-02-med.jpg 800w, images/event-her-02-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Two speakers on stools on a red carpet in front of the screen" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">02 — Panel</div>
+                    <div class="mosaic-cell-tag"><em>post-screening Q&amp;A.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="2">
+                <img src="images/event-her-03-med.jpg" srcset="images/event-her-03-med.jpg 800w, images/event-her-03-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Guest in a shearling jacket asking a question with a microphone and a drink" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">03 — Floor</div>
+                    <div class="mosaic-cell-tag"><em>A question from the floor.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="3">
+                <img src="images/event-her-04-med.jpg" srcset="images/event-her-04-med.jpg 800w, images/event-her-04-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Host in a green dress laughing with a microphone" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">04 — Host</div>
+                    <div class="mosaic-cell-tag"><em>The host, mid-laugh.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="4">
+                <img src="images/event-her-05-med.jpg" srcset="images/event-her-05-med.jpg 800w, images/event-her-05-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Guest in purple standing to speak in the cinema" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">05 — Floor</div>
+                    <div class="mosaic-cell-tag"><em>the room listens.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="5">
+                <img src="images/event-her-06-med.jpg" srcset="images/event-her-06-med.jpg 800w, images/event-her-06-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Three friends laughing at a dinner table" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">06 — Dinner</div>
+                    <div class="mosaic-cell-tag"><em>the table erupts.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="6">
+                <img src="images/event-her-07-med.jpg" srcset="images/event-her-07-med.jpg 800w, images/event-her-07-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Guest posing in a leather jacket in front of film posters" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">07 — Arrivals</div>
+                    <div class="mosaic-cell-tag"><em>against the poster wall.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="7">
+                <img src="images/event-her-08-med.jpg" srcset="images/event-her-08-med.jpg 800w, images/event-her-08-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Long dinner tables full of guests under string lights" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">08 — Atmosphere</div>
+                    <div class="mosaic-cell-tag"><em>dinner first.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="9">
+                <img src="images/event-her-10-med.jpg" srcset="images/event-her-10-med.jpg 800w, images/event-her-10-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Guests leaning in to talk across a busy table" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">10 — Dinner</div>
+                    <div class="mosaic-cell-tag"><em>Catching up over the menu.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="8">
+                <img src="images/event-her-09-med.jpg" srcset="images/event-her-09-med.jpg 800w, images/event-her-09-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Two guests posing in front of framed film posters" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">09 — Arrivals</div>
+                    <div class="mosaic-cell-tag"><em>Two friends, one poster wall.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="10">
+                <img src="images/event-her-11-med.jpg" srcset="images/event-her-11-med.jpg 800w, images/event-her-11-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Guest in a plaid shirt speaking into a microphone" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">11 — Floor</div>
+                    <div class="mosaic-cell-tag"><em>The last word from the floor.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="11">
+                <img src="images/event-her-12-med.jpg" srcset="images/event-her-12-med.jpg 800w, images/event-her-12-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Two panellists seated in front of the screen" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">12 — Panel</div>
+                    <div class="mosaic-cell-tag"><em>the panel wraps.</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== EVENT 04 — MW ========== -->
+<section class="event-chapter" id="event-mw">
+    <div class="container">
+        <div class="event-header reveal">
+            <div class="event-header-mark">№ 04 — Festival · Night</div>
+            <h2 class="event-title">The Most <em>Wanted.</em></h2>
+            <div class="event-meta">
+                <div class="event-meta-item">
+                    <div class="label">Format</div>
+                    <div class="event-meta-item-value">Open-air festival</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Brief</div>
+                    <div class="event-meta-item-value">Crowd portraits · after dark</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">When</div>
+                    <div class="event-meta-item-value">After dark</div>
+                </div>
+                <div class="event-meta-item">
+                    <div class="label">Frames</div>
+                    <div class="event-meta-item-value">Selected · 05</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-stage reveal" data-scrub="mw">
+            <div class="feature-frame" data-feature="mw">
+                <img src="images/event-mw-01-large.jpg" data-idx="0" class="active" alt="Man wearing a flag as a cape in front of the stage lights" />
+                <img src="images/event-mw-02-large.jpg" data-idx="1" alt="Festival-goer holding a printed hand fan, smiling" loading="lazy" />
+                <img src="images/event-mw-03-large.jpg" data-idx="2" alt="Four friends walking across the festival grounds at night" loading="lazy" />
+                <img src="images/event-mw-04-large.jpg" data-idx="3" alt="Festival-goer in leather posing in the crowd" loading="lazy" />
+                <img src="images/event-mw-05-large.jpg" data-idx="4" alt="Man holding a flag overhead on the festival grounds" loading="lazy" />
+                <div class="feature-caption">
+                    <div class="feature-caption-text" data-caption-out>Flag <em>up</em>, stage lights behind.</div>
+                    <div class="feature-caption-counter">
+                        <strong data-counter-out>01</strong>
+                        <span>of 5</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scrub-row">
+                <div class="scrub-label"><span class="scrub-label-dot"></span> Drag · Scroll · Tap</div>
+                <div class="scrub-strip" data-strip="mw">
+                    <button type="button" class="scrub-thumb active" data-idx="0" aria-label="Frame 1"><span class="scrub-thumb-num">01</span><img src="images/event-mw-01-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="1" aria-label="Frame 2"><span class="scrub-thumb-num">02</span><img src="images/event-mw-02-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="2" aria-label="Frame 3"><span class="scrub-thumb-num">03</span><img src="images/event-mw-03-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="3" aria-label="Frame 4"><span class="scrub-thumb-num">04</span><img src="images/event-mw-04-med.jpg" alt="" loading="lazy" /></button>
+                    <button type="button" class="scrub-thumb" data-idx="4" aria-label="Frame 5"><span class="scrub-thumb-num">05</span><img src="images/event-mw-05-med.jpg" alt="" loading="lazy" /></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-index reveal" style="margin-bottom: 28px;">
+            <span class="label">The full set</span>
+        </div>
+        <div class="mosaic mosaic-mw reveal" data-gallery="mw-mosaic">
+            <div class="mosaic-cell" data-idx="1">
+                <img src="images/event-mw-02-med.jpg" srcset="images/event-mw-02-med.jpg 800w, images/event-mw-02-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Festival-goer holding a printed hand fan, smiling" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">02 — Portrait</div>
+                    <div class="mosaic-cell-tag"><em>The attitude to match.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="2">
+                <img src="images/event-mw-03-med.jpg" srcset="images/event-mw-03-med.jpg 800w, images/event-mw-03-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Four friends walking across the festival grounds at night" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">03 — Group</div>
+                    <div class="mosaic-cell-tag"><em>The crew arrives.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="3">
+                <img src="images/event-mw-04-med.jpg" srcset="images/event-mw-04-med.jpg 800w, images/event-mw-04-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Festival-goer in leather posing in the crowd" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">04 — Portrait</div>
+                    <div class="mosaic-cell-tag"><em>Night shift on the dance floor.</em></div>
+                </div>
+            </div>
+            <div class="mosaic-cell" data-idx="4">
+                <img src="images/event-mw-05-med.jpg" srcset="images/event-mw-05-med.jpg 800w, images/event-mw-05-large.jpg 1600w" sizes="(max-width: 880px) 100vw, 50vw" alt="Man holding a flag overhead on the festival grounds" loading="lazy" />
+                <div class="mosaic-cell-info">
+                    <div class="mosaic-cell-num">05 — Moment</div>
+                    <div class="mosaic-cell-tag"><em>Arms up.</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ========== CTA ========== -->
 <section class="cta-closer">
     <div class="container">
@@ -1593,10 +1899,12 @@ section { position: relative; }
 <footer class="footer">
     <div class="container">
         <div class="footer-grid">
-            <div>© 2026 Aperia Visuals — Westlands, Nairobi</div>
+            <div>© 2026 Aperia Visuals — Nairobi</div>
             <div><a href="index.html">aperia.studio</a></div>
         </div>
     </div>
+
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
 </footer>
 
 <!-- back to top -->
@@ -1664,6 +1972,27 @@ section { position: relative; }
             '<em>Good vibes</em> — Savanna at the bar.',
             'The <em>marketplace</em> — totes &amp; finds.',
             '<em>Fans have more friends.</em>'
+        ],
+        her: [
+            'The <em>room</em> — full house before the lights drop.',
+            'The <em>conversation</em> — post-screening Q&amp;A.',
+            'A <em>question</em> from the floor.',
+            'The <em>host</em>, mid-laugh.',
+            'On her <em>feet</em> — the room listens.',
+            'Before the film — the <em>table</em> erupts.',
+            '<em>Arrivals</em> — against the poster wall.',
+            'The <em>long table</em> — dinner first.',
+            'Two friends, one <em>poster wall</em>.',
+            'Catching <em>up</em> over the menu.',
+            'The last <em>word</em> from the floor.',
+            'Lights up — the <em>panel</em> wraps.'
+        ],
+        mw: [
+            'Flag <em>up</em>, stage lights behind.',
+            'The <em>fan</em> — and the attitude to match.',
+            'The <em>crew</em> arrives.',
+            'Night <em>shift</em> on the dance floor.',
+            '<em>Arms</em> up.'
         ]
     };
 
@@ -1680,6 +2009,18 @@ section { position: relative; }
             count: 10,
             srcFor: (i) => `images/event-nani-${String(i+1).padStart(2,'0')}-large.jpg`,
             altFor: (i) => CAPTIONS.nani[i].replace(/<[^>]+>/g,'')
+        },
+        her: {
+            label: "<em>HER</em> — the screening",
+            count: 12,
+            srcFor: (i) => `images/event-her-${String(i+1).padStart(2,'0')}-large.jpg`,
+            altFor: (i) => CAPTIONS.her[i].replace(/<[^>]+>/g,'')
+        },
+        mw: {
+            label: "The Most <em>Wanted</em>",
+            count: 5,
+            srcFor: (i) => `images/event-mw-${String(i+1).padStart(2,'0')}-large.jpg`,
+            altFor: (i) => CAPTIONS.mw[i].replace(/<[^>]+>/g,'')
         }
     };
 
@@ -1745,7 +2086,7 @@ section { position: relative; }
 
     /* ============ Sticky tab active state ============ */
     const tabs = document.querySelectorAll('.event-tab');
-    const tabSections = ['event-rbb', 'event-nani'].map(id => document.getElementById(id));
+    const tabSections = ['event-rbb', 'event-nani', 'event-her', 'event-mw'].map(id => document.getElementById(id));
     const setActiveTab = (id) => {
         tabs.forEach(t => {
             if (t.dataset.target === id) t.classList.add('active');
@@ -1915,6 +2256,8 @@ section { position: relative; }
 
     buildScrubController('rbb');
     buildScrubController('nani');
+    buildScrubController('her');
+    buildScrubController('mw');
 
     /* ============ Mosaic mouse-tilt parallax ============ */
     const mosaicCells = document.querySelectorAll('.mosaic-cell');
@@ -2058,9 +2401,11 @@ section { position: relative; }
             openLightbox('rbb', parseInt(cell.dataset.idx, 10));
         });
     });
-    document.querySelectorAll('.mosaic[data-gallery="nani-mosaic"] .mosaic-cell').forEach(cell => {
-        cell.addEventListener('click', () => {
-            openLightbox('nani', parseInt(cell.dataset.idx, 10));
+    ['nani', 'her', 'mw'].forEach(key => {
+        document.querySelectorAll(`.mosaic[data-gallery="${key}-mosaic"] .mosaic-cell`).forEach(cell => {
+            cell.addEventListener('click', () => {
+                openLightbox(key, parseInt(cell.dataset.idx, 10));
+            });
         });
     });
 

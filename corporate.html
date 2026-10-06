@@ -14,7 +14,7 @@
   <title>Corporate Photography in Nairobi — Aperia Visuals</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, programmes, candid coverage and after-hours work for Kenyan companies." />
+  <meta name="description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, breakfast briefings and panels, candid coverage and after-hours work for companies like Ebury and Workable." />
   <meta name="keywords" content="corporate photography Nairobi, business event photography, conference photography Kenya, corporate photographer Kenya, executive portraits, Aperia Visuals" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Corporate Photography in Nairobi — Aperia Visuals" />
-  <meta property="og:description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, programmes, candid coverage and after-hours work for Kenyan companies." />
+  <meta property="og:description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, breakfast briefings and panels, candid coverage and after-hours work for companies like Ebury and Workable." />
   <meta property="og:url" content="https://aperiavisuals.com/corporate" />
   <meta property="og:image" content="https://aperiavisuals.com/images/corp-01-large.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — Corporate work" />
@@ -35,7 +35,7 @@
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Corporate Photography in Nairobi — Aperia Visuals" />
-  <meta name="twitter:description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, programmes, candid coverage and after-hours work for Kenyan companies." />
+  <meta name="twitter:description" content="Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, breakfast briefings and panels, candid coverage and after-hours work for companies like Ebury and Workable." />
   <meta name="twitter:image" content="https://aperiavisuals.com/images/corp-01-large.jpg" />
   <meta name="twitter:image:alt" content="Aperia Visuals — Corporate work" />
 
@@ -47,7 +47,7 @@
   "@id": "https://aperiavisuals.com/corporate#webpage",
   "url": "https://aperiavisuals.com/corporate",
   "name": "Corporate Photography in Nairobi — Aperia Visuals",
-  "description": "Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, programmes, candid coverage and after-hours work for Kenyan companies.",
+  "description": "Corporate and business event photography by Aperia Visuals, Nairobi. Conferences, breakfast briefings and panels, candid coverage and after-hours work for companies like Ebury and Workable.",
   "isPartOf": {
     "@type": "WebSite",
     "@id": "https://aperiavisuals.com/#website",
@@ -923,6 +923,41 @@
   .footer-grid em { color: var(--accent); font-style: normal; }
 
   /* ===================================================== REVEAL ANIM === */
+
+  /* ===================================================== CASE FILE 02 — EBURY */
+  .ebury { padding: clamp(5rem, 10vw, 8rem) var(--gutter-x); border-top: 1px solid var(--border); max-width: 1440px; margin-inline: auto; }
+  .ebury__head { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 5vw, 5rem); align-items: end; margin-bottom: clamp(2rem, 4vw, 3.5rem); }
+  .ebury__index { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--contrast); grid-column: 1 / -1; }
+  .ebury__index em { font-style: normal; color: var(--text-muted); }
+  .ebury__title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 4.6vw, 4.2rem); line-height: 1; letter-spacing: -0.025em; }
+  .ebury__title em { font-style: italic; color: var(--accent); }
+  .ebury__facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.1rem 2rem; border-top: 1px solid var(--border); padding-top: 1.2rem; }
+  .ebury__facts dt { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 0.3rem; }
+  .ebury__facts dd { font-size: 0.95rem; color: var(--text); }
+  .eb-frame { position: relative; display: block; overflow: hidden; background: var(--bg-surface); cursor: zoom-in; }
+  .eb-frame img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s var(--ease-out); }
+  .eb-frame:hover img { transform: scale(1.03); }
+  .eb-frame__cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 2.2rem 1rem 0.9rem; font-family: var(--font-display); font-style: italic; font-size: 1rem; color: var(--text);
+    background: linear-gradient(180deg, transparent, rgba(10,9,8,0.82)); opacity: 0; transform: translateY(6px); transition: opacity .4s var(--ease-out), transform .4s var(--ease-out); }
+  .eb-frame:hover .eb-frame__cap, .eb-frame:focus-visible .eb-frame__cap { opacity: 1; transform: none; }
+  .eb-hero { aspect-ratio: 21 / 9; margin-bottom: clamp(0.6rem, 1.2vw, 1rem); }
+  .ebury__grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: clamp(0.6rem, 1.2vw, 1rem); }
+  .ebury__label { grid-column: 1 / -1; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); padding: clamp(1.4rem, 3vw, 2.4rem) 0 0.4rem; border-bottom: 1px solid var(--border); margin-bottom: 0.2rem; }
+  .ebury__label:first-child { padding-top: clamp(0.8rem, 2vw, 1.4rem); }
+  .eb-6 { grid-column: span 6; aspect-ratio: 3 / 2; }
+  .eb-8 { grid-column: span 8; aspect-ratio: 3 / 2; }
+  .eb-4 { grid-column: span 4; aspect-ratio: 2 / 3; }
+  .ebury__grid .eb-8 + .eb-4 { aspect-ratio: auto; }
+  .ebury__grid .eb-4 + .eb-8 { aspect-ratio: auto; }
+  @media (max-width: 760px) {
+    .ebury__head { grid-template-columns: 1fr; }
+    .ebury__facts { grid-template-columns: 1fr 1fr; }
+    .eb-hero { aspect-ratio: 4 / 3; }
+    .eb-6, .eb-8 { grid-column: 1 / -1; aspect-ratio: 3 / 2 !important; }
+    .eb-4 { grid-column: span 6; aspect-ratio: 2 / 3 !important; }
+    .eb-frame__cap { opacity: 1; transform: none; font-size: 0.85rem; }
+  }
+
   [data-reveal] {
     opacity: 0;
     transform: translateY(28px);
@@ -1030,6 +1065,15 @@
     .horiz-frame img { width: 100%; height: auto; }
   }
 </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -1356,6 +1400,78 @@
     </div>
 </section>
 
+
+<!-- ===================================================== CASE FILE 02 — EBURY === -->
+<section class="ebury" id="ebury">
+    <div class="ebury__head">
+        <div class="ebury__index" data-reveal>№ 006.8 — <em>Case file 02</em></div>
+        <h2 class="ebury__title" data-reveal data-reveal-delay="1">A rooftop, a panel,<br/>and a room full of <em>decision-makers.</em></h2>
+        <dl class="ebury__facts" data-reveal data-reveal-delay="2">
+            <div><dt>Client</dt><dd>Ebury</dd></div>
+            <div><dt>Format</dt><dd>Breakfast briefing · panel · networking</dd></div>
+            <div><dt>Setting</dt><dd>Rooftop terrace, Nairobi</dd></div>
+            <div><dt>Frames</dt><dd>12 selected</dd></div>
+        </dl>
+    </div>
+
+    <a class="eb-frame eb-hero" href="images/corp-ebury-01-xl.jpg" data-corp-frame data-caption="Ebury · The full room under the canopy">
+        <img src="images/corp-ebury-01-large.jpg" srcset="images/corp-ebury-01-large.jpg 1600w, images/corp-ebury-01-xl.jpg 2400w" sizes="100vw" alt="Wide view of the rooftop breakfast audience seated at white tables with Ebury signage on either side" loading="lazy" decoding="async" />
+        <span class="eb-frame__cap">The full room under the canopy</span>
+    </a>
+
+    <div class="ebury__grid">
+        <span class="ebury__label">01 · Set &amp; arrival</span>
+        <a class="eb-frame eb-6" href="images/corp-ebury-02-large.jpg" data-corp-frame data-caption="Ebury · The stage, before anyone sits">
+                <img src="images/corp-ebury-02-med.jpg" srcset="images/corp-ebury-02-med.jpg 800w, images/corp-ebury-02-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Empty panel stage with Ebury-branded cubes and cream chairs against greenery" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">The stage, before anyone sits</span>
+            </a>
+        <a class="eb-frame eb-6" href="images/corp-ebury-12-large.jpg" data-corp-frame data-caption="Ebury · First coffee, first handshake">
+                <img src="images/corp-ebury-12-med.jpg" srcset="images/corp-ebury-12-med.jpg 800w, images/corp-ebury-12-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Two guests greeting each other warmly at the breakfast buffet" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">First coffee, first handshake</span>
+            </a>
+
+        <span class="ebury__label">02 · The panel</span>
+        <a class="eb-frame eb-8" href="images/corp-ebury-03-large.jpg" data-corp-frame data-caption="Ebury · Five on stage, the city behind them">
+                <img src="images/corp-ebury-03-med.jpg" srcset="images/corp-ebury-03-med.jpg 800w, images/corp-ebury-03-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 66vw" alt="Five panellists seated on stage with trees and Nairobi towers behind" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">Five on stage, the city behind them</span>
+            </a>
+        <a class="eb-frame eb-4" href="images/corp-ebury-04-large.jpg" data-corp-frame data-caption="Ebury · The point, mid-gesture">
+                <img src="images/corp-ebury-04-med.jpg" srcset="images/corp-ebury-04-med.jpg 800w, images/corp-ebury-04-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Panellist gesturing while speaking, a colleague in blue listening beside him" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">The point, mid-gesture</span>
+            </a>
+        <a class="eb-frame eb-4" href="images/corp-ebury-05-large.jpg" data-corp-frame data-caption="Ebury · Holding the mic, holding the room">
+                <img src="images/corp-ebury-05-med.jpg" srcset="images/corp-ebury-05-med.jpg 800w, images/corp-ebury-05-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Panellist in a dark jacket speaking into a microphone" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">Holding the mic, holding the room</span>
+            </a>
+        <a class="eb-frame eb-8" href="images/corp-ebury-06-large.jpg" data-corp-frame data-caption="Ebury · The answer that got the nod">
+                <img src="images/corp-ebury-06-med.jpg" srcset="images/corp-ebury-06-med.jpg 800w, images/corp-ebury-06-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 66vw" alt="Wide shot of the panel with a speaker standing at the microphone" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">The answer that got the nod</span>
+            </a>
+
+        <span class="ebury__label">03 · The room</span>
+        <a class="eb-frame eb-6" href="images/corp-ebury-11-large.jpg" data-corp-frame data-caption="Ebury · Listening, coffee in reach">
+                <img src="images/corp-ebury-11-med.jpg" srcset="images/corp-ebury-11-med.jpg 800w, images/corp-ebury-11-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Audience members at white tables listening to the panel" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">Listening, coffee in reach</span>
+            </a>
+        <a class="eb-frame eb-6" href="images/corp-ebury-07-large.jpg" data-corp-frame data-caption="Ebury · The line-up, gifts in hand">
+                <img src="images/corp-ebury-07-med.jpg" srcset="images/corp-ebury-07-med.jpg 800w, images/corp-ebury-07-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Panellists and hosts posing together holding branded gift bags" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">The line-up, gifts in hand</span>
+            </a>
+        <a class="eb-frame eb-4" href="images/corp-ebury-08-large.jpg" data-corp-frame data-caption="Ebury · Arms folded, fully in it">
+                <img src="images/corp-ebury-08-med.jpg" srcset="images/corp-ebury-08-med.jpg 800w, images/corp-ebury-08-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Guest in a bright blue blazer listening in conversation" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">Arms folded, fully in it</span>
+            </a>
+        <a class="eb-frame eb-4" href="images/corp-ebury-09-large.jpg" data-corp-frame data-caption="Ebury · Telling it with his hands">
+                <img src="images/corp-ebury-09-med.jpg" srcset="images/corp-ebury-09-med.jpg 800w, images/corp-ebury-09-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Host in an Ebury zip jacket explaining something to guests" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">Telling it with his hands</span>
+            </a>
+        <a class="eb-frame eb-4" href="images/corp-ebury-10-large.jpg" data-corp-frame data-caption="Ebury · And then the evening">
+                <img src="images/corp-ebury-10-med.jpg" srcset="images/corp-ebury-10-med.jpg 800w, images/corp-ebury-10-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 50vw" alt="Evening networking under string lights on the terrace" loading="lazy" decoding="async" />
+                <span class="eb-frame__cap">And then the evening</span>
+            </a>
+    </div>
+</section>
+
 <!-- ===================================================== CTA === -->
 <section class="cta">
     <div class="cta__inner">
@@ -1398,6 +1514,8 @@
         <span>© 2026 Aperia Visuals <em>·</em> Nairobi</span>
         <a href="index.html">aperiavisuals.com</a>
     </div>
+
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
 </footer>
 
 <!-- ===================================================== LIGHTBOX === -->

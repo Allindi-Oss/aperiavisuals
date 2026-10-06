@@ -14,7 +14,7 @@
     <title>Commercial &amp; Documentary Photography — Aperia Visuals</title>
 
   <!-- ===== Primary SEO ===== -->
-  <meta name="description" content="Commercial and documentary photography for brands across Kenya. Field reports for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch and BrookVeg by Aperia Visuals." />
+  <meta name="description" content="Commercial and documentary photography for brands across Kenya. Field reports and studio product work for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch, L'Oréal Men Expert and Edie's by Aperia Visuals." />
   <meta name="keywords" content="commercial photography Kenya, documentary photography Nairobi, brand photography, agricultural photography Kenya, industry photography, Aperia Visuals, Collins Allindi" />
   <meta name="author" content="Collins Allindi" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Aperia Visuals" />
   <meta property="og:title" content="Commercial &amp; Documentary Photography — Aperia Visuals" />
-  <meta property="og:description" content="Commercial and documentary photography for brands across Kenya. Field reports for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch and BrookVeg by Aperia Visuals." />
+  <meta property="og:description" content="Commercial and documentary photography for brands across Kenya. Field reports and studio product work for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch, L'Oréal Men Expert and Edie's by Aperia Visuals." />
   <meta property="og:url" content="https://aperiavisuals.com/commercial" />
   <meta property="og:image" content="https://aperiavisuals.com/images/oltotoi-09-large.jpg" />
   <meta property="og:image:alt" content="Aperia Visuals — Commercial & Documentary work" />
@@ -35,7 +35,7 @@
   <!-- ===== Twitter / X card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Commercial &amp; Documentary Photography — Aperia Visuals" />
-  <meta name="twitter:description" content="Commercial and documentary photography for brands across Kenya. Field reports for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch and BrookVeg by Aperia Visuals." />
+  <meta name="twitter:description" content="Commercial and documentary photography for brands across Kenya. Field reports and studio product work for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch, L'Oréal Men Expert and Edie's by Aperia Visuals." />
   <meta name="twitter:image" content="https://aperiavisuals.com/images/oltotoi-09-large.jpg" />
   <meta name="twitter:image:alt" content="Aperia Visuals — Commercial & Documentary work" />
 
@@ -47,7 +47,7 @@
   "@id": "https://aperiavisuals.com/commercial#webpage",
   "url": "https://aperiavisuals.com/commercial",
   "name": "Commercial & Documentary Photography — Aperia Visuals",
-  "description": "Commercial and documentary photography for brands across Kenya. Field reports for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch and BrookVeg by Aperia Visuals.",
+  "description": "Commercial and documentary photography for brands across Kenya. Field reports and studio product work for Tamuwa Limited, Asili Coffee Farm, Oltotoi Ranch, L'Oréal Men Expert and Edie's by Aperia Visuals.",
   "isPartOf": {
     "@type": "WebSite",
     "@id": "https://aperiavisuals.com/#website",
@@ -321,6 +321,36 @@
     .frame-cap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 0.7rem; font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); flex-wrap: wrap; }
     .frame-cap b { color: var(--text); font-weight: 500; }
     .frame-cap .frame-cap__id { color: var(--contrast); }
+
+
+    /* ===== Studio reports (N° 004–005) ===== */
+    .studio { position: relative; padding: clamp(0.8rem, 2vw, 1.6rem); display: flex; flex-direction: column; gap: clamp(0.6rem, 1.2vw, 1rem); border-radius: 2px; }
+    .studio--red { background: radial-gradient(120% 90% at 30% 0%, #c4121b 0%, #8a0b12 55%, #4d060a 100%); }
+    .studio--white { background: linear-gradient(180deg, #f3f1ee 0%, #e4e1dc 100%); }
+    .studio__tag { position: absolute; top: -0.65rem; left: clamp(0.8rem, 2vw, 1.6rem); z-index: 2; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; padding: 0.25rem 0.6rem; background: var(--bg); color: var(--contrast); border: 1px solid var(--border-bright, #2C2723); }
+    .studio .frame { background: transparent; box-shadow: 0 24px 60px -30px rgba(0,0,0,0.6); }
+    .studio__hero { aspect-ratio: 3 / 2; }
+    .studio__wide { aspect-ratio: 21 / 9; }
+    .studio__row { display: grid; gap: clamp(0.6rem, 1.2vw, 1rem); }
+    .studio__row--3 { grid-template-columns: repeat(3, 1fr); }
+    .studio__row--3 .frame { aspect-ratio: 3 / 4; }
+    .studio__row--2 { grid-template-columns: 1fr 1fr; }
+    .studio__row--2 .frame { aspect-ratio: 3 / 2; }
+    .studio__pour { display: grid; grid-template-columns: 1fr 1.2fr 1.2fr; gap: clamp(0.6rem, 1.2vw, 1rem); align-items: stretch; }
+    .studio__pour .frame { aspect-ratio: 3 / 4; }
+    .studio__pour-label { display: flex; flex-direction: column; justify-content: flex-end; gap: 0.5rem; padding: 1rem 0.4rem; color: #fff; }
+    .studio__pour-label span { font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.75; }
+    .studio__pour-label em { font-family: var(--font-display); font-size: clamp(1.3rem, 2.2vw, 2rem); line-height: 1.05; font-weight: 350; }
+    .report--loreal .report__intro, .report--edies .report__intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.5rem, 3vw, 3rem); margin-bottom: clamp(1.8rem, 3.5vw, 2.8rem); }
+    @media (max-width: 760px) {
+      .report--loreal .report__intro, .report--edies .report__intro { grid-template-columns: 1fr; }
+      .studio__row--3 { grid-template-columns: 1fr 1fr; }
+      .studio__row--3 .frame:nth-child(3) { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+      .studio__row--2 { grid-template-columns: 1fr; }
+      .studio__pour { grid-template-columns: 1fr 1fr; }
+      .studio__pour-label { grid-column: 1 / -1; padding: 0.4rem 0.2rem; }
+      .studio__wide { aspect-ratio: 16 / 10; }
+    }
 
     /* ===== The clickable photo frame ===== */
     .frame {
@@ -661,6 +691,15 @@
       .dossier-pill { transition: none; }
     }
   </style>
+
+  <style>
+    /* Studio login link → admin.aperiavisuals.com */
+    .studio-login { text-align: center; padding: 14px 16px 22px; }
+    .studio-login a { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: inherit;
+                      opacity: .45; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px;
+                      transition: opacity .2s; }
+    .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
+  </style>
 </head>
 <body>
 
@@ -711,7 +750,7 @@
     <li><a href="story.html" data-mobile-link><span class="num">09</span>Story</a></li>
   </ul>
   <div class="nav__mobile-foot">
-    <span>Aperia Visuals · Westlands, Nairobi</span>
+    <span>Aperia Visuals · Nairobi</span>
     <a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a>
   </div>
 </div>
@@ -729,15 +768,15 @@
       <h1 class="hero__title display">Commercial <em>&amp;</em><br>Documentary.</h1>
 
       <p class="hero__deck">
-        Brand work made on the <em>floor of the operation</em> — coffee rows, biomass yards, ranches, machine bays. Honest pictures of companies actually doing what they say they do.
+        Brand work made on the <em>floor of the operation</em> — coffee rows, biomass yards, ranches, machine bays — and in the <em>studio</em>, where the product carries the frame. Honest pictures of companies doing what they say they do.
       </p>
 
       <div class="hero__credit">
-        <span><b>Filed</b> · 2024–2025</span>
+        <span><b>Filed</b> · 2024–2026</span>
         <span class="hero__credit-pipe">/</span>
-        <span><b>Reports</b> · 3</span>
+        <span><b>Reports</b> · 5</span>
         <span class="hero__credit-pipe">/</span>
-        <span><b>Frames</b> · 17</span>
+        <span><b>Frames</b> · 29</span>
         <span class="hero__credit-pipe">/</span>
         <span><b>Region</b> · Kenya</span>
       </div>
@@ -749,7 +788,7 @@
     <div class="container">
       <div class="dossier__head">
         <h2 class="dossier__head-title display">Index of <em>Files</em>.</h2>
-        <span class="dossier__head-meta">03 reports · 17 frames · click to open</span>
+        <span class="dossier__head-meta">05 reports · 29 frames · click to open</span>
       </div>
 
       <div class="dossier__table">
@@ -772,6 +811,20 @@
           <span class="dossier__cell--name"><em>Oltotoi</em> Ranch</span>
           <span class="dossier__cell--sector">Livestock · Feedlot</span>
           <span class="dossier__cell--frames"><b>09</b> frames · essay</span>
+          <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
+        </a>
+        <a class="dossier__row" href="#report-loreal">
+          <span class="dossier__cell--num">N° 004</span>
+          <span class="dossier__cell--name"><em>L'Oréal</em> Men Expert</span>
+          <span class="dossier__cell--sector">Grooming · Studio</span>
+          <span class="dossier__cell--frames"><b>07</b> frames · red room</span>
+          <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
+        </a>
+        <a class="dossier__row" href="#report-edies">
+          <span class="dossier__cell--num">N° 005</span>
+          <span class="dossier__cell--name"><em>Edie's</em> Sweets</span>
+          <span class="dossier__cell--sector">Confectionery · Studio</span>
+          <span class="dossier__cell--frames"><b>05</b> frames · e-commerce</span>
           <span class="dossier__cell--cta"><span class="dossier__cell--cta-label">Open</span><span class="arr">→</span></span>
         </a>
 
@@ -806,6 +859,18 @@
             <a href="#report-oltotoi">
               <span class="rail__num">N° 003</span>
               <span class="rail__name">Oltotoi Ranch</span>
+            </a>
+          </li>
+          <li class="rail__item" data-rail-target="report-loreal">
+            <a href="#report-loreal">
+              <span class="rail__num">N° 004</span>
+              <span class="rail__name">L'Oréal</span>
+            </a>
+          </li>
+          <li class="rail__item" data-rail-target="report-edies">
+            <a href="#report-edies">
+              <span class="rail__num">N° 005</span>
+              <span class="rail__name">Edie's</span>
             </a>
           </li>
         </ul>
@@ -967,6 +1032,107 @@
           </div>
         </article>
 
+        <!-- REPORT — L'ORÉAL MEN EXPERT (studio, red room) -->
+        <article id="report-loreal" class="report report--loreal" data-reveal>
+          <header class="report__head">
+            <span class="report__head-num">N° 004</span>
+            <h2 class="report__head-title"><em>L'Oréal</em> Men Expert.</h2>
+            <span class="report__head-meta">
+              <b>Sector</b> · Grooming · studio<br>
+              <b>Frames</b> · 07
+            </span>
+          </header>
+
+          <div class="report__intro">
+            <p class="report__lede">One colour, one hard light, and the range lined up like a <em>cast.</em></p>
+            <div class="report__copy">
+              <p>Off the floor and into the studio. A single red sweep carries every frame, so the packaging does the talking — hero line-up first, then each product on its own, then the texture shots a shelf can't show.</p>
+            </div>
+          </div>
+
+          <div class="studio studio--red">
+            <span class="studio__tag">Studio · Red sweep</span>
+            <a class="frame studio__hero" href="images/loreal-02-large.jpg" data-frame data-caption="L'Oréal Men Expert · Line-up · The full range on the sweep">
+              <img src="images/loreal-02-med.jpg" srcset="images/loreal-02-med.jpg 800w, images/loreal-02-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="The L'Oréal Men Expert range lined up on a red studio sweep" loading="lazy" decoding="async">
+            </a>
+            <div class="studio__row studio__row--3">
+              <a class="frame " href="images/loreal-01-large.jpg" data-frame data-caption="L'Oréal Men Expert · Group · The range stacked on stone">
+              <img src="images/loreal-01-med.jpg" srcset="images/loreal-01-med.jpg 800w, images/loreal-01-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Men Expert products stacked around a rough stone on red" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/loreal-05-large.jpg" data-frame data-caption="L'Oréal Men Expert · Product · Pure Carbon, close">
+              <img src="images/loreal-05-med.jpg" srcset="images/loreal-05-med.jpg 800w, images/loreal-05-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Close crop of the Pure Carbon tube against red" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/loreal-07-large.jpg" data-frame data-caption="L'Oréal Men Expert · Product · Serum under a single light">
+              <img src="images/loreal-07-med.jpg" srcset="images/loreal-07-med.jpg 800w, images/loreal-07-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Small blue serum bottle under a single hard light on red" loading="lazy" decoding="async">
+            </a>
+            </div>
+            <div class="studio__pour">
+              <div class="studio__pour-label"><span>The pour</span><em>Texture a shelf can't show.</em></div>
+              <a class="frame " href="images/loreal-03-large.jpg" data-frame data-caption="L'Oréal Men Expert · Texture · Hydra Energetic gel into the hand">
+              <img src="images/loreal-03-med.jpg" srcset="images/loreal-03-med.jpg 800w, images/loreal-03-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Orange face wash gel poured from the tube into an open palm" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/loreal-04-large.jpg" data-frame data-caption="L'Oréal Men Expert · Texture · Charcoal wash into the hand">
+              <img src="images/loreal-04-med.jpg" srcset="images/loreal-04-med.jpg 800w, images/loreal-04-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Black charcoal face wash poured from the tube into an open palm" loading="lazy" decoding="async">
+            </a>
+            </div>
+            <a class="frame studio__wide" href="images/loreal-06-large.jpg" data-frame data-caption="L'Oréal · Infaillible · Foundation shades fanned on red">
+              <img src="images/loreal-06-med.jpg" srcset="images/loreal-06-med.jpg 800w, images/loreal-06-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Bottles of Infaillible foundation fanned out in a curve on red" loading="lazy" decoding="async">
+            </a>
+          </div>
+
+          <div class="frame-cap">
+            <span><b>Frames</b> <span class="frame-cap__id">01 — 07 / 07</span></span>
+            <span>Studio · single sweep</span>
+          </div>
+        </article>
+
+        <!-- REPORT — EDIE'S (studio, white seamless) -->
+        <article id="report-edies" class="report report--edies" data-reveal>
+          <header class="report__head">
+            <span class="report__head-num">N° 005</span>
+            <h2 class="report__head-title"><em>Edie's</em> Sweets.</h2>
+            <span class="report__head-meta">
+              <b>Sector</b> · Confectionery · e-commerce<br>
+              <b>Frames</b> · 05
+            </span>
+          </header>
+
+          <div class="report__intro">
+            <p class="report__lede">Clean white, real <em>ingredients</em> beside the wrapper — matcha, coffee, star anise.</p>
+            <div class="report__copy">
+              <p>Packaging that already has a lot of personality doesn't need a set. White seamless, soft light, and each flavour paired with the thing it tastes of — shot to drop straight into a product page.</p>
+            </div>
+          </div>
+
+          <div class="studio studio--white">
+            <span class="studio__tag">Studio · White seamless</span>
+            <div class="studio__row studio__row--3">
+              <a class="frame " href="images/edies-01-large.jpg" data-frame data-caption="Edie's · Matcha · Standing pack with cups">
+              <img src="images/edies-01-med.jpg" srcset="images/edies-01-med.jpg 800w, images/edies-01-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Edie's matcha white chocolate cups pack standing beside two cups" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/edies-02-large.jpg" data-frame data-caption="Edie's · Matcha · With a spoon of matcha powder">
+              <img src="images/edies-02-med.jpg" srcset="images/edies-02-med.jpg 800w, images/edies-02-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Edie's matcha pack from above with a spoon of matcha powder and cups" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/edies-04-large.jpg" data-frame data-caption="Edie's · Chai · With star anise and cinnamon">
+              <img src="images/edies-04-med.jpg" srcset="images/edies-04-med.jpg 800w, images/edies-04-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Edie's chai pack standing among star anise, cinnamon and seeds" loading="lazy" decoding="async">
+            </a>
+            </div>
+            <div class="studio__row studio__row--2">
+              <a class="frame " href="images/edies-03-large.jpg" data-frame data-caption="Edie's · Coffee · Pack, cups and beans">
+              <img src="images/edies-03-med.jpg" srcset="images/edies-03-med.jpg 800w, images/edies-03-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Edie's coffee white chocolate cups with coffee beans on a spoon" loading="lazy" decoding="async">
+            </a>
+              <a class="frame " href="images/edies-05-large.jpg" data-frame data-caption="Edie's · Matcha · Pack and broken cup">
+              <img src="images/edies-05-med.jpg" srcset="images/edies-05-med.jpg 800w, images/edies-05-large.jpg 1600w" sizes="(max-width: 760px) 100vw, 60vw" alt="Edie's matcha pack lying flat beside a split matcha cup" loading="lazy" decoding="async">
+            </a>
+            </div>
+          </div>
+
+          <div class="frame-cap">
+            <span><b>Frames</b> <span class="frame-cap__id">01 — 05 / 05</span></span>
+            <span>Studio · e-commerce set</span>
+          </div>
+        </article>
+
       </div>
     </div>
   </div>
@@ -988,7 +1154,7 @@
         <div class="colophon__brands">
           <div class="colophon__brands-label">Brands worked with</div>
           <div class="colophon__brands-list">
-            <em>Tamuwa</em> Limited<span class="sep">·</span><em>Asili</em> Coffee Farm<span class="sep">·</span><em>Oltotoi</em> Ranch<span class="sep">·</span><em>BrookVeg</em>
+            <em>Tamuwa</em> Limited<span class="sep">·</span><em>Asili</em> Coffee Farm<span class="sep">·</span><em>Oltotoi</em> Ranch<span class="sep">·</span><em>L'Oréal</em> Men Expert<span class="sep">·</span><em>Edie's</em><span class="sep">·</span><em>BrookVeg</em>
           </div>
         </div>
       </div>
@@ -1002,6 +1168,8 @@
     <span>© 2026 Aperia Visuals <em>·</em> Nairobi</span>
     <a href="index.html">aperiavisuals.com</a>
   </div>
+
+  <div class="studio-login"><a href="https://admin.aperiavisuals.com" rel="nofollow">Studio login</a></div>
 </footer>
 
 <!-- Floating dossier pill — mobile-only nav between reports -->
@@ -1023,6 +1191,14 @@
     <a href="#report-oltotoi" data-pill-link data-pill-idx="2" role="menuitem">
       <span class="pill-num">N° 003</span>
       <span class="pill-label">Oltotoi Ranch</span>
+    </a>
+    <a href="#report-loreal" data-pill-link data-pill-idx="3" role="menuitem">
+      <span class="pill-num">N° 004</span>
+      <span class="pill-label">L'Oréal</span>
+    </a>
+    <a href="#report-edies" data-pill-link data-pill-idx="4" role="menuitem">
+      <span class="pill-num">N° 005</span>
+      <span class="pill-label">Edie's</span>
     </a>
   </div>
 </div>
@@ -1158,8 +1334,8 @@
   const reportsContainer = document.querySelector('.reports');
 
   // Display data parallel to the rail items
-  const pillNumbers = ['N° 001', 'N° 002', 'N° 003'];
-  const pillNames   = ['Tamuwa', 'Asili Coffee', 'Oltotoi Ranch'];
+  const pillNumbers = ['N° 001', 'N° 002', 'N° 003', 'N° 004', 'N° 005'];
+  const pillNames   = ['Tamuwa', 'Asili Coffee', 'Oltotoi Ranch', "L'Oréal", "Edie's"];
 
   function pillCollapse() {
     if (!pill) return;
