@@ -700,42 +700,83 @@
                       transition: opacity .2s; }
     .studio-login a:hover, .studio-login a:focus-visible { opacity: 1; }
   </style>
+
+  <style id="av-nav-shared">
+    /* ===== Shared site navigation (identical on every page) ===== */
+    nav.nav.av-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: block; padding: 0; margin: 0; height: auto;
+      background: linear-gradient(180deg, rgba(10,9,8,0.55), rgba(10,9,8,0)); border-bottom: 1px solid transparent; mix-blend-mode: normal; transform: none;
+      transition: background .4s ease, border-color .4s ease; }
+    nav.nav.av-nav.is-scrolled, nav.nav.av-nav.scrolled { background: rgba(10,9,8,0.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: rgba(245,241,234,0.08); }
+    .av-nav__row { max-width: 1440px; margin: 0 auto; padding: 16px clamp(1.25rem, 4vw, 4rem); display: flex; align-items: center; gap: 2rem; }
+    .av-nav__brand { display: inline-flex; align-items: center; gap: .7rem; color: #F5F1EA !important; text-decoration: none; flex-shrink: 0; }
+    .av-nav__brand svg { width: 20px; height: 26px; display: block; }
+    .av-nav__mark { display: block; font-family: 'Fraunces', 'Times New Roman', serif; font-size: 1.02rem; letter-spacing: .09em; line-height: 1; font-weight: 400; color: #F5F1EA; }
+    .av-nav__sub { display: block; margin-top: 4px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .52rem; letter-spacing: .34em; text-transform: uppercase; color: #8A847A; line-height: 1; }
+    .av-nav__menu { list-style: none; display: flex; align-items: center; gap: clamp(.9rem, 1.5vw, 1.7rem); margin: 0 0 0 auto; padding: 0; }
+    .av-nav__menu li { list-style: none; margin: 0; padding: 0; }
+    .av-nav__menu a { position: relative; display: block; padding: 6px 0; font-family: 'Hanken Grotesk', system-ui, sans-serif; font-size: .86rem; font-weight: 400;
+      letter-spacing: 0; text-transform: none; white-space: nowrap; color: rgba(245,241,234,0.68); text-decoration: none; transition: color .25s ease; }
+    .av-nav__menu a::before { content: none; }
+    .av-nav__menu a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: #D4FF3D; transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+    .av-nav__menu a:hover { color: #F5F1EA; }
+    .av-nav__menu a.is-current { color: #F5F1EA; }
+    .av-nav__menu a.is-current::after { transform: scaleX(1); }
+    .av-nav__right { display: flex; align-items: center; gap: 1rem; flex-shrink: 0; }
+    .av-nav__cta { display: inline-block; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; white-space: nowrap;
+      color: #F5F1EA !important; text-decoration: none; border: 1px solid rgba(245,241,234,0.28); border-radius: 999px; padding: .62rem 1.1rem; transition: background .25s ease, color .25s ease, border-color .25s ease; }
+    .av-nav__cta:hover { background: #D4FF3D; border-color: #D4FF3D; color: #0A0908 !important; }
+    @media (min-width: 1181px) { nav.av-nav .nav__toggle, nav.av-nav .menu-btn { display: none !important; } }
+    @media (max-width: 1180px) {
+      .av-nav__menu { display: none; }
+      .av-nav__right { margin-left: auto; }
+      nav.av-nav .nav__toggle { display: flex !important; }
+      nav.av-nav .menu-btn { display: block !important; color: #F5F1EA; }
+    }
+    @media (max-width: 600px) { .av-nav__cta { display: none; } .av-nav__row { padding-block: 14px; } }
+    /* ===== Shared phone menu styling ===== */
+    #navMobile, #drawer { background: #0A0908 !important; }
+    #navMobile li, #drawer li { list-style: none; border-bottom: 1px solid rgba(245,241,234,0.08); }
+    #navMobile li a, #drawer li a { display: flex !important; align-items: baseline; gap: .9rem; padding: .7rem 0 !important;
+      font-family: 'Fraunces', 'Times New Roman', serif !important; font-style: normal !important; font-weight: 350 !important;
+      font-size: clamp(1.45rem, 6vw, 1.9rem) !important; line-height: 1.1 !important; letter-spacing: -0.01em !important; text-transform: none !important; color: #F5F1EA !important; }
+    #navMobile li a .num, #drawer li a .num { font-family: 'JetBrains Mono', ui-monospace, monospace !important; font-style: normal !important; font-size: .62rem !important;
+      letter-spacing: .16em !important; color: #D4FF3D !important; min-width: 1.6rem; }
+    #navMobile li a.is-current, #drawer li a.is-current, #drawer li.active a { color: #C9A36B !important; }
+    #drawer ol li::before, #drawer ol li a::before, #drawer ol li::after { content: none !important; }
+  </style>
 </head>
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
-<nav class="nav" id="nav">
-  <div class="container nav__row">
-    <a href="index.html" class="nav__brand" aria-label="Aperia Visuals home">
-      <svg class="nav__brand-symbol" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M 10 130 L 50 10 L 90 130" stroke="currentColor" stroke-width="14" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="6" fill="none"/>
-        <path d="M 43 67 L 57 67 L 50 45 Z" fill="#D4FF3D" transform="rotate(18 50 56)"/>
-      </svg>
-      <span class="nav__brand-type">
-        <span class="nav__brand-mark">APERIA</span>
-        <span class="nav__brand-sub">Visuals</span>
-      </span>
-    </a>
-    <ul class="nav__menu">
-      <li><a href="food.html">Food</a></li>
-      <li><a href="architecture.html">Architecture</a></li>
-      <li><a href="events.html">Events</a></li>
-      <li><a href="corporate.html">Corporate</a></li>
-      <li><a href="portraits.html">Portraits</a></li>
-      <li><a href="commercial.html" class="is-current">Commercial</a></li>
-      <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
-      <li><a href="story.html">Story</a></li>
-    </ul>
-    <div class="nav__right">
-      <a href="index.html#contact" class="nav__cta">Start a project</a>
-      <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+<nav class="nav av-nav" id="nav" aria-label="Main">
+    <div class="av-nav__row">
+      <a href="index.html" class="av-nav__brand" aria-label="Aperia Visuals home">
+        <svg viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 10 130 L 50 10 L 90 130" stroke="currentColor" stroke-width="14" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="6" fill="none"/>
+          <path d="M 43 67 L 57 67 L 50 45 Z" fill="#D4FF3D" transform="rotate(18 50 56)"/>
+        </svg>
+        <span><span class="av-nav__mark">APERIA</span><span class="av-nav__sub">Visuals</span></span>
+      </a>
+      <ul class="av-nav__menu">
+        <li><a href="food.html">Food</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="corporate.html">Corporate</a></li>
+        <li><a href="portraits.html">Portraits</a></li>
+        <li><a href="commercial.html" class="is-current" aria-current="page">Commercial</a></li>
+        <li><a href="sports-brand.html">Sports &amp; Brand</a></li>
+        <li><a href="story.html">Story</a></li>
+      </ul>
+      <div class="av-nav__right">
+        <a href="index.html#contact" class="av-nav__cta">Start a project</a>
+        <button class="nav__toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
 <div class="nav__mobile" id="navMobile" aria-hidden="true">
   <ul class="nav__mobile-list">
@@ -745,9 +786,10 @@
     <li><a href="events.html" data-mobile-link><span class="num">04</span>Events</a></li>
     <li><a href="corporate.html" data-mobile-link><span class="num">05</span>Corporate</a></li>
     <li><a href="portraits.html" data-mobile-link><span class="num">06</span>Portraits</a></li>
-    <li><a href="commercial.html" data-mobile-link class="is-current"><span class="num">07</span>Commercial &amp; Doc.</a></li>
+    <li><a href="commercial.html" data-mobile-link class="is-current"><span class="num">07</span>Commercial</a></li>
     <li><a href="sports-brand.html" data-mobile-link><span class="num">08</span>Sports &amp; Brand</a></li>
     <li><a href="story.html" data-mobile-link><span class="num">09</span>Story</a></li>
+    <li><a href="index.html#contact" data-mobile-link><span class="num">10</span>Contact</a></li>
   </ul>
   <div class="nav__mobile-foot">
     <span>Aperia Visuals · Nairobi</span>
@@ -762,7 +804,7 @@
     <div class="container">
       <div class="hero__bracket">
         <span class="dot"></span>
-        <span>N° 008 &nbsp;·&nbsp; <span class="accent">Field Reports</span></span>
+        <span>N° 06 &nbsp;·&nbsp; <span class="accent">Field Reports</span></span>
       </div>
 
       <h1 class="hero__title display">Commercial <em>&amp;</em><br>Documentary.</h1>
