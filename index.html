@@ -2693,7 +2693,7 @@
       }
       function fallback(d, why) {
         var t = encodeURIComponent(summary(d));
-        statusEl.className = 'enq__status is-error';
+        statusEl.className = 'enq__status is-error'; window.avHaptic && avHaptic('error');
         statusEl.innerHTML = why + ' <a href="https://wa.me/' + WA + '?text=' + t + '" target="_blank" rel="noopener">Send it on WhatsApp</a> or <a href="mailto:hello@aperiavisuals.com?subject=' + encodeURIComponent('Enquiry from ' + (d.name || 'the website')) + '&body=' + t + '">email it</a> instead — your message is already filled in.';
       }
       form.addEventListener('submit', function (ev) {
@@ -2704,7 +2704,7 @@
         if (!d.name) bad = [form.name, 'Please add your name.'];
         else if (!d.email && !d.phone) bad = [form.email, 'Please add an email or a phone number so I can reply.'];
         else if (d.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) bad = [form.email, "That email address doesn't look right."];
-        if (bad) { bad[0].classList.add('is-invalid'); bad[0].focus(); statusEl.className = 'enq__status is-error'; statusEl.textContent = bad[1]; return; }
+        if (bad) { bad[0].classList.add('is-invalid'); bad[0].focus(); statusEl.className = 'enq__status is-error'; window.avHaptic && avHaptic('error'); statusEl.textContent = bad[1]; return; }
         fd.append('page', location.href); fd.append('elapsed', String(Date.now() - started));
         btn.disabled = true; statusEl.className = 'enq__status'; statusEl.textContent = 'Sending…';
         var slow = setTimeout(function () { statusEl.textContent = 'Sending… this can take up to 30 seconds the first time.'; }, 4000);
@@ -2716,10 +2716,10 @@
             clearTimeout(slow); clearTimeout(killer); btn.disabled = false;
             if (res && res.ok) {
               form.hidden = true;
-              var done = document.getElementById('enquiryDone'); done.hidden = false;
+              var done = document.getElementById('enquiryDone'); done.hidden = false; window.avHaptic && avHaptic('confirm');
               document.getElementById('enquiryDoneWa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Hi Allindi, I just sent an enquiry on your website (' + (d.name || '') + ').');
               done.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (res && res.error) { statusEl.className = 'enq__status is-error'; statusEl.textContent = res.error; }
+            } else if (res && res.error) { statusEl.className = 'enq__status is-error'; window.avHaptic && avHaptic('error'); statusEl.textContent = res.error; }
             else fallback(d, "Sorry, that didn't go through.");
           })
           .catch(function () { clearTimeout(slow); clearTimeout(killer); btn.disabled = false; fallback(d, "Sorry, the form couldn't connect."); });
@@ -2736,5 +2736,6 @@
       var t = 'Hi Allindi, I found you on aperiavisuals.com' + (location.pathname.length > 1 ? ' (' + document.title.split(' — ')[0].split(' · ')[0] + ')' : '') + '.';
       a.href = 'https://wa.me/254710702204?text=' + encodeURIComponent(t); })();
   </script>
+<script src="haptics.js" defer></script>
 </body>
 </html>
