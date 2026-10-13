@@ -1579,7 +1579,11 @@
     .wa-fab svg { width: 24px; height: 24px; flex-shrink: 0; }
     @media (max-width: 700px) { .wa-fab { width: 52px; padding: 0; justify-content: center; left: 16px; bottom: 16px; } .wa-fab span { display: none; } }
     @media print { .wa-fab { display: none; } }
-  </style>
+  
+  .plan-nudge{margin-top:1.4rem;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.6}
+  .plan-nudge a{color:inherit;opacity:.72;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px;transition:opacity .2s}
+  .plan-nudge a:hover{opacity:1}
+</style>
 </head>
 <body>
 
@@ -2278,7 +2282,7 @@
           <p class="lead reveal">
             Briefs, brand campaigns, hospitality, sport, food — tell me what you're building. A few lines is enough; I reply within two working days, usually sooner.
           </p>
-          <p class="enq-try reveal">Run a café or restaurant? <a href="see-it.html">See your menu with my photos first →</a></p>
+          <p class="enq-try reveal">Not sure what you need yet? <a href="plan.html">Plan your shoot: best light, shot list and timing →</a><br />Run a café or restaurant? <a href="see-it.html">See your menu with my photos first →</a></p>
 
           <form class="enq reveal" id="enquiryForm" novalidate>
             <div class="enq__grid">
@@ -2669,12 +2673,13 @@
       var form = document.getElementById('enquiryForm'); if (!form) return;
       var statusEl = document.getElementById('enquiryStatus'), btn = form.querySelector('.enq__send');
       var started = Date.now(), woke = false;
-      // Pre-fill from links such as the "See it on your menu" page (?service=&company=&msg=)
+      // Pre-fill from the "See it on your menu" and "Plan your shoot" pages (?service=&company=&msg=&date=)
       try {
         var q = new URLSearchParams(location.search);
         if (q.get('service')) { var sel = form.querySelector('select[name=service]'); Array.prototype.forEach.call(sel.options, function (o) { if (o.text === q.get('service')) sel.value = o.value || o.text; }); }
         if (q.get('company')) form.company.value = q.get('company').slice(0, 160);
         if (q.get('msg')) form.message.value = q.get('msg').slice(0, 4000);
+        if (q.get('date')) form.shoot_date.value = q.get('date').slice(0, 80);
       } catch (e) {}
       form.addEventListener('input', function (ev) {
         if (ev.target.classList) ev.target.classList.remove('is-invalid');
