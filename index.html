@@ -1385,7 +1385,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: clamp(3rem, 8vw, 8rem);
-      align-items: end;
+      align-items: start;
     }
     .contact__head { display: flex; flex-direction: column; gap: 2rem; }
     .contact__title {
@@ -1415,6 +1415,42 @@
     @media (max-width: 880px) {
       .contact__inner { grid-template-columns: 1fr; }
     }
+
+    /* ===== Enquiry form ===== */
+    .contact__inner { grid-template-columns: 1.5fr 1fr; }
+    .enq { display: flex; flex-direction: column; gap: 1.4rem; }
+    .enq[hidden] { display: none; }
+    .enq__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.4rem; }
+    .enq__field { display: flex; flex-direction: column; gap: .45rem; }
+    .enq__field--wide { grid-column: 1 / -1; }
+    .enq__field > span { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-muted); }
+    .enq__field > span i { font-style: normal; color: var(--text-faint); letter-spacing: .1em; text-transform: none; }
+    .enq input, .enq select, .enq textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--text); background: var(--bg-elevated);
+      border: 1px solid var(--border); border-radius: 6px; padding: .8rem .9rem; outline: none; transition: border-color .25s var(--ease-out), background .25s var(--ease-out); }
+    .enq select { appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%), linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 2.4rem; }
+    .enq textarea { resize: vertical; min-height: 7.5rem; line-height: 1.5; }
+    .enq input::placeholder, .enq textarea::placeholder { color: var(--text-faint); }
+    .enq input:focus, .enq select:focus, .enq textarea:focus { border-color: var(--contrast); background: #17150F; }
+    .enq .is-invalid { border-color: #E26D5A; }
+    .enq__hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .enq__foot { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+    .enq__send { display: inline-flex; align-items: center; gap: .6rem; padding: .95rem 1.5rem; border-radius: 999px; border: 0; cursor: pointer;
+      background: var(--contrast); color: #0A0908; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; text-decoration: none;
+      transition: transform .25s var(--ease-out), opacity .25s; }
+    .enq__send:hover { transform: translateY(-1px); }
+    .enq__send[disabled] { opacity: .55; cursor: progress; transform: none; }
+    .enq__note { font-size: .85rem; color: var(--text-faint); }
+    .enq__status { min-height: 1.4em; font-size: .92rem; color: var(--text-muted); }
+    .enq__status.is-error { color: #F2B3A8; }
+    .enq__status a { color: var(--contrast); text-decoration: underline; text-underline-offset: 3px; }
+    .enq-done { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; padding: 2rem; border: 1px solid rgba(212,255,61,.3); border-radius: 10px; background: var(--bg-elevated); }
+    .enq-done[hidden] { display: none; }
+    .enq-done__title { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 300; line-height: 1.1; }
+    .enq-done__body { color: var(--text-muted); }
+    @media (max-width: 880px) { .contact__inner { grid-template-columns: 1fr; } }
+    @media (max-width: 560px) { .enq__grid { grid-template-columns: 1fr; } }
+
 
     /* =========================================================================
        FOOTER
@@ -1532,6 +1568,15 @@
       letter-spacing: .16em !important; color: #D4FF3D !important; min-width: 1.6rem; }
     #navMobile li a.is-current, #drawer li a.is-current, #drawer li.active a { color: #C9A36B !important; }
     #drawer ol li::before, #drawer ol li a::before, #drawer ol li::after { content: none !important; }
+    /* ===== WhatsApp button ===== */
+    .wa-fab { position: fixed; left: 20px; bottom: 20px; z-index: 90; display: inline-flex; align-items: center; gap: .55rem; height: 52px; padding: 0 1.1rem 0 .9rem;
+      border-radius: 999px; background: #0F1A12; border: 1px solid rgba(37,211,102,.45); color: #F5F1EA !important; text-decoration: none;
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .66rem; letter-spacing: .16em; text-transform: uppercase;
+      box-shadow: 0 12px 30px -10px rgba(0,0,0,.6); transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+    .wa-fab:hover { transform: translateY(-2px); border-color: #25D366; background: #12251A; }
+    .wa-fab svg { width: 24px; height: 24px; flex-shrink: 0; }
+    @media (max-width: 700px) { .wa-fab { width: 52px; padding: 0; justify-content: center; left: 16px; bottom: 16px; } .wa-fab span { display: none; } }
+    @media print { .wa-fab { display: none; } }
   </style>
 </head>
 <body>
@@ -2229,14 +2274,63 @@
       <div class="contact__inner">
         <div class="contact__head">
           <p class="lead reveal">
-            Briefs, brand campaigns, hospitality, sport, food — we'd love to see what you're building. A sentence or a deck is enough. Studio replies within two working days.
+            Briefs, brand campaigns, hospitality, sport, food — tell me what you're building. A few lines is enough; I reply within two working days, usually sooner.
           </p>
+
+          <form class="enq reveal" id="enquiryForm" novalidate>
+            <div class="enq__grid">
+              <label class="enq__field"><span>Your name *</span><input name="name" autocomplete="name" required maxlength="160"></label>
+              <label class="enq__field"><span>Business <i>(optional)</i></span><input name="company" autocomplete="organization" maxlength="160"></label>
+              <label class="enq__field"><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="160"></label>
+              <label class="enq__field"><span>Phone / WhatsApp</span><input name="phone" type="tel" autocomplete="tel" maxlength="60" placeholder="+254 …"></label>
+              <label class="enq__field"><span>What do you need?</span>
+                <select name="service">
+                  <option value="">Choose one</option>
+                  <option>Food &amp; menu photography</option>
+                  <option>Corporate event</option>
+                  <option>Headshots / team portraits</option>
+                  <option>Event or brand activation</option>
+                  <option>Product / studio shoot</option>
+                  <option>Architecture &amp; interiors</option>
+                  <option>Sports &amp; brand</option>
+                  <option>Video / film</option>
+                  <option>Something else</option>
+                </select></label>
+              <label class="enq__field"><span>Date or timeframe</span><input name="shoot_date" maxlength="80" placeholder="e.g. 14 Nov, or early December"></label>
+              <label class="enq__field enq__field--wide"><span>Budget</span>
+                <select name="budget">
+                  <option value="">Not sure yet</option>
+                  <option>Under KES 30,000</option>
+                  <option>KES 30,000 – 60,000</option>
+                  <option>KES 60,000 – 120,000</option>
+                  <option>KES 120,000+</option>
+                </select></label>
+              <label class="enq__field enq__field--wide"><span>Tell me about it</span><textarea name="message" rows="4" maxlength="4000" placeholder="What's the occasion, where, and how will the photos or video be used?"></textarea></label>
+              <label class="enq__hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <div class="enq__foot">
+              <button class="enq__send" type="submit">Send enquiry <span aria-hidden="true">→</span></button>
+              <p class="enq__note">Add an email or a phone number so I can reply.</p>
+            </div>
+            <p class="enq__status" id="enquiryStatus" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="enq-done" id="enquiryDone" hidden>
+            <span class="label label--contrast">Received</span>
+            <p class="enq-done__title">Thank you — your enquiry is in.</p>
+            <p class="enq-done__body">I'll reply within two working days. If it's urgent, message me on WhatsApp.</p>
+            <a class="enq__send" id="enquiryDoneWa" href="https://wa.me/254710702204" target="_blank" rel="noopener">Message on WhatsApp <span aria-hidden="true">→</span></a>
+          </div>
         </div>
 
         <div class="contact__details reveal reveal--delay-1">
           <div class="contact__group">
             <span class="contact__group-label">General</span>
             <span class="contact__group-value"><a href="mailto:hello@aperiavisuals.com">hello@aperiavisuals.com</a></span>
+          </div>
+          <div class="contact__group">
+            <span class="contact__group-label">WhatsApp</span>
+            <span class="contact__group-value"><a href="https://wa.me/254710702204?text=Hi%20Allindi%2C%20I%20found%20you%20on%20aperiavisuals.com" target="_blank" rel="noopener">+254 710 702 204</a></span>
           </div>
           <div class="contact__group">
             <span class="contact__group-label">Coverage</span>
@@ -2563,6 +2657,69 @@
         row.addEventListener('mousemove', function (e) { x = e.clientX; y = e.clientY; if (!raf) raf = requestAnimationFrame(move); });
       });
     })();
+  </script>
+
+  <script>
+    // Enquiry form -> Aperia admin (admin.aperiavisuals.com). Falls back to WhatsApp / email if it can't send.
+    (function () {
+      var API = "https://admin.aperiavisuals.com/api/enquiry", WA = "254710702204";
+      var form = document.getElementById('enquiryForm'); if (!form) return;
+      var statusEl = document.getElementById('enquiryStatus'), btn = form.querySelector('.enq__send');
+      var started = Date.now(), woke = false;
+      form.addEventListener('input', function (ev) {
+        if (ev.target.classList) ev.target.classList.remove('is-invalid');
+        if (statusEl.classList.contains('is-error')) { statusEl.className = 'enq__status'; statusEl.textContent = ''; }
+      });
+      // The admin sleeps when idle; wake it as soon as someone starts typing.
+      form.addEventListener('focusin', function () { if (woke) return; woke = true; fetch(API.replace('/api/enquiry', '/healthz'), { mode: 'no-cors' }).catch(function () {}); });
+      function summary(d) {
+        return ['Hi Allindi, I found you on aperiavisuals.com.', d.name && ('Name: ' + d.name), d.company && ('Business: ' + d.company),
+          d.service && ('Need: ' + d.service), d.shoot_date && ('When: ' + d.shoot_date), d.budget && ('Budget: ' + d.budget), d.message].filter(Boolean).join('\n');
+      }
+      function fallback(d, why) {
+        var t = encodeURIComponent(summary(d));
+        statusEl.className = 'enq__status is-error';
+        statusEl.innerHTML = why + ' <a href="https://wa.me/' + WA + '?text=' + t + '" target="_blank" rel="noopener">Send it on WhatsApp</a> or <a href="mailto:hello@aperiavisuals.com?subject=' + encodeURIComponent('Enquiry from ' + (d.name || 'the website')) + '&body=' + t + '">email it</a> instead — your message is already filled in.';
+      }
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var fd = new FormData(form), d = {}; fd.forEach(function (v, k) { d[k] = String(v).trim(); });
+        form.querySelectorAll('.is-invalid').forEach(function (el) { el.classList.remove('is-invalid'); });
+        var bad = null;
+        if (!d.name) bad = [form.name, 'Please add your name.'];
+        else if (!d.email && !d.phone) bad = [form.email, 'Please add an email or a phone number so I can reply.'];
+        else if (d.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) bad = [form.email, "That email address doesn't look right."];
+        if (bad) { bad[0].classList.add('is-invalid'); bad[0].focus(); statusEl.className = 'enq__status is-error'; statusEl.textContent = bad[1]; return; }
+        fd.append('page', location.href); fd.append('elapsed', String(Date.now() - started));
+        btn.disabled = true; statusEl.className = 'enq__status'; statusEl.textContent = 'Sending…';
+        var slow = setTimeout(function () { statusEl.textContent = 'Sending… this can take up to 30 seconds the first time.'; }, 4000);
+        var ctrl = 'AbortController' in window ? new AbortController() : null;
+        var killer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 60000);
+        fetch(API, { method: 'POST', body: new URLSearchParams(fd), signal: ctrl ? ctrl.signal : undefined })
+          .then(function (r) { return r.json().catch(function () { return { ok: false, error: '' }; }); })
+          .then(function (res) {
+            clearTimeout(slow); clearTimeout(killer); btn.disabled = false;
+            if (res && res.ok) {
+              form.hidden = true;
+              var done = document.getElementById('enquiryDone'); done.hidden = false;
+              document.getElementById('enquiryDoneWa').href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent('Hi Allindi, I just sent an enquiry on your website (' + (d.name || '') + ').');
+              done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (res && res.error) { statusEl.className = 'enq__status is-error'; statusEl.textContent = res.error; }
+            else fallback(d, "Sorry, that didn't go through.");
+          })
+          .catch(function () { clearTimeout(slow); clearTimeout(killer); btn.disabled = false; fallback(d, "Sorry, the form couldn't connect."); });
+      });
+    })();
+  </script>
+
+  <a class="wa-fab" id="waFab" href="https://wa.me/254710702204?text=Hi%20Allindi%2C%20I%20found%20you%20on%20aperiavisuals.com" target="_blank" rel="noopener" aria-label="Message Aperia Visuals on WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="#25D366" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 7L3 29l6.4-2c2 1.1 4.3 1.7 6.6 1.7 7.2 0 13-5.7 13-12.8C29 8.7 23.2 3 16 3z"/><path fill="#fff" d="M22.4 18.9c-.3-.2-2-1-2.3-1.1-.3-.1-.5-.2-.8.2-.2.3-.9 1.1-1.1 1.3-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.7-1.7-1-.9-1.7-2-1.9-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.5c-.3-.7-.6-.6-.8-.6h-.7c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.3 1.4 3.5c.2.2 2.4 3.7 5.9 5.2.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 2-.8 2.3-1.6.3-.8.3-1.5.2-1.6-.1-.1-.3-.2-.6-.3z"/></svg>
+    <span>WhatsApp</span>
+  </a>
+  <script>
+    (function () { var a = document.getElementById('waFab'); if (!a) return;
+      var t = 'Hi Allindi, I found you on aperiavisuals.com' + (location.pathname.length > 1 ? ' (' + document.title.split(' — ')[0].split(' · ')[0] + ')' : '') + '.';
+      a.href = 'https://wa.me/254710702204?text=' + encodeURIComponent(t); })();
   </script>
 </body>
 </html>
