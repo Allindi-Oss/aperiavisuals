@@ -1164,6 +1164,11 @@
   .pl-point__row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
   .pl-point__deg { font-family: var(--font-display); font-size: 1.6rem; min-width: 6.5rem; }
   .pl-point .si-btn { padding: .65rem 1.1rem; }
+  .pl-point__hint { font-family: var(--font-mono); font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); flex: 1 1 100%; order: 3; }
+  .pl-point { transition: border-color .2s, background .2s; }
+  .pl-point.is-steady { border-color: #7BE08A; background: color-mix(in srgb, #7BE08A 10%, transparent); }
+  .pl-point.is-steady .pl-point__hint { color: #7BE08A; }
+  .pl-point.is-steady #plLock { box-shadow: 0 0 0 4px color-mix(in srgb, var(--contrast) 30%, transparent); }
   @media (max-width: 520px) { .pl-here .si-btn { flex: 1 1 0; padding-inline: .5rem; font-size: .56rem; letter-spacing: .08em; gap: .35rem; } }
   .pl-map { position: relative; height: clamp(320px, 52vh, 520px); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #11141a; z-index: 0; }
   .pl-map__hold { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint); }
@@ -1471,8 +1476,8 @@
           <button type="button" class="si-btn si-btn--ghost" id="plCompass" hidden><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>Point my phone</button>
         </div>
         <div class="pl-point" id="plPoint" hidden>
-          <p>Stand in front of it, where the camera will be. Hold your phone flat and point the top edge straight at the building or subject.</p>
-          <div class="pl-point__row"><span class="pl-point__deg" id="plPointDeg">…</span><button type="button" class="si-btn" id="plLock">Lock direction</button><button type="button" class="si-btn si-btn--ghost" id="plPointX">Cancel</button></div>
+          <p>Stand in front of it, where the camera will be. Hold your phone flat and point the top edge straight at the building or subject. You'll feel a tick at each compass point, and a double tap when you're steady enough to lock.</p>
+          <div class="pl-point__row"><span class="pl-point__deg" id="plPointDeg">…</span><span class="pl-point__hint" id="plPointHint">Hold still…</span><button type="button" class="si-btn" id="plLock">Lock direction</button><button type="button" class="si-btn si-btn--ghost" id="plPointX">Cancel</button></div>
         </div>
         <div class="pl-map" id="plMap"><div class="pl-map__hold">Loading map…</div></div>
         <p class="si-note" id="plMapNote">Tap the map or drag the pin to move it. The yellow line points at the sun, the grey one shows where shadows fall, and the arrow is the way it faces.</p>
@@ -2019,7 +2024,7 @@
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
       var marker = L.marker([V.lat, V.lon], { draggable: true, icon: L.divIcon({ className: '', html: '<div class="pl-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }) }).addTo(map);
       MAP = { map: map, marker: marker, layer: L.layerGroup().addTo(map) };
-      function moveTo(ll) { V.lat = ll.lat; V.lon = ll.lng; V.touched = true; render(); }
+      function moveTo(ll) { haptic('tick'); V.lat = ll.lat; V.lon = ll.lng; V.touched = true; render(); }
       marker.on('dragend', function () { moveTo(marker.getLatLng()); });
       map.on('click', function (e) { moveTo(e.latlng); });
       map.on('zoomend', render);
@@ -2056,7 +2061,7 @@
     if (!navigator.geolocation) { note.textContent = 'This browser can\'t share its location. Search or tap the map instead.'; return; }
     btn.classList.add('is-busy'); note.textContent = 'Finding you… Your browser will ask for permission. Your location stays on your phone.';
     navigator.geolocation.getCurrentPosition(function (pos) {
-      btn.classList.remove('is-busy');
+      btn.classList.remove('is-busy'); haptic('lock');
       V.lat = pos.coords.latitude; V.lon = pos.coords.longitude; V.touched = true;
       var acc = Math.round(pos.coords.accuracy || 0);
       note.textContent = 'Pinned where you are' + (acc ? ' (accurate to about ' + acc + ' m)' : '') + '. Drag the pin if the building is a little off.';
@@ -2069,7 +2074,23 @@
   });
 
   // ---------- Phone compass: point at the building, it faces back towards you ----------
-  var PT = { on: false, heading: null, last: 0 };
+  // Haptics: Android uses the Vibration API. iPhone (iOS 18+) has no vibration API for websites,
+  // but toggling a native "switch" checkbox makes the system haptic tick, so we use a hidden one.
+  var hapSw = null;
+  function haptic(kind) {
+    try {
+      if (navigator.vibrate) { navigator.vibrate(kind === 'lock' ? [18, 60, 28] : kind === 'steady' ? [12, 40, 12] : 8); return; }
+      if (!hapSw) {
+        var lb = document.createElement('label'), cb = document.createElement('input');
+        cb.type = 'checkbox'; cb.setAttribute('switch', ''); cb.tabIndex = -1; lb.setAttribute('aria-hidden', 'true');
+        lb.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none';
+        lb.appendChild(cb); document.body.appendChild(lb); hapSw = lb;
+      }
+      hapSw.click();
+      if (kind === 'lock' || kind === 'steady') setTimeout(function () { hapSw.click(); }, 90);
+    } catch (e) {}
+  }
+  var PT = { on: false, heading: null, last: 0, sector: null, anchor: null, since: 0, steady: false };
   var canCompass = 'DeviceOrientationEvent' in window && window.matchMedia && matchMedia('(pointer: coarse)').matches;
   if (canCompass) $('plCompass').hidden = false;
   function onOrient(e) {
@@ -2080,6 +2101,12 @@
     var so = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
     h = ((h + so) % 360 + 360) % 360;
     PT.heading = h;
+    var sec = Math.round(h / 45) % 8;
+    if (PT.sector !== null && sec !== PT.sector) haptic('tick');
+    PT.sector = sec;
+    var t0 = Date.now();
+    if (PT.anchor === null || adiff(h, PT.anchor) > 4) { PT.anchor = h; PT.since = t0; if (PT.steady) { PT.steady = false; $('plPoint').classList.remove('is-steady'); $('plPointHint').textContent = 'Hold still…'; } }
+    else if (!PT.steady && t0 - PT.since > 1200) { PT.steady = true; haptic('steady'); $('plPoint').classList.add('is-steady'); $('plPointHint').textContent = 'Steady. Tap Lock.'; }
     $('plPointDeg').textContent = dirName(h).replace(/^./, function (c) { return c.toUpperCase(); }) + ' ' + Math.round(h) + '°';
     var now = Date.now(); if (now - PT.last > 250) { PT.last = now; V.face = Math.round((h + 180) % 360); $('plFaceDeg').value = V.face; V.touched = true; render(); }
   }
@@ -2088,7 +2115,7 @@
     window.removeEventListener('deviceorientationabsolute', onOrient); window.removeEventListener('deviceorientation', onOrient);
   }
   function startPoint() {
-    PT.on = true; PT.heading = null; $('plPoint').hidden = false; $('plPointDeg').textContent = '…';
+    haptic('tick'); PT.on = true; PT.heading = null; PT.sector = null; PT.anchor = null; PT.steady = false; $('plPoint').classList.remove('is-steady'); $('plPointHint').textContent = 'Hold still…'; $('plPoint').hidden = false; $('plPointDeg').textContent = '…';
     if ('ondeviceorientationabsolute' in window) window.addEventListener('deviceorientationabsolute', onOrient);
     else window.addEventListener('deviceorientation', onOrient);
     setTimeout(function () { if (PT.on && PT.heading == null) { $('plPointDeg').textContent = 'No compass'; $('plMapNote').textContent = 'This phone isn\'t sharing a compass heading. Use the direction buttons instead.'; } }, 3000);
@@ -2102,7 +2129,7 @@
     } else startPoint();
   });
   $('plLock').addEventListener('click', function () {
-    if (PT.heading != null) setFace(Math.round((PT.heading + 180) % 360));
+    if (PT.heading != null) { setFace(Math.round((PT.heading + 180) % 360)); haptic('lock'); }
     stopPoint();
     $('plMapNote').textContent = 'Direction locked: it faces ' + faceName(V.face).toLowerCase() + '. Fine-tune with the slider if needed.';
   });
