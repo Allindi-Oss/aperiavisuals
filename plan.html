@@ -1143,6 +1143,39 @@
   .pl-check li::before { content: ""; position: absolute; left: 0; top: .2rem; width: .85rem; height: .85rem; border: 1px solid var(--border-bright); border-radius: 3px; }
   .pl-actions { display: flex; flex-wrap: wrap; gap: .6rem; padding-top: 1.2rem; border-top: 1px dashed var(--border-bright); }
   .pl-actions #plSend { flex: 1 1 260px; }
+  /* ---- Sun at your venue ---- */
+  .pl-venue { margin-top: clamp(4rem, 8vw, 6.5rem); }
+  .pl-venue__head { max-width: 60ch; margin-bottom: 2rem; }
+  .pl-venue__head h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1; letter-spacing: -.03em; margin: .6rem 0 1rem; }
+  .pl-venue__head h2 em { font-style: italic; color: var(--accent); }
+  .pl-venue__head p { color: var(--text-muted); line-height: 1.6; }
+  .pl-venue__grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: clamp(1.5rem, 3vw, 3rem); align-items: start; }
+  .pl-mapcol, .pl-dialcol { display: flex; flex-direction: column; gap: .9rem; min-width: 0; }
+  .pl-search { display: flex; gap: .5rem; }
+  .pl-search input { flex: 1; min-width: 0; font: inherit; color: var(--text); background: var(--bg-elevated); border: 1px solid var(--border-bright); border-radius: 999px; padding: .75rem 1.1rem; outline: none; }
+  .pl-search input:focus { border-color: var(--contrast); }
+  .pl-search .si-btn { padding: .75rem 1.3rem; }
+  .pl-map { position: relative; height: clamp(320px, 52vh, 520px); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: #11141a; z-index: 0; }
+  .pl-map__hold { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint); }
+  .pl-map .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.82) contrast(.92) saturate(.6); }
+  .pl-map .leaflet-control-attribution { background: rgba(0,0,0,.6); color: #aaa; font-size: 10px; }
+  .pl-map .leaflet-control-attribution a { color: #ddd; }
+  .pl-map .leaflet-bar a { background: #1a1a1d; color: #eee; border-color: #333; }
+  .pl-pin { width: 22px; height: 22px; border-radius: 50%; background: var(--contrast); border: 3px solid #0b0b0b; box-shadow: 0 0 0 2px var(--contrast), 0 6px 14px rgba(0,0,0,.6); }
+  .pl-dial { width: 100%; max-width: 380px; align-self: center; height: auto; }
+  .pl-dial text { font-family: var(--font-mono); font-size: 9px; fill: var(--text-faint); letter-spacing: .1em; }
+  .pl-dial .t-n { fill: var(--text); font-size: 11px; }
+  .pl-face { display: flex; flex-direction: column; gap: .55rem; }
+  .pl-face .pl-opt__k b { color: var(--text); font-weight: 500; letter-spacing: .12em; margin-left: .4rem; }
+  .pl-face input[type=range] { width: 100%; accent-color: var(--contrast); }
+  .pl-compass { display: grid; grid-template-columns: repeat(8, 1fr); gap: .3rem; }
+  .pl-compass button { padding: .45rem 0; border: 1px solid var(--border-bright); border-radius: 6px; font-family: var(--font-mono); font-size: .62rem; letter-spacing: .08em; color: var(--text-muted); }
+  .pl-compass button.is-on { border-color: var(--contrast); color: var(--text); background: color-mix(in srgb, var(--contrast) 14%, transparent); }
+  .pl-verdict { display: flex; flex-direction: column; gap: .7rem; padding: 1.1rem 1.2rem; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--border); }
+  .pl-verdict b { font-family: var(--font-display); font-weight: 400; font-size: 1.2rem; display: block; line-height: 1.25; }
+  .pl-verdict p { color: var(--text-muted); font-size: .92rem; line-height: 1.55; }
+  .pl-verdict .is-lit { color: #E8B65E; } .pl-verdict .is-shade { color: #8FA3C4; }
+  @media (max-width: 960px) { .pl-venue__grid { grid-template-columns: 1fr; } .pl-map { height: 360px; } }
   @media (max-width: 1100px) { .pl-list, .pl-check { grid-template-columns: 1fr; } }
   @media (max-width: 960px) {
     .pl__grid { grid-template-columns: 1fr; }
@@ -1410,6 +1443,39 @@
       </footer>
     </article>
   </div>
+
+  <div class="container pl-venue" id="plVenue">
+    <div class="pl-venue__head">
+      <span class="pl-k">04 · Sun at your venue</span>
+      <h2>Where will the sun <em>be?</em></h2>
+      <p>Drop a pin on the venue and set which way it faces: the front of the building, the terrace, or the direction your subject will look into the camera. You'll see when the sun is on it, when it's in shade, and where the shadows fall.</p>
+    </div>
+    <div class="pl-venue__grid">
+      <div class="pl-mapcol">
+        <form class="pl-search" id="plSearch" role="search">
+          <input id="plQ" maxlength="80" placeholder="Search a venue or area, e.g. Two Rivers Mall" aria-label="Search a venue">
+          <button type="submit" class="si-btn">Find</button>
+        </form>
+        <div class="pl-map" id="plMap"><div class="pl-map__hold">Loading map…</div></div>
+        <p class="si-note" id="plMapNote">Tap the map or drag the pin to move it. The yellow line points at the sun, the grey one shows where shadows fall, and the arrow is the way it faces.</p>
+      </div>
+      <div class="pl-dialcol">
+        <svg id="plDial" class="pl-dial" viewBox="-130 -130 260 260" role="img" aria-label="Sun path over the venue"></svg>
+        <div class="pl-face">
+          <span class="pl-opt__k">It faces <b id="plFaceOut">West</b></span>
+          <div class="pl-compass" id="plFace">
+            <button type="button" data-d="0">N</button><button type="button" data-d="45">NE</button><button type="button" data-d="90">E</button><button type="button" data-d="135">SE</button><button type="button" data-d="180">S</button><button type="button" data-d="225">SW</button><button type="button" data-d="270" class="is-on">W</button><button type="button" data-d="315">NW</button>
+          </div>
+          <input type="range" id="plFaceDeg" min="0" max="359" value="270" aria-label="Facing direction in degrees">
+        </div>
+        <div class="pl-face">
+          <span class="pl-opt__k">Time <b id="plTimeOut">17:00</b></span>
+          <input type="range" id="plTime" min="360" max="1110" step="5" value="1020" aria-label="Time of day">
+        </div>
+        <div class="pl-verdict" id="plVerdict" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="end-cta">
@@ -1419,6 +1485,7 @@
     <div class="end-cta__buttons reveal reveal--delay-2" data-reveal>
       <a href="index.html#contact" class="btn btn--primary">Start a project →</a>
       <a href="see-it.html" class="btn btn--ghost">See it on your menu</a>
+      <a href="plan.html?type=food" class="btn btn--ghost">Plan your shoot</a>
       <a href="index.html#disciplines" class="btn btn--ghost">See the work</a>
     </div>
   </div>
@@ -1559,7 +1626,8 @@
   var rad = Math.PI / 180;
 
   // ---------- Sun (NOAA solar equations) ----------
-  function sun(y, m, d) {
+  function sun(y, m, d, lat, lon) {
+    var LAT = lat == null ? -1.2864 : lat, LON = lon == null ? 36.8172 : lon;
     var jd = Date.UTC(y, m - 1, d, 9) / 86400000 + 2440587.5, T = (jd - 2451545) / 36525;
     var L0 = (280.46646 + T * (36000.76983 + T * 0.0003032)) % 360, M = 357.52911 + T * (35999.05029 - 0.0001537 * T);
     var e = 0.016708634 - T * (0.000042037 + 0.0000001267 * T);
@@ -1573,7 +1641,14 @@
     function at(h) { var c = (Math.sin(h * rad) - Math.sin(LAT * rad) * Math.sin(dec)) / (Math.cos(LAT * rad) * Math.cos(dec)); if (c > 1 || c < -1) return null; var H = Math.acos(c) / rad; return [noon - 4 * H, noon + 4 * H]; }
     var rise = at(-0.833), civ = at(-6), gold = at(6), hard = at(55);
     return { noon: noon, dawn: civ[0], rise: rise[0], goldEndAM: gold[0], hardStart: hard ? hard[0] : noon, hardEnd: hard ? hard[1] : noon, goldStartPM: gold[1], set: rise[1], dusk: civ[1],
-      maxEl: 90 - Math.abs(LAT * rad - dec) / rad };
+      maxEl: 90 - Math.abs(LAT * rad - dec) / rad, dec: dec, eot: eot, lat: LAT, lon: LON };
+  }
+  // Sun position at a local clock time (minutes) → { el, az } in degrees, az clockwise from north
+  function sunAt(s, tmin) {
+    var H = ((tmin + s.eot + 4 * s.lon - 60 * TZ) / 4 - 180) * rad, la = s.lat * rad;
+    var el = Math.asin(Math.sin(la) * Math.sin(s.dec) + Math.cos(la) * Math.cos(s.dec) * Math.cos(H)) / rad;
+    var az = (Math.atan2(Math.sin(H), Math.cos(H) * Math.sin(la) - Math.tan(s.dec) * Math.cos(la)) / rad + 180 + 360) % 360;
+    return { el: el, az: az };
   }
   function hm(min) { min = Math.round(min); var h = Math.floor(min / 60), m = min % 60; return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m; }
   function ampm(min) { min = Math.round(min); var h = Math.floor(min / 60), m = min % 60, s = h >= 12 ? 'pm' : 'am'; h = h % 12 || 12; return h + (m ? ':' + (m < 10 ? '0' : '') + m : '') + s; }
@@ -1700,6 +1775,8 @@
     $('plTicks').innerHTML = [360, 540, 720, 900, 1080].map(function (x) { return '<span style="left:' + pct(x) + '%">' + hm(x) + '</span>'; }).join('');
     $('plBest').innerHTML = best.map(function (w) { return '<div><b>' + (w[0] != null ? hm(w[0]) + '–' + hm(w[1]) + ' · ' : '') + esc(w[2]) + '</b><p>' + esc(w[3]) + '</p></div>'; }).join('');
 
+    if (!V.timeTouched) { var fw = best.filter(function (w) { return w[0] != null; })[0]; V.t = fw ? fw[0] + Math.round((fw[1] - fw[0]) / 2 / 5) * 5 : r5(s.goldStartPM); }
+    venueDraw(y, m, d);
     var wx = se[2];
     if (S.where === 'in' && se[1] === 'rain') wx = 'It\'s ' + se[0].toLowerCase() + ' season, but we\'re indoors, so rain only affects getting there. Leave extra travel time, because Nairobi traffic gets worse in the rain.';
     $('plWeather').textContent = wx;
@@ -1736,6 +1813,7 @@
     lines.push('Sun: rise ' + hm(s.rise) + ' · set ' + hm(s.set));
     best.forEach(function (w) { lines.push('Best window: ' + (w[0] != null ? hm(w[0]) + '–' + hm(w[1]) + ' ' : '') + '(' + w[2] + ')'); });
     if (plan.fc) lines.push('Forecast: ' + plan.fc);
+    if (plan.venue) plan.venue.forEach(function (l) { lines.push(l); });
     lines.push('Estimated length: ' + L.label + ' (' + L.pkg + ')');
     lines.push('Shot list: ' + shots.concat(extra).join('; '));
     var text = lines.join('\n');
@@ -1811,6 +1889,149 @@
     var btn = this, done = function () { btn.textContent = 'Copied ✓'; setTimeout(function () { btn.textContent = 'Copy plan'; }, 1800); };
     if (navigator.clipboard) navigator.clipboard.writeText(plan.text).then(done, function () {}); else { var t = document.createElement('textarea'); t.value = plan.text; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); done(); } catch (e) {} t.remove(); }
   });
+  // ---------- Sun at your venue ----------
+  var V = { lat: -1.2864, lon: 36.8172, face: 270, t: 1020, touched: false }, MAP = null;
+  var DIR = ['north', 'north-northeast', 'northeast', 'east-northeast', 'east', 'east-southeast', 'southeast', 'south-southeast', 'south', 'south-southwest', 'southwest', 'west-southwest', 'west', 'west-northwest', 'northwest', 'north-northwest'];
+  var DIR8 = ['North', 'Northeast', 'East', 'Southeast', 'South', 'Southwest', 'West', 'Northwest'];
+  function dirName(a) { return DIR[Math.round(((a % 360) + 360) % 360 / 22.5) % 16]; }
+  function faceName(a) { return a % 45 === 0 ? DIR8[a / 45 % 8] : dirName(a).replace(/^./, function (c) { return c.toUpperCase(); }) + ' (' + a + '°)'; }
+  function adiff(a, b) { var d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
+  function polar(el, az, R) { var r = (R || 110) * (90 - Math.max(el, 0)) / 90; return [r * Math.sin(az * rad), -r * Math.cos(az * rad)]; }
+  function spans(list) { return list.map(function (x) { return hm(x[0]) + '–' + hm(x[1]); }).join(' and '); }
+
+  function venueDraw(y, m, d) {
+    var s = sun(y, m, d, V.lat, V.lon), tl = $('plTime');
+    tl.min = r5(s.rise - 10); tl.max = r5(s.set + 10);
+    V.t = Math.max(+tl.min, Math.min(+tl.max, V.t)); tl.value = V.t; $('plTimeOut').textContent = hm(V.t);
+    $('plFaceOut').textContent = faceName(V.face);
+
+    // lit intervals for the front, 5-minute steps
+    var lit = [], cur = null, path = [];
+    for (var t = Math.floor(s.rise); t <= Math.ceil(s.set); t += 5) {
+      var p = sunAt(s, t), on = p.el > 3 && Math.cos(p.el * rad) * Math.cos(adiff(p.az, V.face) * rad) > 0.17;
+      path.push([t, p, on]);
+      if (on && !cur) cur = [t, t]; if (on) cur[1] = t; if (!on && cur) { lit.push(cur); cur = null; }
+    }
+    if (cur) lit.push(cur);
+    lit = lit.filter(function (x) { return x[1] - x[0] >= 15; });
+
+    // ---- dial ----
+    var g = '';
+    var a0 = (V.face - 90) * rad, a1 = (V.face + 90) * rad;
+    g += '<path d="M0 0 L' + (110 * Math.sin(a0)).toFixed(1) + ' ' + (-110 * Math.cos(a0)).toFixed(1) + ' A110 110 0 0 1 ' + (110 * Math.sin(a1)).toFixed(1) + ' ' + (-110 * Math.cos(a1)).toFixed(1) + ' Z" fill="rgba(217,163,90,.09)"/>';
+    g += '<circle r="110" fill="none" stroke="rgba(255,255,255,.22)"/><circle r="73.3" fill="none" stroke="rgba(255,255,255,.09)" stroke-dasharray="2 4"/><circle r="36.7" fill="none" stroke="rgba(255,255,255,.09)" stroke-dasharray="2 4"/>';
+    [['N', 0], ['E', 90], ['S', 180], ['W', 270]].forEach(function (c) { var p = polar(-10, c[1], 110); g += '<text x="' + p[0].toFixed(1) + '" y="' + (p[1] + 3.5).toFixed(1) + '" text-anchor="middle" class="' + (c[0] === 'N' ? 't-n' : '') + '">' + c[0] + '</text>'; });
+    g += '<text x="2" y="-75" >60°</text><text x="2" y="-38.5">30°</text>';
+    // wall + front arrow
+    var w0 = polar(0, V.face - 90, 26), w1 = polar(0, V.face + 90, 26), fa = polar(0, V.face, 68);
+    g += '<line x1="' + w0[0] + '" y1="' + w0[1] + '" x2="' + w1[0] + '" y2="' + w1[1] + '" stroke="var(--text)" stroke-width="5" stroke-linecap="round"/>';
+    g += '<line x1="0" y1="0" x2="' + fa[0] + '" y2="' + fa[1] + '" stroke="var(--contrast)" stroke-width="2"/>';
+    var h1 = polar(0, V.face - 14, 56), h2 = polar(0, V.face + 14, 56);
+    g += '<path d="M' + h1[0] + ' ' + h1[1] + ' L' + fa[0] + ' ' + fa[1] + ' L' + h2[0] + ' ' + h2[1] + '" fill="none" stroke="var(--contrast)" stroke-width="2"/>';
+    // sun path, coloured by lit / shade
+    for (var i = 1; i < path.length; i++) {
+      var A = polar(path[i - 1][1].el, path[i - 1][1].az), B = polar(path[i][1].el, path[i][1].az);
+      g += '<line x1="' + A[0].toFixed(1) + '" y1="' + A[1].toFixed(1) + '" x2="' + B[0].toFixed(1) + '" y2="' + B[1].toFixed(1) + '" stroke="' + (path[i][2] ? '#E8B65E' : '#5E6F8F') + '" stroke-width="3" stroke-linecap="round"/>';
+    }
+    [420, 540, 720, 900, 1080].forEach(function (t) { var p = sunAt(s, t); if (p.el < 1) return; var q = polar(p.el, p.az); g += '<circle cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="2" fill="var(--text-faint)"/><text x="' + (q[0] + 5).toFixed(1) + '" y="' + (q[1] - 4).toFixed(1) + '">' + hm(t).slice(0, 2) + '</text>'; });
+    var now = sunAt(s, V.t), up = now.el > 0;
+    if (up) {
+      var len = Math.min(105, 26 / Math.tan(Math.max(now.el, 2) * rad)), sh = [len * Math.sin((now.az + 180) * rad), -len * Math.cos((now.az + 180) * rad)];
+      g += '<line x1="0" y1="0" x2="' + sh[0].toFixed(1) + '" y2="' + sh[1].toFixed(1) + '" stroke="rgba(255,255,255,.35)" stroke-width="6" stroke-linecap="round"/>';
+      var sp = polar(now.el, now.az);
+      g += '<circle cx="' + sp[0].toFixed(1) + '" cy="' + sp[1].toFixed(1) + '" r="13" fill="rgba(255,200,90,.22)"/><circle cx="' + sp[0].toFixed(1) + '" cy="' + sp[1].toFixed(1) + '" r="7.5" fill="#FFC85A"/>';
+    }
+    $('plDial').innerHTML = g;
+
+    // ---- words ----
+    var frontLit = up && now.el > 3 && Math.cos(now.el * rad) * Math.cos(adiff(now.az, V.face) * rad) > 0.17, out = [], txt = [];
+    if (!up) out.push('<b>At ' + hm(V.t) + ' the sun is ' + (V.t < s.noon ? 'not up yet' : 'down') + '.</b>');
+    else {
+      out.push('<b>At ' + hm(V.t) + ' the front is <span class="' + (frontLit ? 'is-lit">in direct sun' : 'is-shade">in shade') + '</span>.</b>');
+      var k = 1 / Math.tan(Math.max(now.el, 1) * rad);
+      out.push('<p>The sun is to the ' + dirName(now.az) + ', ' + Math.round(now.el) + '° up. Shadows point ' + dirName(now.az + 180) + (now.el > 2 ? (k < 0.25 ? ' and are very short. It\'s nearly overhead.' : ', about ' + (k < 10 ? k.toFixed(1).replace('.0', '') : 'more than 10') + '× as long as things are tall.') : '.') + '</p>');
+    }
+    var day;
+    if (!lit.length) {
+      var nz = sunAt(s, s.noon).az, side = adiff(nz, 0) < 90 ? 'north' : 'south';
+      day = 'On this date the front never gets direct sun, ' + (sunAt(s, s.noon).el > 84 ? 'because the sun passes almost straight overhead and only grazes it' : 'because the sun stays on the ' + side + ' side') + '. Expect soft, even shade all day: no harsh shadows, but less punch.';
+    } else {
+      day = 'On this date the front gets direct sun ' + spans(lit) + '.';
+      var goldPM = lit.some(function (x) { return x[1] >= s.goldStartPM - 5; }), goldAM = lit.some(function (x) { return x[0] <= s.goldEndAM; });
+      if (goldPM) day += ' It catches the evening golden hour from ' + hm(s.goldStartPM) + ', which is the best time for this side.';
+      else if (goldAM) day += ' Its warmest light is early morning, ' + hm(s.rise) + '–' + hm(s.goldEndAM) + '.';
+      else day += ' It misses golden hour. Shoot it in open shade, or plan a twilight shot just after ' + hm(s.set) + '.';
+    }
+    out.push('<p>' + day + '</p>');
+    txt.push('Venue pin: https://www.openstreetmap.org/?mlat=' + V.lat.toFixed(5) + '&mlon=' + V.lon.toFixed(5) + '#map=18/' + V.lat.toFixed(5) + '/' + V.lon.toFixed(5));
+    txt.push('Faces: ' + faceName(V.face) + '. ' + (lit.length ? 'Direct sun on it ' + spans(lit) : 'No direct sun on it this date'));
+    if ((S.type === 'portraits' || S.type === 'sports' || S.type === 'headshots') && up && now.el > 2) {
+      if (!frontLit) out.push('<p>Your subject is backlit here: glowing rim light on hair and shoulders. It\'s a lovely look, and I fill the face with a reflector.</p>');
+      else if (now.el > 25) out.push('<p>The sun is high and straight on the face, which means squinting. Turn them around or move later in the day.</p>');
+      else out.push('<p>Low sun on the face: warm and flattering, but watch for squinting. Face them slightly off the sun.</p>');
+    }
+    var nn = sunAt(s, s.noon);
+    if (nn.el > 86) out.push('<p>Around this date the sun passes almost straight overhead in Nairobi, so shadows nearly vanish at midday.</p>');
+    else out.push('<p>Around this date the midday sun sits to the ' + (adiff(nn.az, 0) < 90 ? 'north' : 'south') + ' of overhead, so ' + (adiff(nn.az, 0) < 90 ? 'south' : 'north') + '-facing walls stay mostly in shade.</p>');
+    $('plVerdict').innerHTML = out.join('');
+    plan.venue = V.touched ? txt : null;
+    if (MAP) mapDraw(s, now, up);
+  }
+
+  function dest(lat, lon, az, m) { return [lat + m * Math.cos(az * rad) / 111320, lon + m * Math.sin(az * rad) / (111320 * Math.cos(lat * rad))]; }
+  function mapDraw(s, now, up) {
+    var mpp = 40075016.686 * Math.cos(V.lat * rad) / Math.pow(2, MAP.map.getZoom() + 8), L = window.L, o = [V.lat, V.lon];
+    MAP.marker.setLatLng(o);
+    MAP.layer.clearLayers();
+    var f = dest(V.lat, V.lon, V.face, 70 * mpp), f1 = dest(f[0], f[1], V.face + 150, 14 * mpp), f2 = dest(f[0], f[1], V.face - 150, 14 * mpp);
+    L.polyline([o, f], { color: '#D4FF3D', weight: 3 }).addTo(MAP.layer); L.polyline([f1, f, f2], { color: '#D4FF3D', weight: 3 }).addTo(MAP.layer);
+    if (up) {
+      L.polyline([o, dest(V.lat, V.lon, now.az, 150 * mpp)], { color: '#FFC85A', weight: 3, dashArray: null }).addTo(MAP.layer);
+      var k = Math.min(140, 22 / Math.tan(Math.max(now.el, 2) * rad));
+      L.polyline([o, dest(V.lat, V.lon, now.az + 180, k * mpp)], { color: '#bbbbbb', weight: 7, opacity: .55 }).addTo(MAP.layer);
+    }
+  }
+  function loadMap() {
+    if (loadMap.done) return; loadMap.done = true;
+    var css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css'; document.head.appendChild(css);
+    var js = document.createElement('script'); js.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js';
+    js.onload = function () {
+      var L = window.L, el = $('plMap'); el.innerHTML = '';
+      var map = L.map(el, { scrollWheelZoom: false, zoomControl: true }).setView([V.lat, V.lon], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+      var marker = L.marker([V.lat, V.lon], { draggable: true, icon: L.divIcon({ className: '', html: '<div class="pl-pin"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }) }).addTo(map);
+      MAP = { map: map, marker: marker, layer: L.layerGroup().addTo(map) };
+      function moveTo(ll) { V.lat = ll.lat; V.lon = ll.lng; V.touched = true; render(); }
+      marker.on('dragend', function () { moveTo(marker.getLatLng()); });
+      map.on('click', function (e) { moveTo(e.latlng); });
+      map.on('zoomend', render);
+      render();
+    };
+    js.onerror = function () { $('plMap').innerHTML = '<div class="pl-map__hold">The map couldn\'t load. The dial still works for Nairobi.</div>'; };
+    document.head.appendChild(js);
+  }
+  if ('IntersectionObserver' in window) { var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { loadMap(); io.disconnect(); } }, { rootMargin: '600px' }); io.observe($('plVenue')); } else loadMap();
+  $('plSearch').addEventListener('submit', function (e) {
+    e.preventDefault(); var q = $('plQ').value.trim(); if (!q) return;
+    var note = $('plMapNote'), btn = this.querySelector('button'); btn.disabled = true; btn.textContent = '…';
+    fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ke&q=' + encodeURIComponent(q))
+      .then(function (r) { return r.json(); }).then(function (j) {
+        if (!j.length) { note.textContent = 'Couldn\'t find "' + q + '". Try a nearby landmark, or just tap the map.'; return; }
+        V.lat = +j[0].lat; V.lon = +j[0].lon; V.touched = true;
+        note.textContent = 'Found: ' + j[0].display_name.split(',').slice(0, 3).join(',') + '. Drag the pin onto the exact building.';
+        if (MAP) MAP.map.setView([V.lat, V.lon], 18); render();
+      }).catch(function () { note.textContent = 'Search isn\'t available right now. Tap the map to place the pin instead.'; })
+      .then(function () { btn.disabled = false; btn.textContent = 'Find'; });
+  });
+  function setFace(d) {
+    V.face = ((Math.round(d) % 360) + 360) % 360; V.touched = true; $('plFaceDeg').value = V.face;
+    document.querySelectorAll('#plFace button').forEach(function (b) { b.classList.toggle('is-on', +b.dataset.d === V.face); });
+    render();
+  }
+  document.querySelectorAll('#plFace button').forEach(function (b) { b.addEventListener('click', function () { setFace(+b.dataset.d); }); });
+  $('plFaceDeg').addEventListener('input', function (e) { setFace(+e.target.value); });
+  $('plTime').addEventListener('input', function (e) { V.t = +e.target.value; V.timeTouched = true; render(); });
+
   // Deep link: plan.html?type=headshots
   try { var qt = new URLSearchParams(location.search).get('type'); var tb = qt && document.querySelector('.pl-type[data-type="' + qt + '"]'); if (tb) tb.click(); } catch (e) {}
   render(); forecast();
