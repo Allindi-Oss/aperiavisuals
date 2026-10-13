@@ -1420,6 +1420,8 @@
     .contact__inner { grid-template-columns: 1.5fr 1fr; }
     .enq { display: flex; flex-direction: column; gap: 1.4rem; }
     .enq[hidden] { display: none; }
+    .enq-try { font-size: .95rem; color: var(--text-muted); margin-top: -1rem; }
+    .enq-try a { color: var(--contrast); text-decoration: underline; text-underline-offset: 4px; }
     .enq__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem 1.4rem; }
     .enq__field { display: flex; flex-direction: column; gap: .45rem; }
     .enq__field--wide { grid-column: 1 / -1; }
@@ -2276,6 +2278,7 @@
           <p class="lead reveal">
             Briefs, brand campaigns, hospitality, sport, food — tell me what you're building. A few lines is enough; I reply within two working days, usually sooner.
           </p>
+          <p class="enq-try reveal">Run a café or restaurant? <a href="see-it.html">See your menu with my photos first →</a></p>
 
           <form class="enq reveal" id="enquiryForm" novalidate>
             <div class="enq__grid">
@@ -2666,6 +2669,13 @@
       var form = document.getElementById('enquiryForm'); if (!form) return;
       var statusEl = document.getElementById('enquiryStatus'), btn = form.querySelector('.enq__send');
       var started = Date.now(), woke = false;
+      // Pre-fill from links such as the "See it on your menu" page (?service=&company=&msg=)
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.get('service')) { var sel = form.querySelector('select[name=service]'); Array.prototype.forEach.call(sel.options, function (o) { if (o.text === q.get('service')) sel.value = o.value || o.text; }); }
+        if (q.get('company')) form.company.value = q.get('company').slice(0, 160);
+        if (q.get('msg')) form.message.value = q.get('msg').slice(0, 4000);
+      } catch (e) {}
       form.addEventListener('input', function (ev) {
         if (ev.target.classList) ev.target.classList.remove('is-invalid');
         if (statusEl.classList.contains('is-error')) { statusEl.className = 'enq__status'; statusEl.textContent = ''; }
